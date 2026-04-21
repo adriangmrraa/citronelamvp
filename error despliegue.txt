@@ -1,8 +1,11 @@
+
+Find in logs
+CtrlF
 Running build in Washington, D.C., USA (East) – iad1
 Build machine configuration: 2 cores, 8 GB
 Cloning github.com/adriangmrraa/citronelamvp (Branch: master, Commit: 93ad675)
 Skipping build cache, deployment was triggered without cache.
-Cloning completed: 214.000ms
+Cloning completed: 224.000ms
 Running "vercel build"
 Vercel CLI 51.6.1
 Installing dependencies...
@@ -10,23 +13,20 @@ npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memo
 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
 npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
 npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
-npm warn deprecated glob@8.1.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+npm warn deprecated glob@8.1.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
 npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 npm warn deprecated glob@10.3.10: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
 
 
-
-te agrego los logs: 404: NOT_FOUND
+esto en la ui: 404: NOT_FOUND
 Code: DEPLOYMENT_NOT_FOUND
-ID: gru1::w85pl-1776730679331-febe350c1b64
-
-This deployment cannot be found. For more information and troubleshooting, see our documentation.
+ID: gru1::9s2qv-1776735260084-a5a61914e09c
 
 
+la url de vercel es la siguiente proba con playwright: https://citronelamvp.vercel.app/
 
----
-
-en esta url me sale una app, creo que ahi si es, cree dos proyectis sin querer: https://citronelamvp-git-master-adriangmrraas-projects.vercel.app/
+/favicon.ico:1  Failed to load resource: the server responded with a status of 404 ()
+(index):1  Failed to load resource: the server responded with a status of 404 ()
