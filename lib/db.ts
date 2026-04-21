@@ -5,12 +5,18 @@ import * as schema from '@/db/schema';
 // Enable connection caching for better performance (per official docs)
 neonConfig.fetchConnectionCache = true;
 
-const connectionString = process.env.DATABASE_URL!;
+function createDb() {
+  if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL is not set');
+  }
+  const connectionString = process.env.DATABASE_URL;
+  const sql = neon(connectionString) as any;
+  return drizzle(sql, { schema });
+}
 
-// Create neon client
-const sql = neon(connectionString);
-export const db = drizzle(sql, { schema });
+// Create DB connection - will throw at runtime if DATABASE_URL not set
+export const db = process.env.DATABASE_URL ? createDb() : null!;
 
-// Export schema for type inference
+// Re-export schema for type inference
 export { schema };
 export type Database = typeof db;

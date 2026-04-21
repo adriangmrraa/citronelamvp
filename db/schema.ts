@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, integer, boolean, real, pgEnum } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, timestamp, integer, boolean, real, pgEnum, uniqueIndex, unique } from 'drizzle-orm/pg-core';
 
 // ============ ENUMS ============
 const roleEnum = pgEnum('role', ['USER', 'ADMIN', 'STAFF']);
@@ -77,7 +77,7 @@ export const wishlists = pgTable('wishlist', {
   productId: integer('product_id').notNull().references(() => products.id),
   createdAt: timestamp('created_at').defaultNow(),
 }, (t) => ({
-  unq: unique('wishlist_user_product').on(t.userId, t.productId),
+  unq: uniqueIndex('wishlist_user_product').on(t.userId, t.productId),
 }));
 
 // NOTIFICATIONS - Notificaciones del usuario
@@ -147,7 +147,7 @@ export const subscriptions = pgTable('subscription', {
   postId: integer('post_id').notNull().references(() => posts.id),
   createdAt: timestamp('created_at').defaultNow(),
 }, (t) => ({
-  unq: unique('subscription_user_post').on(t.userId, t.postId),
+  unq: uniqueIndex('subscription_user_post').on(t.userId, t.postId),
 }));
 
 // REACTIONS - Reacciones a posts
@@ -158,7 +158,7 @@ export const reactions = pgTable('reaction', {
   postId: integer('post_id').notNull().references(() => posts.id),
   createdAt: timestamp('created_at').defaultNow(),
 }, (t) => ({
-  unq: unique('reaction_user_post').on(t.userId, t.postId),
+  unq: uniqueIndex('reaction_user_post').on(t.userId, t.postId),
 }));
 
 // REVIEWS - Reseñas de pedidos
