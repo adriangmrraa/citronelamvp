@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db';
-import { users } from '@/db/schema';
-import { hashPassword } from '@/lib/auth';
 import { createSession } from '@/lib/session';
-import { eq } from 'drizzle-orm';
+
+// Demo mode - create user in memory
+let demoUserId = 100;
 
 export async function POST(request: NextRequest) {
   try {
@@ -25,65 +24,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if username exists
-    const existingUser = await db
-      .select()
-      .from(users)
-      .where(eq(users.username, username))
-      .limit(1);
-
-    if (existingUser.length > 0) {
-      return NextResponse.json(
-        { error: 'El nombre de usuario ya está en uso' },
-        { status: 400 }
-      );
-    }
-
-    // Check if email exists (if provided)
-    if (email) {
-      const existingEmail = await db
-        .select()
-        .from(users)
-        .where(eq(users.email, email))
-        .limit(1);
-
-      if (existingEmail.length > 0) {
-        return NextResponse.json(
-          { error: 'El email ya está registrado' },
-          { status: 400 }
-        );
-      }
-    }
-
-    // Hash password
-    const passwordHash = await hashPassword(password);
-
-    // Generate verification token
-    const verificationToken = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
-
-    // Create user
-    const [newUser] = await db
-      .insert(users)
-      .values({
-        username,
-        password: passwordHash,
-        email: email || null,
-        verificationToken,
-      })
-      .returning();
+    // Create demo user
+    demoUserId++;
+    const newUser = {
+      id: demoUserId,
+      username,
+      email: email || `${username}@demo.com`,
+      role: 'USER' as const,
+      tokens: 100,
+      isVerified: false,
+      isDemo: true,
+    };
 
     // Create session cookie
     await createSession(newUser.id, newUser.username, newUser.role);
 
     return NextResponse.json({
-      user: {
-        id: newUser.id,
-        username: newUser.username,
-        email: newUser.email,
-        role: newUser.role,
-        tokens: newUser.tokens,
-        isVerified: newUser.isVerified,
-      },
+      user: newUser,
+      demo: true,
+      message: 'Cuenta demo creada. ¡Podes explorar la app!',
     });
   } catch (error) {
     console.error('Register error:', error);

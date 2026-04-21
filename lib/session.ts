@@ -1,13 +1,21 @@
 import 'server-only';
 import { cookies } from 'next/headers';
 import { SignJWT, jwtVerify } from 'jose';
-import { db } from './db';
-import { users } from '@/db/schema';
-import { eq } from 'drizzle-orm';
 
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
+// Fallback para modo demo sin DB
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || 'demo-secret-key-citronela-2024-change-in-production'
+);
 const SESSION_COOKIE = 'session';
 const SESSION_EXPIRY_DAYS = 7;
+
+// Demo users en memoria para el modo sin DB
+const DEMO_USERS: Record<number, { id: number; username: string; email: string; role: string; tokens: number; isVerified: boolean }> = {
+  1: { id: 1, username: 'demo', email: 'demo@citronela.com', role: 'USER', tokens: 500, isVerified: true },
+  2: { id: 2, username: 'admin', email: 'admin@citronela.com', role: 'ADMIN', tokens: 1000, isVerified: true },
+  3: { id: 3, username: 'grower', email: 'grower@citronela.com', role: 'USER', tokens: 250, isVerified: false },
+  100: { id: 100, username: 'demo-user', email: 'new@demo.com', role: 'USER', tokens: 100, isVerified: false },
+};
 
 // ============ TYPES ============
 export interface SessionPayload {
@@ -69,13 +77,19 @@ export async function getCurrentUser() {
   const session = await getSession();
   if (!session) return null;
   
-  const [user] = await db
-    .select()
-    .from(users)
-    .where(eq(users.id, session.userId))
-    .limit(1);
+  // En modo demo sin DB, devolvemos el usuario de memoria
+  const user = DEMO_USERS[session.userId];
+  if (user) return user;
   
-  return user || null;
+  // Si no existe en memoria, crear uno temporal
+  return {
+    id: session.userId,
+    username: session.username,
+    email: `${session.username}@demo.com`,
+    role: session.role,
+    tokens: 100,
+    isVerified: false,
+  };
 }
 
 export async function requireAuth(): Promise<SessionPayload> {

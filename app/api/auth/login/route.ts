@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db';
-import { users } from '@/db/schema';
-import { verifyPassword } from '@/lib/auth';
 import { createSession } from '@/lib/session';
-import { eq } from 'drizzle-orm';
+
+// Demo users - modo sin database
+const DEMO_USERS = [
+  { id: 1, username: 'demo', password: 'demo123', email: 'demo@citronela.com', role: 'USER', tokens: 500, isVerified: true },
+  { id: 2, username: 'admin', password: 'admin123', email: 'admin@citronela.com', role: 'ADMIN', tokens: 1000, isVerified: true },
+  { id: 3, username: ' grower', password: 'grow123', email: 'grower@citronela.com', role: 'USER', tokens: 250, isVerified: false },
+];
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,42 +20,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Find user
-    const [user] = await db
-      .select()
-      .from(users)
-      .where(eq(users.username, username))
-      .limit(1);
+    // Try to find user in demo users first
+    const user = DEMO_USERS.find(
+      u => u.username === username && u.password === password
+    );
 
-    if (!user) {
-      return NextResponse.json(
-        { error: 'Usuario o contraseña incorrectos' },
-        { status: 401 }
-      );
+    if (user) {
+      // Create session cookie
+      await createSession(user.id, user.username, user.role);
+
+      return NextResponse.json({
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          tokens: user.tokens,
+          isVerified: user.isVerified,
+        },
+        demo: true,
+      });
     }
 
-    // Verify password
-    const isValid = await verifyPassword(password, user.password);
-    if (!isValid) {
-      return NextResponse.json(
-        { error: 'Usuario o contraseña incorrectos' },
-        { status: 401 }
-      );
-    }
-
-    // Create session cookie
-    await createSession(user.id, user.username, user.role);
-
-    return NextResponse.json({
-      user: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        role: user.role,
-        tokens: user.tokens,
-        isVerified: user.isVerified,
-      },
-    });
+    // If no demo user found, return error
+    return NextResponse.json(
+      { error: 'Usuario o contraseña incorrectos. Prueba: demo / demo123' },
+      { status: 401 }
+    );
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(
