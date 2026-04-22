@@ -1,18 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createSession } from '@/lib/session';
-
-// Demo mode - create user in memory
-let demoUserId = 100;
+import { db } from '@/lib/db';
+import { users, tokenTransactions } from '@/db/schema';
+import { hashPassword, generateVerificationToken, getUserByUsername, getUserByEmail } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { username, email, password } = body;
 
-    // Validation
-    if (!username || !password) {
+    if (!username || !password || !email) {
       return NextResponse.json(
-        { error: 'Usuario y contraseña son requeridos' },
+        { error: 'Usuario, email y contraseña son requeridos' },
         { status: 400 }
       );
     }
@@ -24,26 +22,53 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create demo user
-    demoUserId++;
-    const newUser = {
-      id: demoUserId,
-      username,
-      email: email || `${username}@demo.com`,
-      role: 'USER' as const,
-      tokens: 100,
-      isVerified: false,
-      isDemo: true,
-    };
+    if (password.length < 6) {
+      return NextResponse.json(
+        { error: 'La contraseña debe tener al menos 6 caracteres' },
+        { status: 400 }
+      );
+    }
 
-    // Create session cookie
-    await createSession(newUser.id, newUser.username, newUser.role);
+    // Check existing
+    const existingUsername = await getUserByUsername(username);
+    if (existingUsername) {
+      return NextResponse.json(
+        { error: 'El nombre de usuario ya está en uso' },
+        { status: 409 }
+      );
+    }
+
+    const existingEmail = await getUserByEmail(email);
+    if (existingEmail) {
+      return NextResponse.json(
+        { error: 'El email ya está registrado' },
+        { status: 409 }
+      );
+    }
+
+    const hashedPassword = await hashPassword(password);
+    const verificationToken = await generateVerificationToken();
+
+    if (!db) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
+    }
+
+    // Beta: skip email verification — emailVerified = true directamente
+    // En producción, cambiar a false y activar envío de email
+    const [newUser] = await db.insert(users).values({
+      username,
+      email,
+      password: hashedPassword,
+      verificationToken,
+      isVerified: false,
+      emailVerified: true,
+      tokens: 0,
+    }).returning({ id: users.id, username: users.username, email: users.email });
 
     return NextResponse.json({
-      user: newUser,
-      demo: true,
-      message: 'Cuenta demo creada. ¡Podes explorar la app!',
-    });
+      user: { id: newUser.id, username: newUser.username, email: newUser.email },
+      message: 'Cuenta creada. Un administrador debe aprobar tu cuenta para continuar.',
+    }, { status: 201 });
   } catch (error) {
     console.error('Register error:', error);
     return NextResponse.json(

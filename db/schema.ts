@@ -9,6 +9,10 @@ const productStatusEnum = pgEnum('product_status', ['Active', 'Paused', 'SoldOut
 const orderStatusEnum = pgEnum('order_status', ['Pendiente', 'Entregado', 'Cancelado']);
 const postCategoryEnum = pgEnum('post_category', ['Clases', 'Investigaciones', 'FAQ', 'Debates', 'Papers', 'Noticias', 'Anuncios']);
 const reactionTypeEnum = pgEnum('reaction_type', ['Interesante', 'Util', 'Cientifico']);
+const cultivationMethodEnum = pgEnum('cultivation_method', ['Hidroponia', 'Organico', 'SalesMinerales', 'Mixto']);
+const planTypeEnum = pgEnum('plan_type', ['Hogar', 'Local']);
+const cultivatorStatusEnum = pgEnum('cultivator_status', ['active', 'inactive']);
+const tokenReasonEnum = pgEnum('token_reason', ['subscription_approval', 'purchase', 'sale', 'admin_grant', 'event_reservation']);
 
 // ============ TABLES ============
 
@@ -25,6 +29,15 @@ export const users = pgTable('user', {
   emailVerified: boolean('email_verified').default(false),
   verificationToken: text('verification_token'),
   lastVerificationSent: timestamp('last_verification_sent'),
+  phone: text('phone'),
+  address: text('address'),
+  bio: text('bio'),
+  birthDate: timestamp('birth_date'),
+  avatar: text('avatar'),
+  preferredGenetics: text('preferred_genetics'),
+  planType: planTypeEnum('plan_type').default('Hogar'),
+  isCultivator: boolean('is_cultivator').default(false),
+  lastLoginAt: timestamp('last_login_at'),
   createdAt: timestamp('created_at').defaultNow(),
 });
 
@@ -34,6 +47,7 @@ export const crops = pgTable('crop', {
   bucketName: text('bucket_name').notNull(),
   imageUrl: text('image_url'),
   status: cropStatusEnum('status').default('Verde'),
+  cultivationMethod: cultivationMethodEnum('cultivation_method').default('Organico'),
   userId: integer('user_id').notNull().references(() => users.id),
   createdAt: timestamp('created_at').defaultNow(),
 });
@@ -51,6 +65,10 @@ export const cropLogs = pgTable('crop_log', {
   notes: text('notes'),
   imageUrl: text('image_url'),
   feedback: text('feedback'),
+  lightHours: real('light_hours'),
+  nutrientsSolution: text('nutrients_solution'),
+  sanitaryNotes: text('sanitary_notes'),
+  preventives: text('preventives'),
   cropId: integer('crop_id').notNull().references(() => crops.id),
   createdAt: timestamp('created_at').defaultNow(),
 });
@@ -66,6 +84,7 @@ export const products = pgTable('product', {
   stock: integer('stock').default(1),
   imageUrl: text('image_url'),
   sellerId: integer('seller_id').notNull().references(() => users.id),
+  labReportId: integer('lab_report_id'),
   status: productStatusEnum('status').default('Active'),
   createdAt: timestamp('created_at').defaultNow(),
 });
@@ -212,6 +231,51 @@ export const legalContents = pgTable('legal_content', {
   updatedAt: timestamp('updated_at').defaultNow(),
 });
 
+// USER DOCUMENTS - Expediente legal del usuario
+export const userDocuments = pgTable('user_document', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id').notNull().references(() => users.id),
+  name: text('name').notNull(),
+  url: text('url').notNull(),
+  type: text('type').notNull(),
+  uploadedBy: integer('uploaded_by').notNull().references(() => users.id),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+// SOLIDARY CULTIVATORS - Modelo ONG: 150 cultivadores × 3 pacientes
+export const solidaryCultivators = pgTable('solidary_cultivator', {
+  id: serial('id').primaryKey(),
+  cultivatorUserId: integer('cultivator_user_id').notNull().references(() => users.id),
+  patientUserId: integer('patient_user_id').notNull().references(() => users.id),
+  status: cultivatorStatusEnum('status').default('active'),
+  createdAt: timestamp('created_at').defaultNow(),
+}, (t) => ({
+  unq: uniqueIndex('cultivator_patient_unique').on(t.cultivatorUserId, t.patientUserId),
+}));
+
+// TOKEN TRANSACTIONS - Log auditable de movimientos de tokens
+export const tokenTransactions = pgTable('token_transaction', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id').notNull().references(() => users.id),
+  amount: integer('amount').notNull(),
+  reason: tokenReasonEnum('reason').notNull(),
+  relatedOrderId: integer('related_order_id').references(() => orders.id),
+  performedBy: integer('performed_by').references(() => users.id),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+// LAB REPORTS - Informes de cannabinoides
+export const labReports = pgTable('lab_report', {
+  id: serial('id').primaryKey(),
+  cropId: integer('crop_id').notNull().references(() => crops.id),
+  plantId: text('plant_id'),
+  collectionDate: timestamp('collection_date').notNull(),
+  results: text('results').notNull(),
+  reportUrl: text('report_url'),
+  createdBy: integer('created_by').notNull().references(() => users.id),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
 // ============ TYPE EXPORTS ============
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
@@ -231,3 +295,11 @@ export type Comment = typeof comments.$inferSelect;
 export type NewComment = typeof comments.$inferInsert;
 export type Event = typeof events.$inferSelect;
 export type NewEvent = typeof events.$inferInsert;
+export type UserDocument = typeof userDocuments.$inferSelect;
+export type NewUserDocument = typeof userDocuments.$inferInsert;
+export type SolidaryCultivator = typeof solidaryCultivators.$inferSelect;
+export type NewSolidaryCultivator = typeof solidaryCultivators.$inferInsert;
+export type TokenTransaction = typeof tokenTransactions.$inferSelect;
+export type NewTokenTransaction = typeof tokenTransactions.$inferInsert;
+export type LabReport = typeof labReports.$inferSelect;
+export type NewLabReport = typeof labReports.$inferInsert;

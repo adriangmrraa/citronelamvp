@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/lib/db';
+import { users } from '@/db/schema';
+import { getUserByUsername, verifyPassword } from '@/lib/auth';
 import { createSession } from '@/lib/session';
-
-// Demo users - modo sin database
-const DEMO_USERS = [
-  { id: 1, username: 'demo', password: 'demo123', email: 'demo@citronela.com', role: 'USER', tokens: 500, isVerified: true },
-  { id: 2, username: 'admin', password: 'admin123', email: 'admin@citronela.com', role: 'ADMIN', tokens: 1000, isVerified: true },
-  { id: 3, username: ' grower', password: 'grow123', email: 'grower@citronela.com', role: 'USER', tokens: 250, isVerified: false },
-];
+import { eq } from 'drizzle-orm';
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,33 +17,55 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Try to find user in demo users first
-    const user = DEMO_USERS.find(
-      u => u.username === username && u.password === password
-    );
-
-    if (user) {
-      // Create session cookie
-      await createSession(user.id, user.username, user.role);
-
-      return NextResponse.json({
-        user: {
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          role: user.role,
-          tokens: user.tokens,
-          isVerified: user.isVerified,
-        },
-        demo: true,
-      });
+    const user = await getUserByUsername(username);
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Usuario o contraseña incorrectos' },
+        { status: 401 }
+      );
     }
 
-    // If no demo user found, return error
-    return NextResponse.json(
-      { error: 'Usuario o contraseña incorrectos. Prueba: demo / demo123' },
-      { status: 401 }
-    );
+    const validPassword = await verifyPassword(password, user.password);
+    if (!validPassword) {
+      return NextResponse.json(
+        { error: 'Usuario o contraseña incorrectos' },
+        { status: 401 }
+      );
+    }
+
+    if (!user.emailVerified) {
+      return NextResponse.json(
+        { error: 'Verificá tu email antes de iniciar sesión' },
+        { status: 403 }
+      );
+    }
+
+    if (!user.isVerified) {
+      return NextResponse.json(
+        { error: 'Tu cuenta está pendiente de aprobación por un administrador' },
+        { status: 403 }
+      );
+    }
+
+    // Update lastLoginAt
+    if (db) {
+      await db.update(users).set({ lastLoginAt: new Date() }).where(eq(users.id, user.id));
+    }
+
+    await createSession(user.id, user.username, user.role);
+
+    return NextResponse.json({
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+        tokens: user.tokens,
+        isVerified: user.isVerified,
+        planType: user.planType,
+        isCultivator: user.isCultivator,
+      },
+    });
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(
