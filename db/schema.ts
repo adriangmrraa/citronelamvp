@@ -1,18 +1,18 @@
 import { pgTable, serial, text, timestamp, integer, boolean, real, pgEnum, uniqueIndex, unique } from 'drizzle-orm/pg-core';
 
 // ============ ENUMS ============
-const roleEnum = pgEnum('role', ['USER', 'ADMIN', 'STAFF']);
-const cropStatusEnum = pgEnum('crop_status', ['Verde', 'Amarillo', 'Rojo']);
-const phaseEnum = pgEnum('phase', ['Germinacion', 'Vegetacion', 'Floracion', 'Senescencia']);
-const productCategoryEnum = pgEnum('product_category', ['Flores', 'Parafernalia', 'Geneticas']);
-const productStatusEnum = pgEnum('product_status', ['Active', 'Paused', 'SoldOut']);
-const orderStatusEnum = pgEnum('order_status', ['Pendiente', 'Entregado', 'Cancelado']);
-const postCategoryEnum = pgEnum('post_category', ['Clases', 'Investigaciones', 'FAQ', 'Debates', 'Papers', 'Noticias', 'Anuncios']);
-const reactionTypeEnum = pgEnum('reaction_type', ['Interesante', 'Util', 'Cientifico']);
-const cultivationMethodEnum = pgEnum('cultivation_method', ['Hidroponia', 'Organico', 'SalesMinerales', 'Mixto']);
-const planTypeEnum = pgEnum('plan_type', ['Hogar', 'Local']);
-const cultivatorStatusEnum = pgEnum('cultivator_status', ['active', 'inactive']);
-const tokenReasonEnum = pgEnum('token_reason', ['subscription_approval', 'purchase', 'sale', 'admin_grant', 'event_reservation']);
+export const roleEnum = pgEnum('role', ['USER', 'ADMIN', 'STAFF']);
+export const cropStatusEnum = pgEnum('crop_status', ['Verde', 'Amarillo', 'Rojo']);
+export const phaseEnum = pgEnum('phase', ['Germinacion', 'Vegetacion', 'Floracion', 'Senescencia']);
+export const productCategoryEnum = pgEnum('product_category', ['Flores', 'Parafernalia', 'Geneticas']);
+export const productStatusEnum = pgEnum('product_status', ['Active', 'Paused', 'SoldOut']);
+export const orderStatusEnum = pgEnum('order_status', ['Pendiente', 'Entregado', 'Cancelado']);
+export const postCategoryEnum = pgEnum('post_category', ['Clases', 'Investigaciones', 'FAQ', 'Debates', 'Papers', 'Noticias', 'Anuncios']);
+export const reactionTypeEnum = pgEnum('reaction_type', ['Interesante', 'Util', 'Cientifico']);
+export const cultivationMethodEnum = pgEnum('cultivation_method', ['Hidroponia', 'Organico', 'SalesMinerales', 'Mixto']);
+export const planTypeEnum = pgEnum('plan_type', ['Hogar', 'Local']);
+export const cultivatorStatusEnum = pgEnum('cultivator_status', ['active', 'inactive']);
+export const tokenReasonEnum = pgEnum('token_reason', ['subscription_approval', 'purchase', 'sale', 'admin_grant', 'event_reservation']);
 
 // ============ TABLES ============
 

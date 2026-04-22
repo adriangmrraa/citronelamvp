@@ -5,6 +5,9 @@
  *
  * Requires DATABASE_URL in .env or .env.local
  */
+import { config } from 'dotenv';
+config({ path: '.env.local' });
+
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import { users } from '../db/schema';
