@@ -1,0 +1,30 @@
+# openspec/config.yaml
+schema: spec-driven
+
+context: |
+  Tech stack: Next.js 14 (App Router), TypeScript, GSAP, Tailwind, Lenis.
+  Architecture: Modular (shared/features structure), Orchestrated GSAP.
+  Testing: Manual verification with browser subagent.
+  Style: Strict modularization (250 lines limit), forwardRef for sections.
+
+rules:
+  proposal:
+    - Include impact analysis on GSAP scroll orchestration
+    - Identify if new static data in data.ts is required
+  specs:
+    - Use Given/When/Then format for scenarios
+    - Define visual parity expectations clearly
+  design:
+    - Document component tree and prop flow
+    - Address GSAP target accessibility ([data-...] attributes)
+  tasks:
+    - Group by: Domain (Screens), Section, and Orchestration
+    - Use hierarchical numbering (1.1, etc.)
+  apply:
+    - Strictly follow components/features/{feature} pattern
+    - Keep componentes under 250 lines
+  verify:
+    - Take screenshots of all affected interactive states
+    - Check console for GSAP target warnings or import errors
+  archive:
+    - Sync delta specs to docs/MODULARIZACION.md
