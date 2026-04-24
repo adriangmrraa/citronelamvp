@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import { Menu, X, Leaf, LogOut, ChevronDown } from 'lucide-react';
 import NotificationBell from '@/components/shared/NotificationBell';
 
@@ -26,17 +27,24 @@ export default function AppHeader() {
     <header className="sticky top-0 z-40 w-full bg-[#07120b]/80 backdrop-blur-xl border-b border-white/[0.06]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
-          {/* Logo */}
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 font-bold text-lg tracking-tight shrink-0"
+            className="flex items-center gap-1.5 group cursor-pointer shrink-0"
           >
-            <Leaf
-              className="w-5 h-5 text-lime-400"
-              style={{ filter: 'drop-shadow(0 0 8px rgba(163,230,53,0.4))' }}
-            />
-            <span className="text-white">Citro</span>
-            <span className="text-lime-400 -ml-1">nela</span>
+            <div className="relative w-8 h-8 filter drop-shadow-[0_0_8px_rgba(163,230,53,0.3)] group-hover:scale-105 transition-transform">
+              <Image 
+                src="/images/citrologoficial.svg" 
+                alt="Citronela" 
+                fill 
+                className="object-contain" 
+              />
+            </div>
+            <div 
+              style={{ fontFamily: 'var(--font-avigea)' }}
+              className="text-xl tracking-wide flex items-center"
+            >
+              <span className="text-lime-400 group-hover:text-lime-300 transition-colors duration-300">Citro</span><span className="text-white">nela</span>
+            </div>
           </Link>
 
           {/* Nav desktop */}

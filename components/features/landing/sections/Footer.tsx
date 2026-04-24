@@ -18,8 +18,7 @@ export const Footer = () => {
               />
             </div>
             <span className={`${avigea.className} text-2xl font-normal tracking-wide`}>
-              <span className="text-lime-400">Citro</span>
-              <span className="text-white">nela</span>
+              <span className="text-lime-400">Citro</span><span className="text-white">nela</span>
             </span>
           </div>
           <div className="flex gap-6 text-sm text-zinc-500">

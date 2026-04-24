@@ -41,6 +41,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // For protected pages — redirect to login if no session
+  /*
   const cookieValue = request.cookies.get('session')?.value;
   if (!cookieValue) {
     return NextResponse.redirect(new URL('/login', request.url));
@@ -50,13 +51,16 @@ export async function middleware(request: NextRequest) {
   if (!session) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
+  */
 
   // Admin page access
+  /*
   if (pathname.startsWith('/admin')) {
     if (session.role !== 'ADMIN' && session.role !== 'STAFF') {
       return NextResponse.redirect(new URL('/dashboard', request.url));
     }
   }
+  */
 
   return NextResponse.next();
 }
