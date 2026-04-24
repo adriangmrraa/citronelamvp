@@ -514,30 +514,26 @@ export default function LandingPage() {
 
         {/* Text — centered, will scroll away */}
         <div ref={heroTextRef} className="relative max-w-3xl mx-auto px-6 w-full text-center z-10">
-          <div data-hero-text className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-lime-400/30 bg-lime-400/5 backdrop-blur-sm mb-8">
-            <span className="relative flex w-2 h-2"><span className="absolute inline-flex w-full h-full rounded-full bg-lime-400 opacity-75 animate-ping" /><span className="relative inline-flex w-2 h-2 rounded-full bg-lime-400" /></span>
-            <span className="text-xs sm:text-sm font-medium text-lime-300 tracking-wide uppercase">Plataforma de cultivo</span>
-          </div>
-          <h1 data-hero-text className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-6">
+          <h1 data-hero-text className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[1.05] mb-6">
             Cultivá tu{' '}<br className="hidden sm:block" />
             <span className="relative inline-block"><span className="text-gradient-weed">ecosistema</span>
               <svg className="absolute -bottom-2 left-0 w-full h-3 text-lime-400/50" viewBox="0 0 200 12" preserveAspectRatio="none" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M2 7 Q 50 -2 100 6 T 198 5" /></svg>
             </span>
           </h1>
-          <p data-hero-text className="text-lg sm:text-xl text-zinc-400 max-w-xl mx-auto mb-10 leading-relaxed">
+          <p data-hero-text className="text-xl sm:text-2xl text-zinc-400 max-w-xl mx-auto mb-10 leading-relaxed">
             La plataforma definitiva para gestionar tus cultivos hidropónicos. Registrá, monitoreá y hacé crecer tus plantas con control total — <span className="text-lime-300 font-medium">del esqueje a la cosecha</span>.
           </p>
           <div data-hero-text className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/register" className="magnetic-btn group w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-base text-[#07120b] bg-gradient-to-r from-lime-400 via-green-400 to-emerald-400 hover:shadow-[0_0_40px_rgba(163,230,53,0.5)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+            <Link href="/register" className="magnetic-btn group w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-lg text-[#07120b] bg-gradient-to-r from-lime-400 via-green-400 to-emerald-400 hover:shadow-[0_0_40px_rgba(163,230,53,0.5)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
               Comenzar ahora <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
             </Link>
-            <Link href="/login" className="w-full sm:w-auto px-8 py-4 rounded-2xl font-semibold text-base text-zinc-200 border border-zinc-700 bg-zinc-900/40 backdrop-blur-sm hover:bg-zinc-800/60 hover:border-lime-400/40 hover:text-lime-300 transition-all duration-300">Ya tengo cuenta</Link>
+            <Link href="/login" className="w-full sm:w-auto px-8 py-4 rounded-2xl font-semibold text-lg text-zinc-200 border border-zinc-700 bg-zinc-900/40 backdrop-blur-sm hover:bg-zinc-800/60 hover:border-lime-400/40 hover:text-lime-300 transition-all duration-300">Ya tengo cuenta</Link>
           </div>
           <div data-hero-text className="mt-14 grid grid-cols-3 gap-4 max-w-md mx-auto">
             {[{ n: '150+', l: 'Cultivadores' }, { n: '24/7', l: 'Monitoreo' }, { n: '100%', l: 'Trazabilidad' }].map((s) => (
               <div key={s.l} className="group p-3 rounded-xl border border-lime-400/10 bg-white/[0.02] backdrop-blur-sm hover:border-lime-400/30 hover:bg-lime-400/5 transition-all duration-300">
-                <div className="text-2xl font-black text-gradient-weed">{s.n}</div>
-                <div className="text-[10px] sm:text-xs text-zinc-500 uppercase tracking-wider mt-1">{s.l}</div>
+                <div className="text-3xl font-black text-gradient-weed">{s.n}</div>
+                <div className="text-xs sm:text-sm text-zinc-500 uppercase tracking-wider mt-1">{s.l}</div>
               </div>
             ))}
           </div>
@@ -578,11 +574,10 @@ export default function LandingPage() {
                 <div className={`relative max-w-7xl mx-auto px-6 sm:px-12 w-full grid lg:grid-cols-2 gap-10 lg:gap-16 items-center`}>
                   {/* Text */}
                   <div className={`${i % 2 === 1 ? 'lg:order-2' : ''} text-center lg:text-left`}>
-                    <span data-panel-text className={`inline-block w-fit px-3 py-1 rounded-full border text-[10px] font-semibold tracking-wider uppercase mb-5 ${panel.tagCls}`}>{panel.tag}</span>
-                    <h2 data-panel-text className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-5 leading-tight">{panel.title}<span className="text-gradient-weed">{panel.hl}</span>{panel.end}</h2>
-                    <p data-panel-text className="text-zinc-400 text-lg max-w-md leading-relaxed mb-6">{panel.desc}</p>
+                    <h2 data-panel-text className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white mb-5 leading-tight">{panel.title}<span className="text-gradient-weed">{panel.hl}</span>{panel.end}</h2>
+                    <p data-panel-text className="text-zinc-400 text-xl max-w-md leading-relaxed mb-6">{panel.desc}</p>
                     <div data-panel-text className="flex flex-wrap gap-2.5">
-                      {panel.chips.map((c) => <span key={c} className={`px-3 py-1.5 text-xs font-medium rounded-full border ${panel.chipCls}`}>{c}</span>)}
+                      {panel.chips.map((c) => <span key={c} className={`px-3 py-1.5 text-sm font-medium rounded-full border ${panel.chipCls}`}>{c}</span>)}
                     </div>
                   </div>
                   {/* Phone */}
@@ -607,9 +602,8 @@ export default function LandingPage() {
 
         <div className="relative max-w-6xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span data-feat-title className="inline-block px-3 py-1 rounded-full bg-lime-400/10 border border-lime-400/20 text-xs font-semibold tracking-wider uppercase text-lime-300 mb-4">Funcionalidades</span>
-            <h2 data-feat-title className="text-4xl sm:text-5xl font-black tracking-tight text-white mb-4">Todo lo que necesitás, <span className="text-gradient-weed">en un solo lugar</span></h2>
-            <p data-feat-title className="text-zinc-400 text-lg">Herramientas potentes, interfaz simple. Diseñado por cultivadores, para cultivadores.</p>
+            <h2 data-feat-title className="text-5xl sm:text-6xl font-black tracking-tight text-white mb-4">Todo lo que necesitás, <span className="text-gradient-weed">en un solo lugar</span></h2>
+            <p data-feat-title className="text-zinc-400 text-xl">Herramientas potentes, interfaz simple. Diseñado por cultivadores, para cultivadores.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((f) => (
@@ -619,8 +613,8 @@ export default function LandingPage() {
                   <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${f.gradient} flex items-center justify-center mb-5 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`} style={{ boxShadow: `0 10px 30px -10px ${f.glow}` }}>
                     <span className="text-2xl">{f.icon}</span>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{f.title}</h3>
-                  <p className="text-zinc-400 text-sm leading-relaxed">{f.desc}</p>
+                  <h3 className="text-2xl font-bold text-white mb-2">{f.title}</h3>
+                  <p className="text-zinc-400 text-base leading-relaxed">{f.desc}</p>
                 </div>
               </div>
             ))}
@@ -632,10 +626,10 @@ export default function LandingPage() {
       <section ref={ecosystemRef} className="relative py-20 border-y border-lime-400/10 overflow-hidden z-[2] bg-[#07120b] gpu-section">
         <AnimatedOrb className="top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] blur-[120px]" color="rgba(163,230,53,0.06)" />
         <div className="relative max-w-5xl mx-auto px-6 text-center">
-          <p data-eco-word className="text-xs tracking-[0.3em] uppercase text-lime-400/60 mb-8">Un ecosistema completo</p>
+          <p data-eco-word className="text-sm tracking-[0.3em] uppercase text-lime-400/60 mb-8">Un ecosistema completo</p>
           <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
             {['Hidroponía', 'Orgánico', 'Sales Minerales', 'Mixto', 'Lab Reports', 'Trazabilidad', 'Genéticas', 'Comunidad'].map((w) => (
-              <span key={w} data-eco-word className="text-xl sm:text-2xl font-bold text-zinc-600 hover:text-lime-300 transition-all duration-500 cursor-default hover:scale-110 hover:drop-shadow-[0_0_12px_rgba(163,230,53,0.4)]">{w}</span>
+              <span key={w} data-eco-word className="text-2xl sm:text-3xl font-bold text-zinc-600 hover:text-lime-300 transition-all duration-500 cursor-default hover:scale-110 hover:drop-shadow-[0_0_12px_rgba(163,230,53,0.4)]">{w}</span>
             ))}
           </div>
         </div>
@@ -649,13 +643,10 @@ export default function LandingPage() {
         <AnimatedOrb className="top-[30%] right-[40%] w-[250px] h-[250px] blur-[80px]" color="rgba(251,191,36,0.06)" delay={-3} />
 
         <div className="relative max-w-4xl mx-auto px-6 text-center">
-          <div data-cta className="inline-flex p-[2px] rounded-full bg-gradient-to-r from-lime-400 via-emerald-400 to-amber-400 mb-8">
-            <div className="px-5 py-2 rounded-full bg-[#07120b] text-sm font-medium text-lime-300">Empezá gratis hoy</div>
-          </div>
-          <h2 data-cta className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white mb-6 leading-tight">Listo para <span className="text-gradient-weed">florecer</span>?</h2>
-          <p data-cta className="text-zinc-400 text-lg sm:text-xl max-w-xl mx-auto mb-12">Sumate a la comunidad de cultivadores que ya están llevando su cultivo al próximo nivel.</p>
+          <h2 data-cta className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight text-white mb-6 leading-tight">Listo para <span className="text-gradient-weed">florecer</span>?</h2>
+          <p data-cta className="text-zinc-400 text-xl sm:text-2xl max-w-xl mx-auto mb-12">Sumate a la comunidad de cultivadores que ya están llevando su cultivo al próximo nivel.</p>
           <div data-cta>
-            <Link href="/register" className="magnetic-btn group inline-flex items-center gap-3 px-12 py-6 rounded-2xl font-bold text-lg text-[#07120b] bg-gradient-to-r from-lime-400 via-green-400 to-emerald-400 hover:shadow-[0_0_60px_rgba(163,230,53,0.5)] hover:scale-105 active:scale-95 transition-all duration-300">
+            <Link href="/register" className="magnetic-btn group inline-flex items-center gap-3 px-12 py-6 rounded-2xl font-bold text-xl text-[#07120b] bg-gradient-to-r from-lime-400 via-green-400 to-emerald-400 hover:shadow-[0_0_60px_rgba(163,230,53,0.5)] hover:scale-105 active:scale-95 transition-all duration-300">
               Crear mi cuenta <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
             </Link>
           </div>
