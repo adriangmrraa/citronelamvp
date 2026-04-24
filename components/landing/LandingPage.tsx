@@ -47,7 +47,7 @@ function AnimatedOrb({ className, color, delay = 0, ...props }: { className: str
   return (
     <div
       className={`absolute rounded-full pointer-events-none animate-blob ${className}`}
-      style={{ background: color, animationDelay: `${delay}s` }}
+      style={{ background: color, animationDelay: `${delay}s`, willChange: 'transform', backfaceVisibility: 'hidden', contain: 'layout style paint' }}
       {...props}
     />
   );
@@ -249,7 +249,12 @@ export default function LandingPage() {
     if (typeof window === 'undefined') return;
 
     /* -------- Lenis -------- */
-    const lenis = new Lenis({ duration: 1.2, easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    const lenis = new Lenis({
+      duration: 1.0,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      touchMultiplier: 1.5,
+      wheelMultiplier: 1,
+    });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -472,7 +477,7 @@ export default function LandingPage() {
       </header>
 
       {/* ============ PARALLAX FIXED BACKGROUND ============ */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" style={{ contain: 'strict' }}>
         {/* Image with Ken Burns cinematic zoom */}
         <div
           className="absolute inset-0 animate-ken-burns"
@@ -594,7 +599,7 @@ export default function LandingPage() {
       </section>
 
       {/* ============ FEATURES ============ */}
-      <section ref={featuresRef} className="relative py-24 sm:py-32 overflow-hidden z-[2] bg-[#07120b]">
+      <section ref={featuresRef} className="relative py-24 sm:py-32 overflow-hidden z-[2] bg-[#07120b] gpu-section">
         <BgImage src="/images/bg/features.jpg" position="center" />
         <AnimatedOrb className="top-[20%] left-[-5%] w-[400px] h-[400px] blur-[100px]" color="rgba(163,230,53,0.08)" delay={-2} />
         <AnimatedOrb className="bottom-[10%] right-[-5%] w-[350px] h-[350px] blur-[90px]" color="rgba(34,197,94,0.06)" delay={-6} />
@@ -624,7 +629,7 @@ export default function LandingPage() {
       </section>
 
       {/* ============ ECOSYSTEM ============ */}
-      <section ref={ecosystemRef} className="relative py-20 border-y border-lime-400/10 overflow-hidden z-[2] bg-[#07120b]">
+      <section ref={ecosystemRef} className="relative py-20 border-y border-lime-400/10 overflow-hidden z-[2] bg-[#07120b] gpu-section">
         <AnimatedOrb className="top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] blur-[120px]" color="rgba(163,230,53,0.06)" />
         <div className="relative max-w-5xl mx-auto px-6 text-center">
           <p data-eco-word className="text-xs tracking-[0.3em] uppercase text-lime-400/60 mb-8">Un ecosistema completo</p>
@@ -637,7 +642,7 @@ export default function LandingPage() {
       </section>
 
       {/* ============ CTA ============ */}
-      <section ref={ctaRef} className="relative py-28 sm:py-36 overflow-hidden z-[2] bg-[#07120b]">
+      <section ref={ctaRef} className="relative py-28 sm:py-36 overflow-hidden z-[2] bg-[#07120b] gpu-section">
         <BgImage src="/images/bg/cta.jpg" position="center" />
         <AnimatedOrb data-parallax-orb className="top-[-10%] left-[20%] w-[450px] h-[450px] blur-[120px]" color="rgba(163,230,53,0.15)" />
         <AnimatedOrb data-parallax-orb className="bottom-[-10%] right-[20%] w-[450px] h-[450px] blur-[120px]" color="rgba(34,197,94,0.12)" delay={-5} />

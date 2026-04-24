@@ -74,10 +74,18 @@
   * {
     border-color: hsl(var(--border));
   }
-  
+
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Dark mode: counteract thin text rendering on dark backgrounds */
+  .dark body {
+    -webkit-text-stroke: 0.3px;
   }
 }
 
@@ -208,6 +216,9 @@ body {
   .animate-ken-burns {
     animation: kenBurns 25s ease-in-out infinite alternate;
     will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
   }
 
   /* Magnetic button hover glow */
@@ -232,6 +243,12 @@ body {
     opacity: 0.6;
   }
 
+  /* GPU-accelerated sections — skip rendering until visible */
+  .gpu-section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 100vh;
+  }
+
   /* Lenis smooth scroll */
   html.lenis, html.lenis body {
     height: auto;
@@ -253,28 +270,28 @@ body {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translate3d(0, 12px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translate3d(-20px, 0, 0);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-14px) rotate(2deg); }
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -14px, 0) rotate(2deg); }
 }
 
 @keyframes gradientShift {
@@ -294,16 +311,16 @@ body {
 }
 
 @keyframes blob {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(40px, -30px) scale(1.1); }
-  66% { transform: translate(-30px, 20px) scale(0.95); }
+  0%, 100% { transform: translate3d(0, 0, 0) scale3d(1, 1, 1); }
+  33% { transform: translate3d(40px, -30px, 0) scale3d(1.1, 1.1, 1); }
+  66% { transform: translate3d(-30px, 20px, 0) scale3d(0.95, 0.95, 1); }
 }
 
 @keyframes floatPhone {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  25% { transform: translateY(-10px) rotate(0.3deg); }
-  50% { transform: translateY(-6px) rotate(-0.2deg); }
-  75% { transform: translateY(-12px) rotate(0.2deg); }
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  25% { transform: translate3d(0, -10px, 0) rotate(0.3deg); }
+  50% { transform: translate3d(0, -6px, 0) rotate(-0.2deg); }
+  75% { transform: translate3d(0, -12px, 0) rotate(0.2deg); }
 }
 
 @keyframes bgDrift {
@@ -316,16 +333,16 @@ body {
 
 @keyframes kenBurns {
   0% {
-    transform: scale(1) translate(0, 0);
+    transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
   }
   33% {
-    transform: scale(1.12) translate(-1.5%, -1%);
+    transform: scale3d(1.12, 1.12, 1) translate3d(-1.5%, -1%, 0);
   }
   66% {
-    transform: scale(1.08) translate(1%, 0.5%);
+    transform: scale3d(1.08, 1.08, 1) translate3d(1%, 0.5%, 0);
   }
   100% {
-    transform: scale(1.15) translate(-0.5%, -1.5%);
+    transform: scale3d(1.15, 1.15, 1) translate3d(-0.5%, -1.5%, 0);
   }
 }
 

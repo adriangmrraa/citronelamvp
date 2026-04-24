@@ -3,7 +3,11 @@ import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Citronela - Cultivo Hidropónico',
@@ -17,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className={`${inter.className} transition-colors duration-300`}>
+      <body className={`${inter.className} antialiased transition-colors duration-300`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
