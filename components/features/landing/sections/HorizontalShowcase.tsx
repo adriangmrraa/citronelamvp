@@ -2,6 +2,7 @@ import React from 'react';
 import { BgImage } from '@/components/shared/BgImage';
 import { AnimatedOrb } from '@/components/shared/AnimatedOrb';
 import { PhoneMockup } from '@/components/shared/PhoneMockup';
+import { avigea } from '@/lib/fonts';
 import { panelConfig } from '../data';
 import { DashboardScreen } from '../screens/DashboardScreen';
 import { CultivoScreen } from '../screens/CultivoScreen';
@@ -40,13 +41,13 @@ export const HorizontalShowcase = React.forwardRef<HTMLElement, HorizontalShowca
               <div className={`relative max-w-7xl mx-auto px-6 sm:px-12 w-full grid lg:grid-cols-2 gap-10 lg:gap-16 items-center`}>
                 {/* Text */}
                 <div className={`${i % 2 === 1 ? 'lg:order-2' : ''} text-center lg:text-left`}>
-                  <h2 data-panel-text className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white mb-5 leading-tight">
-                    {panel.title}<span className="text-gradient-weed">{panel.hl}</span>{panel.end}
+                  <h2 data-panel-text className={`${avigea.className} text-5xl sm:text-6xl lg:text-7xl font-normal tracking-tight text-white mb-5 leading-tight`}>
+                    {panel.title}<span className="text-lime-400">{panel.hl}</span>{panel.end}
                   </h2>
                   <p data-panel-text className="text-zinc-400 text-xl max-w-md leading-relaxed mb-6">{panel.desc}</p>
                   <div data-panel-text className="flex flex-wrap gap-2.5">
                     {panel.chips.map((c) => (
-                      <span key={c} className={`px-3 py-1.5 text-sm font-medium rounded-full border ${panel.chipCls}`}>{c}</span>
+                      <span key={c} className={`${avigea.className} px-3 py-1.5 text-sm font-normal rounded-full border ${panel.chipCls}`}>{c}</span>
                     ))}
                   </div>
                 </div>

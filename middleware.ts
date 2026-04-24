@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Allow public routes
-  if (publicRoutes.includes(pathname)) {
+  if (publicRoutes.includes(pathname) || pathname.startsWith('/images/')) {
     return NextResponse.next();
   }
 
@@ -62,5 +62,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.png$).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|images|.*\\.(?:svg|png|jpg|jpeg|webp|gif)$).*)'],
 };

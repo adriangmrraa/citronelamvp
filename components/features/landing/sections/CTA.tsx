@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { BgImage } from '@/components/shared/BgImage';
 import { AnimatedOrb } from '@/components/shared/AnimatedOrb';
+import { avigea } from '@/lib/fonts';
 
 export const CTA = React.forwardRef<HTMLElement, {}>((props, ref) => {
   return (
@@ -12,8 +13,8 @@ export const CTA = React.forwardRef<HTMLElement, {}>((props, ref) => {
       <AnimatedOrb className="top-[30%] right-[40%] w-[250px] h-[250px] blur-[80px]" color="rgba(251,191,36,0.06)" delay={-3} />
 
       <div className="relative max-w-4xl mx-auto px-6 text-center">
-        <h2 data-cta className="text-5xl sm:text-7xl font-black tracking-tight text-white mb-8 leading-[1.1]">
-          ¿Listo para subir el nivel de tu <span className="text-gradient-weed italic">cultivo</span>?
+        <h2 data-cta className={`${avigea.className} text-5xl sm:text-7xl font-normal tracking-tight text-white mb-8 leading-[1.1]`}>
+          ¿Listo para subir el nivel de tu <span className="text-lime-400">cultivo</span>?
         </h2>
         <p data-cta className="text-zinc-400 text-xl sm:text-2xl mb-12 max-w-2xl mx-auto leading-relaxed">
           Unite a la comunidad de cultivadores más avanzada. Registrate hoy y obtené acceso exclusivo al Marketplace.

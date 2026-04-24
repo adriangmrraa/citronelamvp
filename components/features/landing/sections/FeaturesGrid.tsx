@@ -1,6 +1,7 @@
 import React from 'react';
 import { BgImage } from '@/components/shared/BgImage';
 import { AnimatedOrb } from '@/components/shared/AnimatedOrb';
+import { avigea } from '@/lib/fonts';
 import { features } from '../data';
 
 export const FeaturesGrid = React.forwardRef<HTMLElement, {}>((props, ref) => {
@@ -13,8 +14,8 @@ export const FeaturesGrid = React.forwardRef<HTMLElement, {}>((props, ref) => {
 
       <div className="relative max-w-6xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 data-feat-title className="text-5xl sm:text-6xl font-black tracking-tight text-white mb-4">
-            Todo lo que necesitás, <span className="text-gradient-weed">en un solo lugar</span>
+          <h2 data-feat-title className={`${avigea.className} text-5xl sm:text-6xl font-normal tracking-tight text-white mb-4`}>
+            Todo lo que necesitás, <span className="text-lime-400">en un solo lugar</span>
           </h2>
           <p data-feat-title className="text-zinc-400 text-xl">
             Herramientas potentes, interfaz simple. Diseñado por cultivadores, para cultivadores.
@@ -36,7 +37,7 @@ export const FeaturesGrid = React.forwardRef<HTMLElement, {}>((props, ref) => {
                 >
                   <span className="text-2xl">{f.icon}</span>
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">{f.title}</h3>
+                <h3 className={`${avigea.className} text-2xl font-normal text-white mb-2`}>{f.title}</h3>
                 <p className="text-zinc-400 text-base leading-relaxed">{f.desc}</p>
               </div>
             </div>

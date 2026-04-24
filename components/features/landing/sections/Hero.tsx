@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { AnimatedOrb } from '@/components/shared/AnimatedOrb';
 import { LeafIcon } from '@/components/shared/LeafIcon';
 import { PhoneMockup } from '@/components/shared/PhoneMockup';
+import { avigea } from '@/lib/fonts';
 import { DashboardScreen } from '../screens/DashboardScreen';
 import { heroStats } from '../data';
 
@@ -32,11 +33,11 @@ export const Hero = React.forwardRef<HTMLElement, HeroProps>(({ textRef, phoneRe
       <LeafIcon className="absolute bottom-[20%] left-[18%] w-14 h-14 text-amber-400/[0.05] animate-float [animation-delay:-3s] rotate-45" />
 
       <div ref={textRef} className="relative max-w-3xl mx-auto px-6 w-full text-center z-10">
-        <h1 data-hero-text className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[1.05] mb-6">
+        <h1 data-hero-text className={`${avigea.className} text-6xl sm:text-7xl lg:text-8xl font-normal tracking-tight leading-[1.05] mb-6`}>
           Cultivá tu{' '}
           <br className="hidden sm:block" />
           <span className="relative inline-block">
-            <span className="text-gradient-weed">ecosistema</span>
+            <span className="text-lime-400">ecosistema</span>
             <svg
               className="absolute -bottom-2 left-0 w-full h-3 text-lime-400/50"
               viewBox="0 0 200 12"
@@ -85,7 +86,7 @@ export const Hero = React.forwardRef<HTMLElement, HeroProps>(({ textRef, phoneRe
               key={s.l}
               className="group p-3 rounded-xl border border-lime-400/10 bg-white/[0.02] backdrop-blur-sm hover:border-lime-400/30 hover:bg-lime-400/5 transition-all duration-300"
             >
-              <div className="text-3xl font-black text-gradient-weed">{s.n}</div>
+              <div className={`${avigea.className} text-3xl font-normal text-lime-400`}>{s.n}</div>
               <div className="text-xs sm:text-sm text-zinc-500 uppercase tracking-wider mt-1">{s.l}</div>
             </div>
           ))}
