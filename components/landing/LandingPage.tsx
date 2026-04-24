@@ -274,34 +274,27 @@ export default function LandingPage() {
         const items = heroPhoneRef.current.querySelectorAll('[data-phone-item]');
         gsap.set(items, { y: 20, opacity: 0 });
 
-        // Phase 1: Text fades out + phone enters center (scroll 0-40%)
+        // Phase 1: Text fades out + phone enters center + phone STAYS pinned
         const phase1 = gsap.timeline({
           scrollTrigger: {
             trigger: heroRef.current,
             start: 'top top',
-            end: '+=40%',
+            end: '+=120%',
             scrub: 1,
             pin: true,
             pinSpacing: true,
           },
         });
-        // Text exits
-        phase1.to(heroTextRef.current, { y: -120, opacity: 0, duration: 0.5 });
-        // Phone enters to center
-        phase1.to(heroPhoneRef.current, { y: 0, scale: 1, rotateY: 0, opacity: 1, duration: 0.7 }, '<0.1');
-        // Phone items stagger in
-        phase1.to(items, { y: 0, opacity: 1, stagger: 0.03, duration: 0.3 }, '-=0.2');
-
-        // Phase 2: Phone stays visible, then gently fades out before showcase
-        gsap.to(heroPhoneRef.current, {
-          y: -150, scale: 0.85, opacity: 0,
-          scrollTrigger: {
-            trigger: horizontalWrapperRef.current,
-            start: 'top 70%',
-            end: 'top 15%',
-            scrub: 1.5,
-          },
-        });
+        // 0-30%: Text exits
+        phase1.to(heroTextRef.current, { y: -120, opacity: 0, duration: 0.3 });
+        // 10-50%: Phone enters to center
+        phase1.to(heroPhoneRef.current, { y: 0, scale: 1, rotateY: 0, opacity: 1, duration: 0.4 }, '<0.1');
+        // 30-55%: Phone items stagger in
+        phase1.to(items, { y: 0, opacity: 1, stagger: 0.02, duration: 0.2 }, '-=0.15');
+        // 55-75%: Phone just floats (no changes — breathing room)
+        phase1.to({}, { duration: 0.25 });
+        // 75-100%: Phone gently fades out — slow, smooth
+        phase1.to(heroPhoneRef.current, { y: -80, scale: 0.92, opacity: 0, duration: 0.25, ease: 'power2.inOut' });
       }
 
       // Background orbs parallax
