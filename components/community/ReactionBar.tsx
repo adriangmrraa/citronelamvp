@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { Brain, ThumbsUp, Microscope } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 export type ReactionType = 'Interesante' | 'Util' | 'Cientifico';
 
@@ -17,10 +19,10 @@ interface ReactionBarProps {
   onReact?: (type: ReactionType) => void;
 }
 
-const REACTIONS: { type: ReactionType; emoji: string; label: string }[] = [
-  { type: 'Interesante', emoji: '🧠', label: 'Interesante' },
-  { type: 'Util', emoji: '👍', label: 'Útil' },
-  { type: 'Cientifico', emoji: '🔬', label: 'Científico' },
+const REACTIONS: { type: ReactionType; Icon: LucideIcon; label: string }[] = [
+  { type: 'Interesante', Icon: Brain, label: 'Interesante' },
+  { type: 'Util', Icon: ThumbsUp, label: 'Útil' },
+  { type: 'Cientifico', Icon: Microscope, label: 'Científico' },
 ];
 
 export default function ReactionBar({ postId, reactions, userReaction, onReact }: ReactionBarProps) {
@@ -63,7 +65,7 @@ export default function ReactionBar({ postId, reactions, userReaction, onReact }
 
   return (
     <div className="flex items-center gap-2 flex-wrap">
-      {REACTIONS.map(({ type, emoji, label }) => {
+      {REACTIONS.map(({ type, Icon, label }) => {
         const isActive = active === type;
         return (
           <button
@@ -72,11 +74,11 @@ export default function ReactionBar({ postId, reactions, userReaction, onReact }
             disabled={loading}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
               isActive
-                ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400 ring-1 ring-green-400'
-                : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                ? 'bg-lime-400/10 text-lime-400 ring-1 ring-lime-400/30'
+                : 'bg-white/[0.04] text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.06]'
             } disabled:opacity-50 disabled:cursor-not-allowed`}
           >
-            <span>{emoji}</span>
+            <Icon className="w-3.5 h-3.5" />
             <span>{label}</span>
             <span className="text-xs opacity-75">({counts[type]})</span>
           </button>

@@ -24,14 +24,14 @@ export default function NotificationDropdown({
   };
 
   return (
-    <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 z-50 overflow-hidden">
+    <div className="absolute right-0 top-full mt-2 w-80 glass-surface rounded-xl shadow-xl shadow-black/40 backdrop-blur-xl z-50 overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-800">
-        <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100">Notificaciones</h3>
+      <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
+        <h3 className="font-semibold text-sm text-zinc-100">Notificaciones</h3>
         {notifications.some((n) => !n.read) && (
           <button
             onClick={handleReadAll}
-            className="text-xs text-[#16A34A] hover:text-[#14532D] font-medium transition-colors"
+            className="text-xs text-lime-400 hover:text-lime-300 font-medium transition-colors"
           >
             Marcar todas como leídas
           </button>
@@ -39,9 +39,9 @@ export default function NotificationDropdown({
       </div>
 
       {/* List */}
-      <div className="max-h-96 overflow-y-auto divide-y divide-gray-50 dark:divide-gray-800">
+      <div className="max-h-96 overflow-y-auto">
         {notifications.length === 0 ? (
-          <div className="px-4 py-8 text-center text-sm text-gray-400 dark:text-gray-500">
+          <div className="px-4 py-8 text-center text-sm text-zinc-500">
             Sin notificaciones pendientes
           </div>
         ) : (
@@ -52,10 +52,10 @@ export default function NotificationDropdown({
       </div>
 
       {/* Footer */}
-      <div className="border-t border-gray-100 dark:border-gray-800 px-4 py-2.5 text-center">
+      <div className="border-t border-white/[0.06] px-4 py-2.5 text-center">
         <Link
           href="/notifications"
-          className="text-xs text-[#16A34A] hover:text-[#14532D] font-medium transition-colors"
+          className="text-xs text-lime-400 hover:text-lime-300 font-medium transition-colors"
         >
           Ver todas
         </Link>

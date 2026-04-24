@@ -46,7 +46,6 @@ export default function NotificationBell() {
 
   const handleToggle = () => {
     if (!open) {
-      // Refrescar al abrir
       fetchNotifications();
     }
     setOpen((prev) => !prev);
@@ -69,9 +68,9 @@ export default function NotificationBell() {
       <button
         onClick={handleToggle}
         aria-label="Notificaciones"
-        className="relative p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        className="relative p-2 rounded-xl hover:bg-white/[0.06] transition-colors"
       >
-        <Bell className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+        <Bell className="w-5 h-5 text-zinc-400" />
         {unreadCount > 0 && (
           <span className="absolute top-1 right-1 min-w-[16px] h-4 px-0.5 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center leading-none">
             {unreadCount > 99 ? '99+' : unreadCount}

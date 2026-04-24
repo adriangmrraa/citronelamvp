@@ -5,13 +5,13 @@ import ReactionBar, { type ReactionCounts, type ReactionType } from './ReactionB
 import SubscribeButton from './SubscribeButton';
 
 const CATEGORY_COLORS: Record<string, string> = {
-  Clases: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
-  Investigaciones: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
-  FAQ: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-  Debates: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400',
-  Papers: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400',
-  Noticias: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/30 dark:text-cyan-400',
-  Anuncios: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+  Clases: 'bg-blue-400/15 text-blue-400',
+  Investigaciones: 'bg-purple-400/15 text-purple-400',
+  FAQ: 'bg-lime-400/15 text-lime-400',
+  Debates: 'bg-orange-400/15 text-orange-400',
+  Papers: 'bg-indigo-400/15 text-indigo-400',
+  Noticias: 'bg-cyan-400/15 text-cyan-400',
+  Anuncios: 'bg-red-400/15 text-red-400',
 };
 
 export interface PostDetailData {
@@ -85,22 +85,22 @@ function exportAsText(post: PostDetailData) {
 }
 
 export default function PostDetail({ post, reactions, userReaction, isSubscribed = false }: PostDetailProps) {
-  const categoryColor = CATEGORY_COLORS[post.category] ?? 'bg-gray-100 text-gray-700';
+  const categoryColor = CATEGORY_COLORS[post.category] ?? 'bg-white/[0.06] text-zinc-400';
   const embedUrl = post.youtubeLink ? getYoutubeEmbedUrl(post.youtubeLink) : null;
 
   return (
-    <article className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden">
+    <article className="bg-white/[0.03] border border-white/[0.08] rounded-2xl overflow-hidden">
       <div className="p-6 md:p-8">
         {/* Badges */}
         <div className="flex items-center gap-2 flex-wrap mb-4">
           {post.isPinned && (
-            <span className="flex items-center gap-1 text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2.5 py-1 rounded-full">
+            <span className="flex items-center gap-1 text-xs font-semibold bg-lime-400/10 text-lime-400 px-2.5 py-1 rounded-full">
               <Pin className="w-3 h-3" />
               Fijado
             </span>
           )}
           {post.isImmutable && (
-            <span className="flex items-center gap-1 text-xs font-semibold bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 px-2.5 py-1 rounded-full">
+            <span className="flex items-center gap-1 text-xs font-semibold bg-white/[0.06] text-zinc-400 px-2.5 py-1 rounded-full">
               <Lock className="w-3 h-3" />
               Bloqueado
             </span>
@@ -111,25 +111,25 @@ export default function PostDetail({ post, reactions, userReaction, isSubscribed
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-50 leading-tight mb-3">
+        <h1 className="text-2xl md:text-3xl font-bold text-zinc-50 leading-tight mb-3">
           {post.title}
         </h1>
 
         {/* Author + date */}
-        <div className="flex items-center gap-2 mb-6 text-sm text-gray-500 dark:text-gray-400">
-          <div className="w-6 h-6 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
+        <div className="flex items-center gap-2 mb-6 text-sm text-zinc-400">
+          <div className="w-6 h-6 bg-gradient-to-br from-lime-400 to-lime-600 rounded-full flex items-center justify-center text-[#07120b] text-xs font-bold">
             {post.authorUsername.charAt(0).toUpperCase()}
           </div>
-          <span className="font-medium text-gray-700 dark:text-gray-300">{post.authorUsername}</span>
+          <span className="font-medium text-zinc-300">{post.authorUsername}</span>
           <span>·</span>
           <span>{formatDate(post.createdAt)}</span>
         </div>
 
         {/* Content */}
-        <div className="prose dark:prose-invert max-w-none mb-6">
+        <div className="prose max-w-none mb-6">
           {post.content.split('\n').map((para, i) =>
             para.trim() ? (
-              <p key={i} className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4 last:mb-0">
+              <p key={i} className="text-zinc-300 leading-relaxed mb-4 last:mb-0">
                 {para}
               </p>
             ) : (
@@ -157,7 +157,7 @@ export default function PostDetail({ post, reactions, userReaction, isSubscribed
             href={post.fileUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2.5 mb-6 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors font-medium"
+            className="inline-flex items-center gap-2 px-4 py-2.5 mb-6 bg-white/[0.04] border border-white/[0.08] rounded-xl text-sm text-zinc-300 hover:bg-white/[0.07] transition-colors font-medium"
           >
             <Download className="w-4 h-4" />
             Descargar archivo adjunto
@@ -165,7 +165,7 @@ export default function PostDetail({ post, reactions, userReaction, isSubscribed
         )}
 
         {/* Reactions + Actions */}
-        <div className="border-t border-gray-100 dark:border-gray-800 pt-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="border-t border-white/[0.08] pt-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <ReactionBar
             postId={post.id}
             reactions={reactions}
@@ -175,7 +175,7 @@ export default function PostDetail({ post, reactions, userReaction, isSubscribed
             <SubscribeButton postId={post.id} initialSubscribed={isSubscribed} />
             <button
               onClick={() => exportAsText(post)}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-sm font-medium"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.04] text-zinc-400 hover:bg-white/[0.08] transition-colors text-sm font-medium"
             >
               <Download className="w-4 h-4" />
               Exportar

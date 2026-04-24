@@ -69,13 +69,13 @@ export default function AdminEventDetailPage() {
   }, [load]);
 
   if (loading) {
-    return <div className="p-6 text-center text-gray-400">Cargando...</div>;
+    return <div className="p-6 text-center text-zinc-500">Cargando...</div>;
   }
 
   if (!event) {
     return (
       <div className="p-6 text-center">
-        <p className="text-gray-500 dark:text-gray-400">Evento no encontrado.</p>
+        <p className="text-zinc-500">Evento no encontrado.</p>
         <Link href="/admin/events">
           <Button className="mt-4" variant="outline">Volver</Button>
         </Link>
@@ -96,8 +96,8 @@ export default function AdminEventDetailPage() {
 
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-2">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{event.title}</h1>
-          <div className="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400">
+          <h1 className="text-2xl font-bold text-zinc-50">{event.title}</h1>
+          <div className="flex flex-wrap gap-4 text-sm text-zinc-400">
             <span className="flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5" />
               {new Date(event.date).toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
@@ -115,7 +115,7 @@ export default function AdminEventDetailPage() {
             </span>
           </div>
           {event.description && (
-            <p className="text-gray-600 dark:text-gray-300 text-sm max-w-2xl">{event.description}</p>
+            <p className="text-zinc-400 text-sm max-w-2xl">{event.description}</p>
           )}
         </div>
         <Button onClick={() => setShowEdit(true)} variant="outline" className="shrink-0">
@@ -127,19 +127,19 @@ export default function AdminEventDetailPage() {
       {/* Ticket categories */}
       {event.ticketCategories.length > 0 && (
         <div className="space-y-3">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Categorías de entrada</h2>
+          <h2 className="text-lg font-semibold text-zinc-100">Categorías de entrada</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {event.ticketCategories.map((cat) => (
-              <div key={cat.id} className="p-3 border border-gray-200 dark:border-gray-700 rounded-xl">
+              <div key={cat.id} className="p-3 border border-white/[0.08] rounded-xl bg-white/[0.02]">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="font-medium text-gray-900 dark:text-gray-100 text-sm">{cat.name}</span>
-                  <span className="font-bold text-green-600 dark:text-green-400 text-sm">
+                  <span className="font-medium text-zinc-100 text-sm">{cat.name}</span>
+                  <span className="font-bold text-lime-400 text-sm">
                     {cat.price === 0 ? 'Gratis' : `${cat.price} tkn`}
                   </span>
                 </div>
-                {cat.benefits && <p className="text-xs text-gray-500 dark:text-gray-400">{cat.benefits}</p>}
+                {cat.benefits && <p className="text-xs text-zinc-500">{cat.benefits}</p>}
                 {cat.capacity !== null && (
-                  <p className="text-xs text-gray-400 mt-1">{cat.reserved}/{cat.capacity} reservas</p>
+                  <p className="text-xs text-zinc-600 mt-1">{cat.reserved}/{cat.capacity} reservas</p>
                 )}
               </div>
             ))}
@@ -149,29 +149,29 @@ export default function AdminEventDetailPage() {
 
       {/* Reservations table */}
       <div className="space-y-3">
-        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+        <h2 className="text-lg font-semibold text-zinc-100">
           Reservas ({reservations.length})
         </h2>
         {reservations.length === 0 ? (
-          <p className="text-center py-8 text-gray-500 dark:text-gray-400 text-sm">Sin reservas todavía.</p>
+          <p className="text-center py-8 text-zinc-500 text-sm">Sin reservas todavía.</p>
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="overflow-x-auto rounded-xl border border-white/[0.08]">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 dark:bg-gray-800 text-left">
-                  <th className="px-4 py-3 font-semibold text-gray-600 dark:text-gray-300">Usuario</th>
-                  <th className="px-4 py-3 font-semibold text-gray-600 dark:text-gray-300">Categoría</th>
-                  <th className="px-4 py-3 font-semibold text-gray-600 dark:text-gray-300">Código QR</th>
-                  <th className="px-4 py-3 font-semibold text-gray-600 dark:text-gray-300">Fecha reserva</th>
+                <tr className="bg-white/[0.04] text-left">
+                  <th className="px-4 py-3 font-semibold text-zinc-400">Usuario</th>
+                  <th className="px-4 py-3 font-semibold text-zinc-400">Categoría</th>
+                  <th className="px-4 py-3 font-semibold text-zinc-400">Código QR</th>
+                  <th className="px-4 py-3 font-semibold text-zinc-400">Fecha reserva</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+              <tbody className="divide-y divide-white/[0.04]">
                 {reservations.map((r) => (
-                  <tr key={r.id} className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                    <td className="px-4 py-3 font-medium text-gray-900 dark:text-gray-100">{r.username}</td>
-                    <td className="px-4 py-3 text-gray-600 dark:text-gray-300">{r.categoryName}</td>
-                    <td className="px-4 py-3 font-mono text-xs text-gray-500 dark:text-gray-400 max-w-[200px] truncate">{r.qrCode}</td>
-                    <td className="px-4 py-3 text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                  <tr key={r.id} className="hover:bg-white/[0.03] transition-colors">
+                    <td className="px-4 py-3 font-medium text-zinc-100">{r.username}</td>
+                    <td className="px-4 py-3 text-zinc-300">{r.categoryName}</td>
+                    <td className="px-4 py-3 font-mono text-xs text-zinc-500 max-w-[200px] truncate">{r.qrCode}</td>
+                    <td className="px-4 py-3 text-zinc-500 whitespace-nowrap">
                       {new Date(r.createdAt).toLocaleDateString('es-AR')}
                     </td>
                   </tr>

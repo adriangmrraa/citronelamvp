@@ -101,19 +101,19 @@ export default function LabReportForm({ cropId, onSuccess, onCancel }: LabReport
     }
   }
 
-  const inputClass = 'w-full border border-gray-300 dark:border-gray-700 rounded-xl px-3 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-[#16A34A] focus:border-transparent outline-none transition';
-  const labelClass = 'block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1';
+  const inputClass = 'w-full border border-white/[0.08] rounded-xl px-3 py-2 text-sm bg-white/[0.04] text-zinc-100 focus:ring-2 focus:ring-lime-400/50 focus:border-transparent outline-none transition';
+  const labelClass = 'block text-xs font-medium text-zinc-400 mb-1';
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 overflow-y-auto">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-lg my-8">
-        <div className="p-6 border-b border-gray-100 dark:border-gray-800">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Nuevo Reporte de Laboratorio</h2>
+    <div className="fixed inset-0 bg-black/70 flex items-start justify-center z-50 p-4 overflow-y-auto">
+      <div className="bg-[#07120b] border border-white/[0.08] rounded-2xl shadow-2xl w-full max-w-lg my-8">
+        <div className="p-6 border-b border-white/[0.08]">
+          <h2 className="text-xl font-bold text-zinc-50">Nuevo Reporte de Laboratorio</h2>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {error && (
-            <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-4 py-2 rounded-lg">
+            <p className="text-sm text-red-400 bg-red-500/10 px-4 py-2 rounded-lg">
               {error}
             </p>
           )}
@@ -141,7 +141,7 @@ export default function LabReportForm({ cropId, onSuccess, onCancel }: LabReport
           </div>
 
           <div>
-            <p className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide mb-3">
+            <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-3">
               Cannabinoides (%)
             </p>
             <div className="grid grid-cols-3 gap-3">
@@ -179,14 +179,14 @@ export default function LabReportForm({ cropId, onSuccess, onCancel }: LabReport
               type="button"
               onClick={onCancel}
               disabled={loading}
-              className="flex-1 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50"
+              className="flex-1 border border-white/[0.08] text-zinc-300 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-white/[0.04] transition disabled:opacity-50"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-[#16A34A] text-white px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-[#14532D] transition disabled:opacity-50"
+              className="flex-1 bg-lime-400 text-[#07120b] px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-lime-300 transition disabled:opacity-50"
             >
               {loading ? 'Guardando...' : 'Guardar reporte'}
             </button>

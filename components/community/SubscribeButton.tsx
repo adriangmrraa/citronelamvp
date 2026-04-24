@@ -36,8 +36,8 @@ export default function SubscribeButton({ postId, initialSubscribed = false }: S
       disabled={loading}
       className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
         subscribed
-          ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-900/50'
-          : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+          ? 'bg-lime-400/10 text-lime-400 border border-lime-400/20 hover:bg-lime-400/15'
+          : 'bg-white/[0.04] text-zinc-400 border border-white/[0.08] hover:text-zinc-200 hover:bg-white/[0.06]'
       } disabled:opacity-50 disabled:cursor-not-allowed`}
     >
       {subscribed ? <BellOff className="w-4 h-4" /> : <Bell className="w-4 h-4" />}

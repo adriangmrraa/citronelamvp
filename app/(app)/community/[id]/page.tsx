@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Lock } from 'lucide-react';
 import PostDetail, { type PostDetailData } from '@/components/community/PostDetail';
 import CommentList, { type Comment } from '@/components/community/CommentList';
 import CommentForm from '@/components/community/CommentForm';
@@ -60,24 +60,22 @@ export default function PostDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-        <div className="max-w-3xl mx-auto px-4 py-8 space-y-4">
-          <div className="h-8 w-32 bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse" />
-          <div className="h-64 bg-gray-200 dark:bg-gray-800 rounded-2xl animate-pulse" />
-          <div className="h-40 bg-gray-200 dark:bg-gray-800 rounded-2xl animate-pulse" />
-        </div>
+      <div className="max-w-3xl mx-auto px-4 py-8 space-y-4">
+        <div className="h-8 w-32 bg-white/[0.04] rounded-lg animate-pulse" />
+        <div className="h-64 bg-white/[0.04] rounded-2xl animate-pulse" />
+        <div className="h-40 bg-white/[0.04] rounded-2xl animate-pulse" />
       </div>
     );
   }
 
   if (error || !post) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+      <div className="flex items-center justify-center min-h-[40vh]">
         <div className="text-center">
-          <p className="text-gray-500 dark:text-gray-400 mb-4">{error ?? 'Publicación no encontrada'}</p>
+          <p className="text-zinc-500 mb-4">{error ?? 'Publicación no encontrada'}</p>
           <button
             onClick={() => router.push('/community')}
-            className="text-green-600 hover:underline text-sm font-medium"
+            className="text-lime-400 hover:underline text-sm font-medium"
           >
             Volver a la comunidad
           </button>
@@ -87,51 +85,50 @@ export default function PostDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
-        {/* Back */}
-        <button
-          onClick={() => router.push('/community')}
-          className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors font-medium"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Volver a la comunidad
-        </button>
+    <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
+      {/* Back */}
+      <button
+        onClick={() => router.push('/community')}
+        className="flex items-center gap-2 text-sm text-zinc-400 hover:text-lime-400 transition-colors font-medium"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Volver a la comunidad
+      </button>
 
-        {/* Post */}
-        <PostDetail
-          post={post}
-          reactions={reactions}
-          userReaction={userReaction}
-          isSubscribed={isSubscribed}
+      {/* Post */}
+      <PostDetail
+        post={post}
+        reactions={reactions}
+        userReaction={userReaction}
+        isSubscribed={isSubscribed}
+      />
+
+      {/* Comments */}
+      <section className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6">
+        <h2 className="text-lg font-semibold text-zinc-100 mb-5">
+          Comentarios ({comments.length})
+        </h2>
+        <CommentList
+          comments={comments}
+          onDelete={handleCommentDeleted}
         />
 
-        {/* Comments */}
-        <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-6">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-5">
-            Comentarios ({comments.length})
-          </h2>
-          <CommentList
-            comments={comments}
-            onDelete={handleCommentDeleted}
-          />
+        {!post.isImmutable && (
+          <div className="mt-6 pt-6 border-t border-white/[0.08]">
+            <h3 className="text-sm font-semibold text-zinc-300 mb-3">
+              Dejá tu comentario
+            </h3>
+            <CommentForm postId={post.id} onComment={fetchAll} />
+          </div>
+        )}
 
-          {!post.isImmutable && (
-            <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-800">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                Dejá tu comentario
-              </h3>
-              <CommentForm postId={post.id} onComment={fetchAll} />
-            </div>
-          )}
-
-          {post.isImmutable && (
-            <p className="mt-4 text-sm text-gray-400 dark:text-gray-500 text-center">
-              🔒 Esta publicación está bloqueada. No se pueden agregar comentarios.
-            </p>
-          )}
-        </section>
-      </div>
+        {post.isImmutable && (
+          <p className="mt-4 text-sm text-zinc-600 text-center flex items-center justify-center gap-2">
+            <Lock className="w-3.5 h-3.5" />
+            Esta publicación está bloqueada. No se pueden agregar comentarios.
+          </p>
+        )}
+      </section>
     </div>
   );
 }

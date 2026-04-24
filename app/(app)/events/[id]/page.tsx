@@ -83,14 +83,14 @@ export default function EventDetailPage() {
   }, [load]);
 
   if (loading) {
-    return <div className="p-6 text-center text-gray-400">Cargando evento...</div>;
+    return <div className="p-6 text-center text-zinc-500">Cargando evento...</div>;
   }
 
   if (!event) {
     return (
       <div className="p-6 text-center space-y-4">
-        <AlertCircle className="w-10 h-10 mx-auto text-gray-300" />
-        <p className="text-gray-500 dark:text-gray-400">Evento no encontrado.</p>
+        <AlertCircle className="w-10 h-10 mx-auto text-zinc-500" />
+        <p className="text-zinc-500">Evento no encontrado.</p>
         <Link href="/events">
           <Button variant="outline">Ver todos los eventos</Button>
         </Link>
@@ -118,49 +118,49 @@ export default function EventDetailPage() {
         {/* Main content */}
         <div className="lg:col-span-2 space-y-5">
           {event.flyerUrl && (
-            <div className="rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div className="rounded-2xl overflow-hidden border border-white/[0.08]">
               <img src={event.flyerUrl} alt={event.title} className="w-full object-cover max-h-72" />
             </div>
           )}
 
           <div className="space-y-3">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{event.title}</h1>
+            <h1 className="text-2xl font-bold text-zinc-50">{event.title}</h1>
 
-            <div className="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400">
+            <div className="flex flex-wrap gap-4 text-sm text-zinc-400">
               <span className="flex items-center gap-1.5">
-                <Calendar className="w-4 h-4 text-green-600 dark:text-green-400" />
+                <Calendar className="w-4 h-4 text-lime-400" />
                 {formattedDate}
               </span>
               {event.time && (
                 <span className="flex items-center gap-1.5">
-                  <Clock className="w-4 h-4 text-green-600 dark:text-green-400" />
+                  <Clock className="w-4 h-4 text-lime-400" />
                   {event.time}
                 </span>
               )}
               {event.location && (
                 <span className="flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4 text-green-600 dark:text-green-400" />
+                  <MapPin className="w-4 h-4 text-lime-400" />
                   {event.location}
                 </span>
               )}
               {event.capacity && (
                 <span className="flex items-center gap-1.5">
-                  <Users className="w-4 h-4 text-green-600 dark:text-green-400" />
+                  <Users className="w-4 h-4 text-lime-400" />
                   {event.reservationsCount}/{event.capacity} lugares
                 </span>
               )}
             </div>
 
             {event.description && (
-              <div className="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
+              <div className="prose prose-sm max-w-none text-zinc-300">
                 <p className="whitespace-pre-line">{event.description}</p>
               </div>
             )}
 
             {event.requirements && (
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
-                <p className="text-sm font-medium text-amber-800 dark:text-amber-300 mb-1">Requisitos</p>
-                <p className="text-sm text-amber-700 dark:text-amber-400 whitespace-pre-line">{event.requirements}</p>
+              <div className="p-4 bg-amber-400/10 border border-amber-400/20 rounded-xl">
+                <p className="text-sm font-medium text-amber-300 mb-1">Requisitos</p>
+                <p className="text-sm text-amber-400 whitespace-pre-line">{event.requirements}</p>
               </div>
             )}
           </div>
@@ -170,7 +170,7 @@ export default function EventDetailPage() {
         <div className="space-y-4">
           {reservation ? (
             <div className="space-y-2">
-              <h2 className="font-semibold text-gray-900 dark:text-gray-100">Tu reserva</h2>
+              <h2 className="font-semibold text-zinc-100">Tu reserva</h2>
               <ReservationCard
                 eventTitle={event.title}
                 categoryName={reservation.categoryName}
@@ -179,7 +179,7 @@ export default function EventDetailPage() {
               />
             </div>
           ) : user ? (
-            <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-900">
+            <div className="p-4 border border-white/[0.08] rounded-2xl bg-white/[0.03]">
               <TicketSelector
                 eventId={event.id}
                 categories={event.ticketCategories}
@@ -188,8 +188,8 @@ export default function EventDetailPage() {
               />
             </div>
           ) : (
-            <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-2xl text-center space-y-3">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+            <div className="p-4 border border-white/[0.08] rounded-2xl bg-white/[0.03] text-center space-y-3">
+              <p className="text-sm text-zinc-400">
                 Iniciá sesión para reservar tu entrada.
               </p>
               <Link href="/login">

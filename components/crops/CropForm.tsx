@@ -68,23 +68,23 @@ export default function CropForm({ crop, onSuccess, onCancel }: CropFormProps) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md">
-        <div className="p-6 border-b border-gray-100 dark:border-gray-800">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+      <div className="bg-[#07120b] border border-white/[0.08] rounded-2xl shadow-2xl w-full max-w-md">
+        <div className="p-6 border-b border-white/[0.08]">
+          <h2 className="text-xl font-bold text-zinc-50">
             {isEdit ? 'Editar Parcela' : 'Nueva Parcela'}
           </h2>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
-            <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-4 py-2 rounded-lg">
+            <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 px-4 py-2 rounded-xl">
               {error}
             </p>
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+            <label className="block text-zinc-300 font-medium text-sm mb-1.5">
               Nombre de la parcela
             </label>
             <input
@@ -93,27 +93,27 @@ export default function CropForm({ crop, onSuccess, onCancel }: CropFormProps) {
               onChange={(e) => setBucketName(e.target.value)}
               placeholder="ej: Gorilla Glue #4"
               maxLength={100}
-              className="w-full border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2.5 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-[#16A34A] focus:border-transparent outline-none transition"
+              className="w-full border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm bg-white/[0.04] text-zinc-50 placeholder:text-zinc-500 focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/30 outline-none transition"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+            <label className="block text-zinc-300 font-medium text-sm mb-1.5">
               Método de cultivo
             </label>
             <select
               value={cultivationMethod}
               onChange={(e) => setCultivationMethod(e.target.value as typeof cultivationMethod)}
-              className="w-full border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2.5 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-[#16A34A] focus:border-transparent outline-none transition"
+              className="w-full border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm bg-white/[0.04] text-zinc-300 focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/30 outline-none transition"
             >
               {CULTIVATION_METHODS.map((m) => (
-                <option key={m.value} value={m.value}>{m.label}</option>
+                <option key={m.value} value={m.value} className="bg-[#07120b] text-zinc-300">{m.label}</option>
               ))}
             </select>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+            <label className="block text-zinc-300 font-medium text-sm mb-1.5">
               URL de imagen (opcional)
             </label>
             <input
@@ -121,7 +121,7 @@ export default function CropForm({ crop, onSuccess, onCancel }: CropFormProps) {
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
               placeholder="https://..."
-              className="w-full border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2.5 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-[#16A34A] focus:border-transparent outline-none transition"
+              className="w-full border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm bg-white/[0.04] text-zinc-50 placeholder:text-zinc-500 focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/30 outline-none transition"
             />
           </div>
 
@@ -130,14 +130,14 @@ export default function CropForm({ crop, onSuccess, onCancel }: CropFormProps) {
               type="button"
               onClick={onCancel}
               disabled={loading}
-              className="flex-1 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50"
+              className="flex-1 bg-white/[0.06] border border-white/[0.10] text-zinc-300 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-white/[0.10] transition disabled:opacity-50"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-[#16A34A] text-white px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-[#14532D] transition disabled:opacity-50"
+              className="flex-1 bg-lime-400 text-[#07120b] px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-lime-300 transition disabled:opacity-50"
             >
               {loading ? 'Guardando...' : isEdit ? 'Guardar cambios' : 'Crear parcela'}
             </button>

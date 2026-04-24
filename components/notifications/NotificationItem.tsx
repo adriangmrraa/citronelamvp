@@ -29,14 +29,14 @@ export default function NotificationItem({ notification, onRead }: NotificationI
   return (
     <button
       onClick={handleClick}
-      className={`w-full text-left flex items-start gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${
-        !notification.read ? 'bg-green-50/50 dark:bg-green-900/10' : ''
+      className={`w-full text-left flex items-start gap-3 px-4 py-3 border-b border-white/[0.06] hover:bg-white/[0.04] transition-colors ${
+        !notification.read ? 'bg-lime-400/[0.04]' : ''
       }`}
     >
       {/* Dot indicador */}
       <div className="mt-1.5 shrink-0">
         {!notification.read ? (
-          <span className="w-2 h-2 rounded-full bg-[#16A34A] block" />
+          <span className="w-2 h-2 rounded-full bg-lime-400 block" />
         ) : (
           <span className="w-2 h-2 rounded-full bg-transparent block" />
         )}
@@ -46,13 +46,13 @@ export default function NotificationItem({ notification, onRead }: NotificationI
         <p
           className={`text-sm leading-snug ${
             !notification.read
-              ? 'font-semibold text-gray-900 dark:text-gray-100'
-              : 'font-normal text-gray-700 dark:text-gray-300'
+              ? 'font-semibold text-zinc-100'
+              : 'font-normal text-zinc-300'
           }`}
         >
           {notification.message}
         </p>
-        <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+        <p className="text-xs text-zinc-500 mt-0.5">
           {timeAgo(notification.createdAt)}
         </p>
       </div>

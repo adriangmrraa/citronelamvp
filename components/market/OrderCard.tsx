@@ -33,6 +33,12 @@ const STATUS_BADGE: Record<Order['status'], 'warning' | 'success' | 'destructive
   Cancelado: 'destructive',
 };
 
+const STATUS_CLASSES: Record<Order['status'], string> = {
+  Entregado: 'bg-lime-400/10 text-lime-400 border border-lime-400/20',
+  Pendiente: 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
+  Cancelado: 'bg-red-500/10 text-red-400 border border-red-500/20',
+};
+
 export default function OrderCard({ order, onReviewSubmitted }: OrderCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [showReview, setShowReview] = useState(false);
@@ -50,31 +56,33 @@ export default function OrderCard({ order, onReviewSubmitted }: OrderCardProps) 
 
   return (
     <>
-      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
+      <div className="glass-surface rounded-2xl overflow-hidden">
         {/* Header row */}
         <div className="flex items-center justify-between px-5 py-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+              <span className="text-sm font-semibold text-zinc-200">
                 Cange #{order.id}
               </span>
-              <Badge variant={STATUS_BADGE[order.status]}>{order.status}</Badge>
+              <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${STATUS_CLASSES[order.status]}`}>
+                {order.status}
+              </span>
             </div>
-            <p className="text-xs text-gray-400 dark:text-gray-500">{formattedDate}</p>
+            <p className="text-xs text-zinc-500">{formattedDate}</p>
           </div>
           <div className="text-right">
-            <p className="text-xs text-gray-400 dark:text-gray-500 mb-0.5">Total</p>
-            <span className="text-base font-bold" style={{ color: '#D97706' }}>
-              🪙 {order.totalTokens.toLocaleString('es-AR')}
+            <p className="text-xs text-zinc-500 mb-0.5">Total</p>
+            <span className="text-base font-semibold text-lime-400">
+              {order.totalTokens.toLocaleString('es-AR')} tokens
             </span>
           </div>
         </div>
 
         {/* Expand toggle */}
-        <div className="border-t border-gray-100 dark:border-gray-800 px-5 py-2 flex items-center justify-between">
+        <div className="border-t border-white/[0.06] px-5 py-2 flex items-center justify-between">
           <button
             onClick={() => setExpanded((v) => !v)}
-            className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 hover:text-[#16A34A] transition-colors"
+            className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-lime-400 transition-colors"
           >
             <svg
               className={`w-3.5 h-3.5 transition-transform ${expanded ? 'rotate-180' : ''}`}
@@ -100,16 +108,16 @@ export default function OrderCard({ order, onReviewSubmitted }: OrderCardProps) 
             {order.items.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 rounded-xl px-3 py-2.5"
+                className="flex items-center justify-between glass-surface rounded-xl px-3 py-2.5"
               >
                 <div>
-                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{item.productName}</p>
-                  <p className="text-xs text-gray-400 dark:text-gray-500">
-                    {item.quantity} × 🪙 {item.pricePerUnit.toLocaleString('es-AR')}
+                  <p className="text-sm font-medium text-zinc-200">{item.productName}</p>
+                  <p className="text-xs text-zinc-500">
+                    {item.quantity} × {item.pricePerUnit.toLocaleString('es-AR')} tokens
                   </p>
                 </div>
-                <span className="text-sm font-semibold" style={{ color: '#D97706' }}>
-                  🪙 {(item.quantity * item.pricePerUnit).toLocaleString('es-AR')}
+                <span className="text-sm font-semibold text-lime-400">
+                  {(item.quantity * item.pricePerUnit).toLocaleString('es-AR')} tokens
                 </span>
               </div>
             ))}

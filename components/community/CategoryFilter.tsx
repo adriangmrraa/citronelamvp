@@ -23,10 +23,10 @@ export default function CategoryFilter({ active, onChange }: CategoryFilterProps
         <button
           key={cat}
           onClick={() => onChange(cat)}
-          className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${
+          className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition-all duration-200 ${
             active === cat
-              ? 'bg-green-600 text-white shadow-sm'
-              : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:border-green-400 hover:text-green-700 dark:hover:text-green-400'
+              ? 'bg-lime-400 text-[#07120b] font-semibold'
+              : 'bg-white/[0.04] border border-white/[0.08] text-zinc-400 font-medium hover:text-zinc-200 hover:bg-white/[0.06]'
           }`}
         >
           {cat}

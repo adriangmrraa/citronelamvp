@@ -93,16 +93,16 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl w-full max-w-md overflow-y-auto max-h-[90vh]">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+      <div className="bg-[#07120b] border border-white/[0.08] rounded-2xl shadow-xl w-full max-w-md overflow-y-auto max-h-[90vh]">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-800">
-          <h2 className="font-bold text-gray-900 dark:text-gray-100 text-lg">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08]">
+          <h2 className="font-bold text-zinc-50 text-lg">
             {isEditing ? 'Editar producto' : 'Publicar producto'}
           </h2>
           <button
             onClick={onCancel}
-            className="w-8 h-8 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            className="w-8 h-8 rounded-xl bg-white/[0.06] flex items-center justify-center text-zinc-400 hover:bg-white/[0.10] transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -112,15 +112,15 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
 
         <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
           {error && (
-            <div className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 px-4 py-3 rounded-xl text-sm">
+            <div className="bg-red-500/10 text-red-400 border border-red-500/20 px-4 py-3 rounded-xl text-sm">
               {error}
             </div>
           )}
 
           {/* Name */}
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Nombre <span className="text-red-500">*</span>
+            <label className="text-zinc-300 font-medium text-sm">
+              Nombre <span className="text-red-400">*</span>
             </label>
             <Input
               value={form.name}
@@ -132,7 +132,7 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
 
           {/* Description */}
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="text-zinc-300 font-medium text-sm">
               Descripción
             </label>
             <textarea
@@ -140,22 +140,22 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
               onChange={(e) => set('description', e.target.value)}
               placeholder="Describí tu producto..."
               rows={3}
-              className="flex w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 py-2 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
+              className="flex w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-sm text-zinc-50 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/30 resize-none"
             />
           </div>
 
           {/* Category */}
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Categoría <span className="text-red-500">*</span>
+            <label className="text-zinc-300 font-medium text-sm">
+              Categoría <span className="text-red-400">*</span>
             </label>
             <select
               value={form.category}
               onChange={(e) => set('category', e.target.value)}
-              className="flex h-10 w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 py-2 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="flex h-10 w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-sm text-zinc-300 focus:outline-none focus:ring-2 focus:ring-lime-400/50"
             >
               {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat}>
+                <option key={cat} value={cat} className="bg-[#07120b] text-zinc-300">
                   {cat}
                 </option>
               ))}
@@ -165,27 +165,21 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
           {/* Price + Stock */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Precio (tokens) <span className="text-red-500">*</span>
+              <label className="text-zinc-300 font-medium text-sm">
+                Precio (tokens) <span className="text-red-400">*</span>
               </label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-600 text-sm">
-                  🪙
-                </span>
-                <Input
-                  type="number"
-                  min="1"
-                  value={form.price}
-                  onChange={(e) => set('price', e.target.value)}
-                  placeholder="5000"
-                  className="pl-8"
-                  required
-                />
-              </div>
+              <Input
+                type="number"
+                min="1"
+                value={form.price}
+                onChange={(e) => set('price', e.target.value)}
+                placeholder="5000"
+                required
+              />
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Stock <span className="text-red-500">*</span>
+              <label className="text-zinc-300 font-medium text-sm">
+                Stock <span className="text-red-400">*</span>
               </label>
               <Input
                 type="number"
@@ -200,7 +194,7 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
 
           {/* Image URL */}
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="text-zinc-300 font-medium text-sm">
               URL de imagen
             </label>
             <Input
@@ -213,12 +207,20 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
 
           {/* Actions */}
           <div className="flex gap-3 pt-2">
-            <Button type="button" variant="outline" onClick={onCancel} className="flex-1">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.06] border border-white/[0.10] text-zinc-300 hover:bg-white/[0.10] transition-colors text-sm font-medium"
+            >
               Cancelar
-            </Button>
-            <Button type="submit" disabled={loading} className="flex-1">
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex-1 px-4 py-2.5 rounded-xl bg-lime-400 text-[#07120b] hover:bg-lime-300 font-semibold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
               {loading ? 'Guardando...' : isEditing ? 'Guardar cambios' : 'Publicar producto'}
-            </Button>
+            </button>
           </div>
         </form>
       </div>

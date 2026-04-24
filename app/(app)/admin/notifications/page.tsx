@@ -19,12 +19,12 @@ export default async function AdminNotificationsPage() {
     <div className="p-6 max-w-3xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center">
-          <Bell className="w-5 h-5 text-[#16A34A]" />
+        <div className="w-10 h-10 rounded-xl bg-lime-400/10 flex items-center justify-center">
+          <Bell className="w-5 h-5 text-lime-400" />
         </div>
         <div>
-          <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">Notificaciones</h1>
-          <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">
+          <h1 className="text-xl font-bold text-zinc-50">Notificaciones</h1>
+          <p className="text-sm text-zinc-500 mt-0.5">
             Enviá mensajes a usuarios o grupos
           </p>
         </div>
@@ -33,27 +33,27 @@ export default async function AdminNotificationsPage() {
       {/* Stats */}
       {stats && (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-4">
-            <p className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">
+          <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] p-4">
+            <p className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
               Enviadas hoy
             </p>
-            <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">
+            <p className="text-2xl font-bold text-zinc-50 mt-1">
               {stats.today ?? 0}
             </p>
           </div>
-          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-4">
-            <p className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">
+          <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] p-4">
+            <p className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
               Total acumuladas
             </p>
-            <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">
+            <p className="text-2xl font-bold text-zinc-50 mt-1">
               {stats.total ?? 0}
             </p>
           </div>
-          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-4">
-            <p className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">
+          <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] p-4">
+            <p className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
               Sin leer (global)
             </p>
-            <p className="text-2xl font-bold text-[#D97706] mt-1">
+            <p className="text-2xl font-bold text-amber-400 mt-1">
               {stats.unread ?? 0}
             </p>
           </div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { ArrowLeft, ShoppingCart } from 'lucide-react';
 import ProductDetail from '@/components/market/ProductDetail';
 import CartDrawer, { type CartItem } from '@/components/market/CartDrawer';
 import type { Product } from '@/components/market/ProductCard';
@@ -121,9 +122,9 @@ export default function ProductDetailPage() {
     return (
       <div className="p-6 max-w-3xl mx-auto">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 dark:bg-gray-800 rounded w-32" />
-          <div className="h-64 bg-gray-200 dark:bg-gray-800 rounded-2xl" />
-          <div className="h-32 bg-gray-200 dark:bg-gray-800 rounded-2xl" />
+          <div className="h-8 bg-white/[0.04] rounded w-32" />
+          <div className="h-64 bg-white/[0.04] rounded-2xl" />
+          <div className="h-32 bg-white/[0.04] rounded-2xl" />
         </div>
       </div>
     );
@@ -132,10 +133,10 @@ export default function ProductDetailPage() {
   if (error || !product) {
     return (
       <div className="p-6 max-w-3xl mx-auto text-center py-20">
-        <p className="text-red-500 dark:text-red-400 mb-4">{error ?? 'Producto no encontrado'}</p>
+        <p className="text-red-400 mb-4">{error ?? 'Producto no encontrado'}</p>
         <button
           onClick={() => router.push('/market')}
-          className="text-[#16A34A] hover:underline text-sm"
+          className="text-lime-400 hover:underline text-sm"
         >
           Volver al mercado
         </button>
@@ -147,7 +148,7 @@ export default function ProductDetailPage() {
     <div className="p-6 max-w-3xl mx-auto space-y-6">
       {/* Notification */}
       {notification && (
-        <div className="fixed top-4 right-4 bg-[#16A34A] text-white px-5 py-3 rounded-xl shadow-lg z-50 text-sm font-medium">
+        <div className="fixed top-4 right-4 bg-lime-400 text-[#07120b] px-5 py-3 rounded-xl shadow-lg z-50 text-sm font-medium">
           {notification}
         </div>
       )}
@@ -156,25 +157,21 @@ export default function ProductDetailPage() {
       <div className="flex items-center justify-between">
         <button
           onClick={() => router.push('/market')}
-          className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-[#16A34A] transition-colors"
+          className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-lime-400 transition-colors"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
+          <ArrowLeft className="w-4 h-4" />
           Mercado
         </button>
 
         {/* Cart icon */}
         <button
           onClick={() => setCartOpen(true)}
-          className="relative flex items-center gap-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 px-3 py-2 rounded-xl hover:border-[#16A34A] transition-colors shadow-sm text-sm"
+          className="relative flex items-center gap-2 bg-white/[0.04] border border-white/[0.08] px-3 py-2 rounded-xl hover:border-lime-400/40 transition-colors text-sm"
         >
-          <svg className="w-4 h-4 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-          <span className="text-gray-700 dark:text-gray-300">Carrito</span>
+          <ShoppingCart className="w-4 h-4 text-zinc-400" />
+          <span className="text-zinc-300">Carrito</span>
           {cartCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-[#16A34A] text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+            <span className="absolute -top-2 -right-2 bg-lime-400 text-[#07120b] text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
               {cartCount}
             </span>
           )}

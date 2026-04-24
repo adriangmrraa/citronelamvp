@@ -38,7 +38,7 @@ export default function CommentList({
 
   if (comments.length === 0) {
     return (
-      <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-6">
+      <p className="text-sm text-zinc-500 text-center py-6">
         Todavía no hay comentarios. ¡Sé el primero!
       </p>
     );
@@ -68,16 +68,16 @@ export default function CommentList({
             key={comment.id}
             className="flex gap-3 group"
           >
-            <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">
+            <div className="w-8 h-8 bg-gradient-to-br from-lime-400 to-lime-600 rounded-full flex items-center justify-center text-[#07120b] text-xs font-bold shrink-0 mt-0.5">
               {comment.authorUsername.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2 text-sm">
-                  <span className="font-medium text-gray-800 dark:text-gray-100">
+                  <span className="font-medium text-zinc-100">
                     {comment.authorUsername}
                   </span>
-                  <span className="text-gray-400 dark:text-gray-500 text-xs">
+                  <span className="text-zinc-600 text-xs">
                     {formatDate(comment.createdAt)}
                   </span>
                 </div>
@@ -85,14 +85,14 @@ export default function CommentList({
                   <button
                     onClick={() => handleDelete(comment.id)}
                     disabled={deletingId === comment.id}
-                    className="opacity-0 group-hover:opacity-100 flex items-center justify-center w-7 h-7 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all disabled:opacity-30"
+                    className="opacity-0 group-hover:opacity-100 flex items-center justify-center w-7 h-7 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-400/10 transition-all disabled:opacity-30"
                     title="Eliminar comentario"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 )}
               </div>
-              <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap">
+              <p className="mt-1 text-sm text-zinc-400 whitespace-pre-wrap">
                 {comment.content}
               </p>
             </div>

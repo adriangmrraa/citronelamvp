@@ -43,12 +43,12 @@ export default function UserTableWrapper({ initialUsers }: UserTableWrapperProps
   return (
     <div>
       {error && (
-        <div className="mb-4 bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg text-sm dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
+        <div className="mb-4 bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg text-sm">
           {error}
         </div>
       )}
       {refreshing && (
-        <div className="mb-4 text-sm text-gray-500 dark:text-gray-400">Actualizando...</div>
+        <div className="mb-4 text-sm text-zinc-500">Actualizando...</div>
       )}
       <UserTable users={users} onRefresh={refresh} />
     </div>

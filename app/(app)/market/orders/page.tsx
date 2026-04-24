@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { ShoppingCart, ArrowLeft } from 'lucide-react';
 import OrderCard, { type Order } from '@/components/market/OrderCard';
 
 export default function OrdersPage() {
@@ -38,25 +39,23 @@ export default function OrdersPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Mis Canges</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+          <h1 className="text-2xl font-bold text-zinc-50">Mis Canges</h1>
+          <p className="text-sm text-zinc-400 mt-0.5">
             Historial de tus canjes en el mercado
           </p>
         </div>
         <button
           onClick={() => router.push('/market')}
-          className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-[#16A34A] transition-colors"
+          className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-lime-400 transition-colors"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
+          <ArrowLeft className="w-4 h-4" />
           Mercado
         </button>
       </div>
 
       {/* Error */}
       {error && (
-        <div className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 px-4 py-3 rounded-xl text-sm">
+        <div className="bg-red-500/10 text-red-400 px-4 py-3 rounded-xl text-sm">
           {error}
         </div>
       )}
@@ -65,24 +64,24 @@ export default function OrdersPage() {
       {loading && (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-20 bg-gray-100 dark:bg-gray-800 rounded-2xl animate-pulse" />
+            <div key={i} className="h-20 bg-white/[0.04] rounded-2xl animate-pulse" />
           ))}
         </div>
       )}
 
       {/* Empty state */}
       {!loading && orders.length === 0 && !error && (
-        <div className="text-center py-20 bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800">
-          <div className="text-5xl mb-4">🛒</div>
-          <h2 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-2">
+        <div className="text-center py-20 bg-white/[0.03] rounded-2xl border border-white/[0.08]">
+          <ShoppingCart className="w-12 h-12 mx-auto mb-4 text-white/[0.10]" />
+          <h2 className="text-lg font-bold text-zinc-200 mb-2">
             No tenés canges todavía
           </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+          <p className="text-sm text-zinc-500 mb-6">
             Explorá el mercado y realizá tu primer canje
           </p>
           <button
             onClick={() => router.push('/market')}
-            className="bg-[#16A34A] text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-[#14532D] transition-colors"
+            className="bg-lime-400 text-[#07120b] px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-lime-300 transition-colors"
           >
             Ir al mercado
           </button>

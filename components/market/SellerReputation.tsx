@@ -21,7 +21,7 @@ function Stars({ rating, max = 5 }: { rating: number; max?: number }) {
                 ? 'text-amber-400'
                 : half
                 ? 'text-amber-300'
-                : 'text-gray-200 dark:text-gray-700'
+                : 'text-white/[0.12]'
             }`}
             fill="currentColor"
             viewBox="0 0 20 20"
@@ -46,10 +46,10 @@ export default function SellerReputation({
     return (
       <div className="flex items-center gap-2">
         <Stars rating={averageRating} />
-        <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+        <span className="text-sm font-semibold text-zinc-300">
           {averageRating.toFixed(1)}
         </span>
-        <span className="text-xs text-gray-400 dark:text-gray-500">
+        <span className="text-xs text-zinc-500">
           ({reviewCount} {reviewCount === 1 ? 'reseña' : 'reseñas'})
         </span>
       </div>
@@ -57,24 +57,24 @@ export default function SellerReputation({
   }
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-5 space-y-3">
-      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+    <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] p-5 space-y-3">
+      <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-wide">
         Reputación del vendedor
       </h3>
       <div className="flex items-center gap-4">
         <div className="text-center">
-          <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+          <p className="text-3xl font-bold text-zinc-50">
             {averageRating.toFixed(1)}
           </p>
           <Stars rating={averageRating} />
-          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+          <p className="text-xs text-zinc-500 mt-1">
             {reviewCount} {reviewCount === 1 ? 'reseña' : 'reseñas'}
           </p>
         </div>
-        <div className="h-12 w-px bg-gray-100 dark:bg-gray-800" />
+        <div className="h-12 w-px bg-white/[0.08]" />
         <div className="text-center">
-          <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">{totalSales}</p>
-          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+          <p className="text-3xl font-bold text-zinc-50">{totalSales}</p>
+          <p className="text-xs text-zinc-500 mt-1">
             {totalSales === 1 ? 'cange' : 'canges'} completados
           </p>
         </div>

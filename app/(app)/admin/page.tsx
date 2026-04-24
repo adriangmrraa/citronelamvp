@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import KpiGrid from '@/components/admin/KpiGrid';
-import { Users, Sprout, ShoppingBag, MessageSquare, Coins, CalendarDays, FileText, Receipt } from 'lucide-react';
+import { Users, Sprout, MessageSquare, Coins, CalendarDays, FileText, Receipt } from 'lucide-react';
 
 async function getAdminStats() {
   try {
@@ -28,8 +28,8 @@ export default async function AdminPage() {
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Panel de Administración</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1">Resumen general del sistema</p>
+        <h1 className="text-2xl font-bold text-zinc-50">Panel de Administración</h1>
+        <p className="text-zinc-400 mt-1">Resumen general del sistema</p>
       </div>
 
       <KpiGrid
@@ -46,18 +46,18 @@ export default async function AdminPage() {
       />
 
       <div>
-        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Acceso rápido</h2>
+        <h2 className="text-lg font-semibold text-zinc-50 mb-4">Acceso rápido</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {quickLinks.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-green-400 dark:border-gray-700 dark:hover:border-green-600 transition-colors bg-white dark:bg-gray-900"
+              className="flex items-center gap-3 p-4 rounded-xl border border-white/[0.08] hover:border-lime-400/50 transition-colors bg-white/[0.03]"
             >
-              <div className="w-9 h-9 rounded-lg bg-green-50 dark:bg-green-900/20 flex items-center justify-center shrink-0">
-                <Icon className="w-4 h-4 text-green-600 dark:text-green-400" />
+              <div className="w-9 h-9 rounded-lg bg-lime-400/10 flex items-center justify-center shrink-0">
+                <Icon className="w-4 h-4 text-lime-400" />
               </div>
-              <span className="font-medium text-gray-800 dark:text-gray-200 text-sm">{label}</span>
+              <span className="font-medium text-zinc-200 text-sm">{label}</span>
             </Link>
           ))}
         </div>

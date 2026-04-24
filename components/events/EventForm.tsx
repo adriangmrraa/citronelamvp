@@ -115,15 +115,15 @@ export default function EventForm({ eventId, initialData, onClose, onSuccess }: 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+      <div className="absolute inset-0 bg-black/70" onClick={onClose} />
+      <div className="relative bg-[#07120b] border border-white/[0.08] rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-[#07120b] border-b border-white/[0.08] px-6 py-4 flex items-center justify-between">
+          <h2 className="text-lg font-bold text-zinc-50">
             {eventId ? 'Editar evento' : 'Nuevo evento'}
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+            className="text-zinc-500 hover:text-zinc-200 transition-colors"
             aria-label="Cerrar"
           >
             <X className="w-5 h-5" />
@@ -132,13 +132,13 @@ export default function EventForm({ eventId, initialData, onClose, onSuccess }: 
 
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg text-sm dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
+            <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg text-sm">
               {error}
             </div>
           )}
 
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Título *</label>
+            <label className="block text-sm font-medium text-zinc-300">Título *</label>
             <Input
               value={form.title}
               onChange={(e) => updateField('title', e.target.value)}
@@ -148,19 +148,19 @@ export default function EventForm({ eventId, initialData, onClose, onSuccess }: 
           </div>
 
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Descripción</label>
+            <label className="block text-sm font-medium text-zinc-300">Descripción</label>
             <textarea
               value={form.description}
               onChange={(e) => updateField('description', e.target.value)}
               placeholder="Descripción del evento..."
               rows={3}
-              className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
+              className="w-full px-3 py-2 text-sm border border-white/[0.08] rounded-lg bg-white/[0.04] text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-lime-400/50 resize-none"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Fecha *</label>
+              <label className="block text-sm font-medium text-zinc-300">Fecha *</label>
               <Input
                 type="date"
                 value={form.date}
@@ -169,7 +169,7 @@ export default function EventForm({ eventId, initialData, onClose, onSuccess }: 
               />
             </div>
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Hora</label>
+              <label className="block text-sm font-medium text-zinc-300">Hora</label>
               <Input
                 type="time"
                 value={form.time}
@@ -180,7 +180,7 @@ export default function EventForm({ eventId, initialData, onClose, onSuccess }: 
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Lugar</label>
+              <label className="block text-sm font-medium text-zinc-300">Lugar</label>
               <Input
                 value={form.location}
                 onChange={(e) => updateField('location', e.target.value)}
@@ -188,7 +188,7 @@ export default function EventForm({ eventId, initialData, onClose, onSuccess }: 
               />
             </div>
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Capacidad total</label>
+              <label className="block text-sm font-medium text-zinc-300">Capacidad total</label>
               <Input
                 type="number"
                 min="1"
@@ -200,7 +200,7 @@ export default function EventForm({ eventId, initialData, onClose, onSuccess }: 
           </div>
 
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">URL del flyer</label>
+            <label className="block text-sm font-medium text-zinc-300">URL del flyer</label>
             <Input
               value={form.flyerUrl}
               onChange={(e) => updateField('flyerUrl', e.target.value)}
@@ -209,20 +209,20 @@ export default function EventForm({ eventId, initialData, onClose, onSuccess }: 
           </div>
 
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Requisitos</label>
+            <label className="block text-sm font-medium text-zinc-300">Requisitos</label>
             <textarea
               value={form.requirements}
               onChange={(e) => updateField('requirements', e.target.value)}
               placeholder="Requisitos para asistir..."
               rows={2}
-              className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
+              className="w-full px-3 py-2 text-sm border border-white/[0.08] rounded-lg bg-white/[0.04] text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-lime-400/50 resize-none"
             />
           </div>
 
           {/* Ticket categories */}
-          <div className="space-y-3 border-t border-gray-100 dark:border-gray-800 pt-4">
+          <div className="space-y-3 border-t border-white/[0.08] pt-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-200">Categorías de entrada</h3>
+              <h3 className="text-sm font-semibold text-zinc-200">Categorías de entrada</h3>
               <Button type="button" variant="outline" size="sm" onClick={addCategory}>
                 <Plus className="w-3.5 h-3.5 mr-1" />
                 Agregar
@@ -230,14 +230,14 @@ export default function EventForm({ eventId, initialData, onClose, onSuccess }: 
             </div>
 
             {form.ticketCategories.map((cat, i) => (
-              <div key={i} className="p-3 border border-gray-200 dark:border-gray-700 rounded-xl space-y-3">
+              <div key={i} className="p-3 border border-white/[0.08] rounded-xl space-y-3 bg-white/[0.02]">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Categoría {i + 1}</span>
+                  <span className="text-xs font-medium text-zinc-500">Categoría {i + 1}</span>
                   {form.ticketCategories.length > 1 && (
                     <button
                       type="button"
                       onClick={() => removeCategory(i)}
-                      className="text-red-400 hover:text-red-600 transition-colors"
+                      className="text-zinc-500 hover:text-red-400 transition-colors"
                       aria-label="Eliminar categoría"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -246,7 +246,7 @@ export default function EventForm({ eventId, initialData, onClose, onSuccess }: 
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="space-y-1">
-                    <label className="block text-xs text-gray-500 dark:text-gray-400">Nombre *</label>
+                    <label className="block text-xs text-zinc-500">Nombre *</label>
                     <Input
                       value={cat.name}
                       onChange={(e) => updateCategory(i, 'name', e.target.value)}
@@ -255,7 +255,7 @@ export default function EventForm({ eventId, initialData, onClose, onSuccess }: 
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-xs text-gray-500 dark:text-gray-400">Precio (tokens)</label>
+                    <label className="block text-xs text-zinc-500">Precio (tokens)</label>
                     <Input
                       type="number"
                       min="0"
@@ -265,7 +265,7 @@ export default function EventForm({ eventId, initialData, onClose, onSuccess }: 
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-xs text-gray-500 dark:text-gray-400">Cupos</label>
+                    <label className="block text-xs text-zinc-500">Cupos</label>
                     <Input
                       type="number"
                       min="1"
@@ -276,7 +276,7 @@ export default function EventForm({ eventId, initialData, onClose, onSuccess }: 
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <label className="block text-xs text-gray-500 dark:text-gray-400">Beneficios</label>
+                  <label className="block text-xs text-zinc-500">Beneficios</label>
                   <Input
                     value={cat.benefits}
                     onChange={(e) => updateCategory(i, 'benefits', e.target.value)}
@@ -287,7 +287,7 @@ export default function EventForm({ eventId, initialData, onClose, onSuccess }: 
             ))}
           </div>
 
-          <div className="flex gap-3 justify-end pt-2 border-t border-gray-100 dark:border-gray-800">
+          <div className="flex gap-3 justify-end pt-2 border-t border-white/[0.08]">
             <Button type="button" variant="outline" onClick={onClose}>
               Cancelar
             </Button>

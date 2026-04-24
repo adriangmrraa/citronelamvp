@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { ArrowLeft, Plus, Pencil, Trash2, FlaskConical, X } from 'lucide-react';
 
 // Demo data - Persisted in localStorage for demo
 const DEMO_CROPS_INITIAL = [
@@ -23,6 +23,15 @@ const DEMO_LOGS_INITIAL = [
 const PHASES = ['Germinacion', 'Vegetacion', 'Transicion', 'Floracion'];
 const STATUS_OPTIONS = ['Verde', 'Amarillo', 'Rojo'];
 
+const STATUS_STYLES: Record<string, string> = {
+  Verde: 'bg-lime-400/10 text-lime-400',
+  Amarillo: 'bg-yellow-400/10 text-yellow-400',
+  Rojo: 'bg-red-500/10 text-red-400',
+};
+
+const inputClass = 'w-full border border-white/[0.08] rounded-lg px-4 py-2 bg-white/[0.04] text-zinc-100 placeholder-zinc-600 focus:ring-2 focus:ring-lime-400/50 focus:outline-none transition';
+const labelClass = 'block text-xs text-zinc-400 mb-1';
+
 export default function CropsPage() {
   const router = useRouter();
   const [crops, setCrops] = useState<any[]>([]);
@@ -41,14 +50,14 @@ export default function CropsPage() {
   useEffect(() => {
     const storedCrops = localStorage.getItem('citronela_crops');
     const storedLogs = localStorage.getItem('citronela_logs');
-    
+
     if (storedCrops) {
       setCrops(JSON.parse(storedCrops));
     } else {
       setCrops(DEMO_CROPS_INITIAL);
       localStorage.setItem('citronela_crops', JSON.stringify(DEMO_CROPS_INITIAL));
     }
-    
+
     if (storedLogs) {
       setLogs(JSON.parse(storedLogs));
     } else {
@@ -56,7 +65,6 @@ export default function CropsPage() {
       localStorage.setItem('citronela_logs', JSON.stringify(DEMO_LOGS_INITIAL));
     }
 
-    // Reset notification after 3 seconds
     const timer = setTimeout(() => setNotification(null), 3000);
     return () => clearTimeout(timer);
   }, []);
@@ -73,15 +81,6 @@ export default function CropsPage() {
     setTimeout(() => setNotification(null), 3000);
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Verde': return 'bg-green-100 text-green-800';
-      case 'Amarillo': return 'bg-yellow-100 text-yellow-800';
-      case 'Rojo': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
-
   const addBucket = () => {
     if (!newBucket.bucketName.trim()) {
       showNotification('Ingresa un nombre para el bucket');
@@ -93,7 +92,7 @@ export default function CropsPage() {
       ph: 6.0,
       ec: 1.0,
       imageUrl: null,
-      createdAt: new Date().toISOString().split('T')[0]
+      createdAt: new Date().toISOString().split('T')[0],
     };
     const updated = [...crops, crop];
     setCrops(updated);
@@ -107,7 +106,7 @@ export default function CropsPage() {
   const deleteBucket = (id: number, e: React.MouseEvent) => {
     e.stopPropagation();
     if (!confirm('¿Eliminar este bucket?')) return;
-    const updated = crops.filter(c => c.id !== id);
+    const updated = crops.filter((c) => c.id !== id);
     setCrops(updated);
     localStorage.setItem('citronela_crops', JSON.stringify(updated));
     if (selectedCrop?.id === id) {
@@ -118,7 +117,7 @@ export default function CropsPage() {
 
   const updateBucket = () => {
     if (!editingCrop) return;
-    const updated = crops.map(c => c.id === editingCrop.id ? { ...c, ...editingCrop } : c);
+    const updated = crops.map((c) => (c.id === editingCrop.id ? { ...c, ...editingCrop } : c));
     setCrops(updated);
     localStorage.setItem('citronela_crops', JSON.stringify(updated));
     setSelectedCrop({ ...selectedCrop, ...editingCrop });
@@ -131,11 +130,7 @@ export default function CropsPage() {
       showNotification('Ingresa la semana');
       return;
     }
-    const log = {
-      id: Date.now(),
-      ...newLog,
-      cropId: selectedCrop.id
-    };
+    const log = { id: Date.now(), ...newLog, cropId: selectedCrop.id };
     const updated = [...logs, log];
     setLogs(updated);
     localStorage.setItem('citronela_logs', JSON.stringify(updated));
@@ -147,13 +142,13 @@ export default function CropsPage() {
   const deleteLog = (id: number, e: React.MouseEvent) => {
     e.stopPropagation();
     if (!confirm('¿Eliminar este registro?')) return;
-    const updated = logs.filter(l => l.id !== id);
+    const updated = logs.filter((l) => l.id !== id);
     setLogs(updated);
     localStorage.setItem('citronela_logs', JSON.stringify(updated));
     showNotification('Registro eliminado');
   };
 
-  const cropLogs = logs.filter(l => l.cropId === selectedCrop?.id).sort((a, b) => b.id - a.id);
+  const cropLogs = logs.filter((l) => l.cropId === selectedCrop?.id).sort((a, b) => b.id - a.id);
 
   const calculateNutrients = () => {
     const { grow, micro, bloom, water } = calculator;
@@ -161,35 +156,38 @@ export default function CropsPage() {
       growMl: (grow * water).toFixed(0),
       microMl: (micro * water).toFixed(0),
       bloomMl: (bloom * water).toFixed(0),
-      waterLt: water
+      waterLt: water,
     };
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#07120b]">
       {/* Notification */}
       {notification && (
-        <div className="fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in">
+        <div className="fixed top-4 right-4 bg-lime-400 text-[#07120b] px-6 py-3 rounded-lg shadow-lg z-50 font-medium text-sm">
           {notification}
         </div>
       )}
 
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100 sticky top-0 z-40">
+      <header className="bg-white/[0.02] backdrop-blur-md border-b border-white/[0.06] sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <Link href="/dashboard" className="text-gray-500 hover:text-green-600 transition-colors duration-200 flex items-center gap-2">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+            <button
+              onClick={() => router.push('/dashboard')}
+              className="text-zinc-400 hover:text-lime-400 transition-colors flex items-center gap-2"
+            >
+              <ArrowLeft className="w-5 h-5" />
               <span className="text-sm font-medium">Volver</span>
-            </Link>
-            <div className="h-6 w-px bg-gray-200"></div>
-            <h1 className="text-xl font-bold text-gray-800">Mis Cultivos</h1>
+            </button>
+            <div className="h-6 w-px bg-white/[0.08]" />
+            <h1 className="text-xl font-bold text-zinc-100">Mis Cultivos</h1>
           </div>
-          <button 
+          <button
             onClick={() => setShowNewBucket(true)}
-            className="bg-gradient-to-r from-green-600 to-green-700 text-white px-5 py-2.5 rounded-xl hover:from-green-700 hover:to-green-800 hover:shadow-lg hover:shadow-green-600/25 transition-all duration-300 flex items-center gap-2 font-medium text-sm"
+            className="bg-lime-400 text-[#07120b] px-5 py-2.5 rounded-xl hover:bg-lime-300 transition-colors flex items-center gap-2 font-medium text-sm"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+            <Plus className="w-4 h-4" />
             Nuevo Bucket
           </button>
         </div>
@@ -197,40 +195,40 @@ export default function CropsPage() {
 
       {/* New Bucket Modal */}
       {showNewBucket && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
-            <h2 className="text-xl font-bold mb-4">Nuevo Bucket</h2>
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-[#07120b] border border-white/[0.08] rounded-2xl p-6 w-full max-w-md mx-4">
+            <h2 className="text-xl font-bold text-zinc-50 mb-4">Nuevo Bucket</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                <label className={labelClass}>Nombre</label>
                 <input
                   type="text"
                   value={newBucket.bucketName}
                   onChange={(e) => setNewBucket({ ...newBucket, bucketName: e.target.value })}
                   placeholder="Nombre del cultivo"
-                  className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  className={inputClass}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Fase</label>
+                <label className={labelClass}>Fase</label>
                 <select
                   value={newBucket.phase}
                   onChange={(e) => setNewBucket({ ...newBucket, phase: e.target.value })}
-                  className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  className={inputClass}
                 >
-                  {PHASES.map(p => (
+                  {PHASES.map((p) => (
                     <option key={p} value={p}>{p}</option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+                <label className={labelClass}>Estado</label>
                 <select
                   value={newBucket.status}
                   onChange={(e) => setNewBucket({ ...newBucket, status: e.target.value })}
-                  className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  className={inputClass}
                 >
-                  {STATUS_OPTIONS.map(s => (
+                  {STATUS_OPTIONS.map((s) => (
                     <option key={s} value={s}>{s}</option>
                   ))}
                 </select>
@@ -239,13 +237,13 @@ export default function CropsPage() {
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setShowNewBucket(false)}
-                className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50"
+                className="flex-1 border border-white/[0.08] text-zinc-300 px-4 py-2 rounded-xl hover:bg-white/[0.04] transition-colors"
               >
                 Cancelar
               </button>
               <button
                 onClick={addBucket}
-                className="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+                className="flex-1 bg-lime-400 text-[#07120b] px-4 py-2 rounded-xl hover:bg-lime-300 font-semibold transition-colors"
               >
                 Crear
               </button>
@@ -256,62 +254,62 @@ export default function CropsPage() {
 
       {/* Edit Crop Modal */}
       {editingCrop && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
-            <h2 className="text-xl font-bold mb-4">Editar Bucket</h2>
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-[#07120b] border border-white/[0.08] rounded-2xl p-6 w-full max-w-md mx-4">
+            <h2 className="text-xl font-bold text-zinc-50 mb-4">Editar Bucket</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                <label className={labelClass}>Nombre</label>
                 <input
                   type="text"
                   value={editingCrop.bucketName}
                   onChange={(e) => setEditingCrop({ ...editingCrop, bucketName: e.target.value })}
-                  className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  className={inputClass}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Fase</label>
+                <label className={labelClass}>Fase</label>
                 <select
                   value={editingCrop.phase}
                   onChange={(e) => setEditingCrop({ ...editingCrop, phase: e.target.value })}
-                  className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  className={inputClass}
                 >
-                  {PHASES.map(p => (
+                  {PHASES.map((p) => (
                     <option key={p} value={p}>{p}</option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+                <label className={labelClass}>Estado</label>
                 <select
                   value={editingCrop.status}
                   onChange={(e) => setEditingCrop({ ...editingCrop, status: e.target.value })}
-                  className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  className={inputClass}
                 >
-                  {STATUS_OPTIONS.map(s => (
+                  {STATUS_OPTIONS.map((s) => (
                     <option key={s} value={s}>{s}</option>
                   ))}
                 </select>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">pH</label>
+                  <label className={labelClass}>pH</label>
                   <input
                     type="number"
                     step="0.1"
                     value={editingCrop.ph}
                     onChange={(e) => setEditingCrop({ ...editingCrop, ph: parseFloat(e.target.value) })}
-                    className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                    className={inputClass}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">EC</label>
+                  <label className={labelClass}>EC</label>
                   <input
                     type="number"
                     step="0.1"
                     value={editingCrop.ec}
                     onChange={(e) => setEditingCrop({ ...editingCrop, ec: parseFloat(e.target.value) })}
-                    className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                    className={inputClass}
                   />
                 </div>
               </div>
@@ -319,13 +317,13 @@ export default function CropsPage() {
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setEditingCrop(null)}
-                className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50"
+                className="flex-1 border border-white/[0.08] text-zinc-300 px-4 py-2 rounded-xl hover:bg-white/[0.04] transition-colors"
               >
                 Cancelar
               </button>
               <button
                 onClick={updateBucket}
-                className="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+                className="flex-1 bg-lime-400 text-[#07120b] px-4 py-2 rounded-xl hover:bg-lime-300 font-semibold transition-colors"
               >
                 Guardar
               </button>
@@ -337,15 +335,18 @@ export default function CropsPage() {
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* Empty State */}
         {crops.length === 0 && (
-          <div className="bg-white rounded-2xl shadow-xl p-16 text-center border border-gray-100">
-            <div className="w-24 h-24 mx-auto mb-6 bg-green-50 rounded-2xl flex items-center justify-center">
-              <span className="text-5xl">🌱</span>
+          <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] p-16 text-center">
+            <div className="w-24 h-24 mx-auto mb-6 bg-lime-400/5 border border-lime-400/10 rounded-2xl flex items-center justify-center">
+              <svg className="w-10 h-10 text-lime-400/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1M4.22 4.22l.707.707M18.364 18.364l.707.707M1 12h1m20 0h1M4.22 19.778l.707-.707M18.364 5.636l.707-.707" />
+                <circle cx="12" cy="12" r="4" strokeWidth={1.5} />
+              </svg>
             </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Sin cultivos todavía</h2>
-            <p className="text-gray-500 mb-8 max-w-md mx-auto">Crea tu primer bucket para empezar a registrar el progreso de tus plantas</p>
-            <button 
+            <h2 className="text-2xl font-bold text-zinc-100 mb-2">Sin cultivos todavía</h2>
+            <p className="text-zinc-500 mb-8 max-w-md mx-auto">Crea tu primer bucket para empezar a registrar el progreso de tus plantas</p>
+            <button
               onClick={() => setShowNewBucket(true)}
-              className="bg-gradient-to-r from-green-600 to-green-700 text-white px-8 py-3 rounded-xl hover:from-green-700 hover:to-green-800 hover:shadow-xl hover:shadow-green-600/25 transition-all duration-300 font-medium"
+              className="bg-lime-400 text-[#07120b] px-8 py-3 rounded-xl hover:bg-lime-300 transition-colors font-semibold"
             >
               Crear Primer Bucket
             </button>
@@ -354,41 +355,43 @@ export default function CropsPage() {
 
         {/* Crops Grid */}
         {crops.length > 0 && (
-          <div className="grid md:grid-cols-3 gap-6 mb-8 stagger-children">
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
             {crops.map((crop) => (
               <div
                 key={crop.id}
                 onClick={() => setSelectedCrop(crop)}
-                className={`bg-white p-6 rounded-2xl shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-gray-200/50 hover:-translate-y-1 relative group ${
-                  selectedCrop?.id === crop.id ? 'ring-2 ring-green-500 ring-offset-2' : 'hover:ring-1 hover:ring-green-300'
+                className={`bg-white/[0.03] p-6 rounded-2xl border cursor-pointer transition-all duration-200 hover:-translate-y-0.5 relative group ${
+                  selectedCrop?.id === crop.id
+                    ? 'border-lime-400/50 ring-1 ring-lime-400/20'
+                    : 'border-white/[0.08] hover:border-lime-400/30'
                 }`}
               >
                 <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-200 flex gap-2">
-                  <button 
+                  <button
                     onClick={(e) => { e.stopPropagation(); setEditingCrop(crop); }}
-                    className="w-8 h-8 bg-gray-100 hover:bg-green-100 rounded-lg flex items-center justify-center text-gray-500 hover:text-green-600 transition-colors"
+                    className="w-8 h-8 bg-white/[0.06] hover:bg-lime-400/10 rounded-lg flex items-center justify-center text-zinc-500 hover:text-lime-400 transition-colors"
                     title="Editar"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                    <Pencil className="w-3.5 h-3.5" />
                   </button>
-                  <button 
+                  <button
                     onClick={(e) => deleteBucket(crop.id, e)}
-                    className="w-8 h-8 bg-gray-100 hover:bg-red-100 rounded-lg flex items-center justify-center text-gray-500 hover:text-red-600 transition-colors"
+                    className="w-8 h-8 bg-white/[0.06] hover:bg-red-500/10 rounded-lg flex items-center justify-center text-zinc-500 hover:text-red-400 transition-colors"
                     title="Eliminar"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-lg font-bold text-gray-800">{crop.bucketName}</h3>
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(crop.status)}`}>
+                  <h3 className="text-lg font-bold text-zinc-100">{crop.bucketName}</h3>
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${STATUS_STYLES[crop.status] ?? 'bg-white/[0.06] text-zinc-400'}`}>
                     {crop.status}
                   </span>
                 </div>
-                <div className="space-y-2 text-sm text-gray-600">
+                <div className="space-y-2 text-sm text-zinc-400">
                   <p>Fase: {crop.phase}</p>
                   <p>pH: {crop.ph} | EC: {crop.ec}</p>
-                  <p className="text-xs text-gray-400">Desde: {crop.createdAt}</p>
+                  <p className="text-xs text-zinc-600">Desde: {crop.createdAt}</p>
                 </div>
               </div>
             ))}
@@ -397,82 +400,75 @@ export default function CropsPage() {
 
         {/* Selected Crop Details */}
         {selectedCrop && crops.length > 0 && (
-          <div className="bg-white rounded-lg shadow">
-            <div className="p-6 border-b flex justify-between items-start">
+          <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08]">
+            <div className="p-6 border-b border-white/[0.08] flex justify-between items-start">
               <div>
-                <h2 className="text-2xl font-bold">{selectedCrop.bucketName}</h2>
-                <p className="text-gray-600">{selectedCrop.phase} • pH: {selectedCrop.ph} • EC: {selectedCrop.ec}</p>
-                <p className="text-sm text-gray-400 mt-1">Creado: {selectedCrop.createdAt}</p>
+                <h2 className="text-2xl font-bold text-zinc-50">{selectedCrop.bucketName}</h2>
+                <p className="text-zinc-400 mt-0.5">{selectedCrop.phase} · pH: {selectedCrop.ph} · EC: {selectedCrop.ec}</p>
+                <p className="text-sm text-zinc-600 mt-1">Creado: {selectedCrop.createdAt}</p>
               </div>
-              <button 
-                onClick={() => setShowCalculator(true)}
-                className="bg-green-100 text-green-700 px-4 py-2 rounded-lg hover:bg-green-200 flex items-center gap-2"
+              <button
+                onClick={() => setShowCalculator((v) => !v)}
+                className="flex items-center gap-2 bg-white/[0.04] border border-white/[0.08] text-zinc-400 hover:text-lime-400 hover:border-lime-400/30 px-4 py-2 rounded-xl transition-colors text-sm"
               >
-                🧪 Calculadora
+                <FlaskConical className="w-4 h-4" />
+                Calculadora
               </button>
             </div>
 
             {/* Calculator Panel */}
             {showCalculator && (
-              <div className="p-6 bg-gradient-to-r from-green-50 to-blue-50 border-b">
+              <div className="p-6 border-b border-white/[0.08] bg-lime-400/[0.02]">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold">🧪 Calculadora de Nutrientes</h3>
-                  <button onClick={() => setShowCalculator(false)} className="text-gray-400 hover:text-gray-600">✕</button>
+                  <h3 className="text-base font-semibold text-zinc-100 flex items-center gap-2">
+                    <FlaskConical className="w-4 h-4 text-lime-400" />
+                    Calculadora de Nutrientes
+                  </h3>
+                  <button
+                    onClick={() => setShowCalculator(false)}
+                    className="text-zinc-500 hover:text-zinc-300 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
                 <div className="grid md:grid-cols-4 gap-4 mb-4">
+                  {(['grow', 'micro', 'bloom'] as const).map((key) => (
+                    <div key={key}>
+                      <label className={labelClass}>{key.charAt(0).toUpperCase() + key.slice(1)} (ml/L)</label>
+                      <input
+                        type="number"
+                        value={calculator[key]}
+                        onChange={(e) => setCalculator({ ...calculator, [key]: parseFloat(e.target.value) })}
+                        className={inputClass}
+                      />
+                    </div>
+                  ))}
                   <div>
-                    <label className="block text-xs text-gray-600 mb-1">Grow (ml/L)</label>
-                    <input
-                      type="number"
-                      value={calculator.grow}
-                      onChange={(e) => setCalculator({ ...calculator, grow: parseFloat(e.target.value) })}
-                      className="w-full border rounded-lg px-3 py-2"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs text-gray-600 mb-1">Micro (ml/L)</label>
-                    <input
-                      type="number"
-                      value={calculator.micro}
-                      onChange={(e) => setCalculator({ ...calculator, micro: parseFloat(e.target.value) })}
-                      className="w-full border rounded-lg px-3 py-2"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs text-gray-600 mb-1">Bloom (ml/L)</label>
-                    <input
-                      type="number"
-                      value={calculator.bloom}
-                      onChange={(e) => setCalculator({ ...calculator, bloom: parseFloat(e.target.value) })}
-                      className="w-full border rounded-lg px-3 py-2"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs text-gray-600 mb-1">Agua (L)</label>
+                    <label className={labelClass}>Agua (L)</label>
                     <input
                       type="number"
                       value={calculator.water}
                       onChange={(e) => setCalculator({ ...calculator, water: parseFloat(e.target.value) })}
-                      className="w-full border rounded-lg px-3 py-2"
+                      className={inputClass}
                     />
                   </div>
                 </div>
                 <div className="grid md:grid-cols-4 gap-4">
-                  <div className="bg-green-100 p-4 rounded-lg text-center">
-                    <p className="text-sm text-green-700">Grow Total</p>
-                    <p className="text-2xl font-bold text-green-800">{calculateNutrients().growMl}ml</p>
+                  <div className="bg-lime-400/10 p-4 rounded-xl text-center">
+                    <p className="text-sm text-lime-400/70">Grow Total</p>
+                    <p className="text-2xl font-bold text-lime-400">{calculateNutrients().growMl}ml</p>
                   </div>
-                  <div className="bg-blue-100 p-4 rounded-lg text-center">
-                    <p className="text-sm text-blue-700">Micro Total</p>
-                    <p className="text-2xl font-bold text-blue-800">{calculateNutrients().microMl}ml</p>
+                  <div className="bg-blue-400/10 p-4 rounded-xl text-center">
+                    <p className="text-sm text-blue-400/70">Micro Total</p>
+                    <p className="text-2xl font-bold text-blue-400">{calculateNutrients().microMl}ml</p>
                   </div>
-                  <div className="bg-purple-100 p-4 rounded-lg text-center">
-                    <p className="text-sm text-purple-700">Bloom Total</p>
-                    <p className="text-2xl font-bold text-purple-800">{calculateNutrients().bloomMl}ml</p>
+                  <div className="bg-purple-400/10 p-4 rounded-xl text-center">
+                    <p className="text-sm text-purple-400/70">Bloom Total</p>
+                    <p className="text-2xl font-bold text-purple-400">{calculateNutrients().bloomMl}ml</p>
                   </div>
-                  <div className="bg-gray-100 p-4 rounded-lg text-center">
-                    <p className="text-sm text-gray-700">Agua</p>
-                    <p className="text-2xl font-bold text-gray-800">{calculateNutrients().waterLt}L</p>
+                  <div className="bg-white/[0.04] p-4 rounded-xl text-center">
+                    <p className="text-sm text-zinc-500">Agua</p>
+                    <p className="text-2xl font-bold text-zinc-300">{calculateNutrients().waterLt}L</p>
                   </div>
                 </div>
               </div>
@@ -481,59 +477,60 @@ export default function CropsPage() {
             {/* Weekly Logs */}
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold">Registros Semanales</h3>
-                <button 
+                <h3 className="text-base font-semibold text-zinc-100">Registros Semanales</h3>
+                <button
                   onClick={() => {
                     setNewLog({ ...newLog, phase: selectedCrop.phase });
                     setShowAddLog(true);
                   }}
-                  className="text-green-600 hover:text-green-700 flex items-center gap-1"
+                  className="flex items-center gap-1 text-sm text-lime-400 hover:text-lime-300 transition-colors font-medium"
                 >
-                  + Agregar Registro
+                  <Plus className="w-4 h-4" />
+                  Agregar Registro
                 </button>
               </div>
 
               {cropLogs.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-zinc-500">
                   <p>No hay registros todavía</p>
-                  <button 
+                  <button
                     onClick={() => setShowAddLog(true)}
-                    className="text-green-600 hover:underline mt-2"
+                    className="text-lime-400 hover:underline mt-2 text-sm"
                   >
                     Agregar primer registro
                   </button>
                 </div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="w-full">
+                  <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b">
-                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Semana</th>
-                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Fase</th>
-                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">pH</th>
-                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">EC</th>
-                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Grow</th>
-                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Micro</th>
-                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Bloom</th>
-                        <th className="text-left py-3 px-4"></th>
+                      <tr className="border-b border-white/[0.06]">
+                        <th className="text-left py-3 px-4 font-medium text-zinc-400">Semana</th>
+                        <th className="text-left py-3 px-4 font-medium text-zinc-400">Fase</th>
+                        <th className="text-left py-3 px-4 font-medium text-zinc-400">pH</th>
+                        <th className="text-left py-3 px-4 font-medium text-zinc-400">EC</th>
+                        <th className="text-left py-3 px-4 font-medium text-zinc-400">Grow</th>
+                        <th className="text-left py-3 px-4 font-medium text-zinc-400">Micro</th>
+                        <th className="text-left py-3 px-4 font-medium text-zinc-400">Bloom</th>
+                        <th className="text-left py-3 px-4" />
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y divide-white/[0.04]">
                       {cropLogs.map((log) => (
-                        <tr key={log.id} className="border-b hover:bg-gray-50">
-                          <td className="py-3 px-4">{log.week}</td>
-                          <td className="py-3 px-4">{log.phase}</td>
-                          <td className="py-3 px-4">{log.ph}</td>
-                          <td className="py-3 px-4">{log.ec}</td>
-                          <td className="py-3 px-4">{log.grow}ml</td>
-                          <td className="py-3 px-4">{log.micro}ml</td>
-                          <td className="py-3 px-4">{log.bloom}ml</td>
+                        <tr key={log.id} className="hover:bg-white/[0.03] transition-colors">
+                          <td className="py-3 px-4 text-zinc-100">{log.week}</td>
+                          <td className="py-3 px-4 text-zinc-300">{log.phase}</td>
+                          <td className="py-3 px-4 text-zinc-300">{log.ph}</td>
+                          <td className="py-3 px-4 text-zinc-300">{log.ec}</td>
+                          <td className="py-3 px-4 text-zinc-300">{log.grow}ml</td>
+                          <td className="py-3 px-4 text-zinc-300">{log.micro}ml</td>
+                          <td className="py-3 px-4 text-zinc-300">{log.bloom}ml</td>
                           <td className="py-3 px-4">
-                            <button 
+                            <button
                               onClick={(e) => deleteLog(log.id, e)}
-                              className="text-gray-400 hover:text-red-600"
+                              className="text-zinc-500 hover:text-red-400 transition-colors"
                             >
-                              🗑️
+                              <Trash2 className="w-4 h-4" />
                             </button>
                           </td>
                         </tr>
@@ -544,94 +541,94 @@ export default function CropsPage() {
               )}
             </div>
 
-            {/* Add Log Modal */}
+            {/* Add Log inline panel */}
             {showAddLog && (
-              <div className="p-6 border-t bg-gray-50">
-                <h4 className="font-semibold mb-4">Nuevo Registro</h4>
+              <div className="p-6 border-t border-white/[0.08] bg-white/[0.02]">
+                <h4 className="font-semibold text-zinc-100 mb-4">Nuevo Registro</h4>
                 <div className="grid md:grid-cols-4 gap-4 mb-4">
                   <div>
-                    <label className="block text-xs text-gray-600 mb-1">Semana</label>
+                    <label className={labelClass}>Semana</label>
                     <input
                       type="text"
                       value={newLog.week}
                       onChange={(e) => setNewLog({ ...newLog, week: e.target.value })}
                       placeholder="ej: Semana 5"
-                      className="w-full border rounded-lg px-3 py-2"
+                      className={inputClass}
                     />
                   </div>
                   <div>
-                    <label className="block text-xs text-gray-600 mb-1">Fase</label>
+                    <label className={labelClass}>Fase</label>
                     <select
                       value={newLog.phase}
                       onChange={(e) => setNewLog({ ...newLog, phase: e.target.value })}
-                      className="w-full border rounded-lg px-3 py-2"
+                      className={inputClass}
                     >
                       <option value="">Seleccionar</option>
-                      {PHASES.map(p => (
+                      {PHASES.map((p) => (
                         <option key={p} value={p}>{p}</option>
                       ))}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs text-gray-600 mb-1">pH</label>
+                    <label className={labelClass}>pH</label>
                     <input
                       type="number"
                       step="0.1"
                       value={newLog.ph}
                       onChange={(e) => setNewLog({ ...newLog, ph: parseFloat(e.target.value) })}
-                      className="w-full border rounded-lg px-3 py-2"
+                      className={inputClass}
                     />
                   </div>
                   <div>
-                    <label className="block text-xs text-gray-600 mb-1">EC</label>
+                    <label className={labelClass}>EC</label>
                     <input
                       type="number"
                       step="0.1"
                       value={newLog.ec}
                       onChange={(e) => setNewLog({ ...newLog, ec: parseFloat(e.target.value) })}
-                      className="w-full border rounded-lg px-3 py-2"
+                      className={inputClass}
                     />
                   </div>
                 </div>
                 <div className="grid md:grid-cols-4 gap-4 mb-4">
                   <div>
-                    <label className="block text-xs text-gray-600 mb-1">Grow (ml/L)</label>
+                    <label className={labelClass}>Grow (ml/L)</label>
                     <input
                       type="number"
                       value={newLog.grow}
                       onChange={(e) => setNewLog({ ...newLog, grow: parseFloat(e.target.value) })}
-                      className="w-full border rounded-lg px-3 py-2"
+                      className={inputClass}
                     />
                   </div>
                   <div>
-                    <label className="block text-xs text-gray-600 mb-1">Micro (ml/L)</label>
+                    <label className={labelClass}>Micro (ml/L)</label>
                     <input
                       type="number"
                       value={newLog.micro}
                       onChange={(e) => setNewLog({ ...newLog, micro: parseFloat(e.target.value) })}
-                      className="w-full border rounded-lg px-3 py-2"
+                      className={inputClass}
                     />
                   </div>
                   <div>
-                    <label className="block text-xs text-gray-600 mb-1">Bloom (ml/L)</label>
+                    <label className={labelClass}>Bloom (ml/L)</label>
                     <input
                       type="number"
                       value={newLog.bloom}
                       onChange={(e) => setNewLog({ ...newLog, bloom: parseFloat(e.target.value) })}
-                      className="w-full border rounded-lg px-3 py-2"
+                      className={inputClass}
                     />
                   </div>
                 </div>
                 <div className="flex gap-3">
                   <button
                     onClick={() => setShowAddLog(false)}
-                    className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50"
+                    className="border border-white/[0.08] text-zinc-300 px-4 py-2 rounded-xl hover:bg-white/[0.04] transition-colors text-sm"
                   >
                     Cancelar
                   </button>
                   <button
                     onClick={addLog}
-                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+                    className="bg-lime-400 text-[#07120b] px-4 py-2 rounded-xl hover:bg-lime-300 font-semibold transition-colors text-sm"
                   >
                     Guardar
                   </button>

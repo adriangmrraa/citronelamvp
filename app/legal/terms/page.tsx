@@ -38,30 +38,30 @@ export default async function TermsPage() {
   const displayContent = content || FALLBACK_TERMS;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div className="min-h-screen bg-[#07120b]">
       <div className="max-w-3xl mx-auto px-6 py-12 space-y-8">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-            <FileText className="w-5 h-5 text-green-600 dark:text-green-400" />
+          <div className="w-10 h-10 rounded-xl bg-lime-400/10 flex items-center justify-center">
+            <FileText className="w-5 h-5 text-lime-400" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Términos y Condiciones</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Plataforma Citronela</p>
+            <h1 className="text-2xl font-bold text-zinc-50">Términos y Condiciones</h1>
+            <p className="text-sm text-zinc-400">Plataforma Citronela</p>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 md:p-8">
-          <div className="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
+        <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] p-6 md:p-8">
+          <div className="prose prose-sm max-w-none text-zinc-300">
             <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed">{displayContent}</pre>
           </div>
         </div>
 
-        <div className="flex gap-4 text-sm text-gray-500 dark:text-gray-400">
-          <Link href="/legal/privacy" className="hover:text-green-600 dark:hover:text-green-400 transition-colors">
+        <div className="flex gap-4 text-sm text-zinc-500">
+          <Link href="/legal/privacy" className="hover:text-lime-400 transition-colors">
             Política de Privacidad
           </Link>
           <span>·</span>
-          <Link href="/" className="hover:text-green-600 dark:hover:text-green-400 transition-colors">
+          <Link href="/" className="hover:text-lime-400 transition-colors">
             Volver al inicio
           </Link>
         </div>

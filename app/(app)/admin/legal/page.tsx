@@ -43,10 +43,10 @@ function SectionEditor({ label, type, initialContent }: SectionEditorProps) {
   };
 
   return (
-    <div className="space-y-3 p-5 border border-gray-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-900">
+    <div className="space-y-3 p-5 border border-white/[0.08] rounded-2xl bg-white/[0.03]">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-          <FileText className="w-4 h-4 text-green-600 dark:text-green-400" />
+        <h2 className="text-base font-semibold text-zinc-200 flex items-center gap-2">
+          <FileText className="w-4 h-4 text-lime-400" />
           {label}
         </h2>
         <Button size="sm" onClick={handleSave} disabled={loading}>
@@ -56,13 +56,13 @@ function SectionEditor({ label, type, initialContent }: SectionEditorProps) {
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg text-sm dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
+        <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg text-sm">
           {error}
         </div>
       )}
 
       {saved && (
-        <div className="bg-green-50 border border-green-200 text-green-700 p-3 rounded-lg text-sm dark:bg-green-900/20 dark:border-green-800 dark:text-green-400">
+        <div className="bg-lime-400/10 border border-lime-400/20 text-lime-400 p-3 rounded-lg text-sm">
           Contenido guardado correctamente.
         </div>
       )}
@@ -71,11 +71,11 @@ function SectionEditor({ label, type, initialContent }: SectionEditorProps) {
         value={content}
         onChange={(e) => setContent(e.target.value)}
         rows={16}
-        className="w-full px-3 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 resize-y font-mono"
+        className="w-full px-3 py-2.5 text-sm border border-white/[0.08] rounded-lg bg-white/[0.04] text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-lime-400/50 resize-y font-mono"
         placeholder="Ingresá el contenido..."
       />
 
-      <p className="text-xs text-gray-400">{content.length} caracteres</p>
+      <p className="text-xs text-zinc-500">{content.length} caracteres</p>
     </div>
   );
 }
@@ -103,14 +103,14 @@ export default function AdminLegalPage() {
     sections.find((s) => s.type === type)?.content ?? '';
 
   if (loading) {
-    return <div className="p-6 text-center text-gray-400">Cargando contenido legal...</div>;
+    return <div className="p-6 text-center text-zinc-500">Cargando contenido legal...</div>;
   }
 
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Contenido legal</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1">
+        <h1 className="text-2xl font-bold text-zinc-50">Contenido legal</h1>
+        <p className="text-zinc-400 mt-1">
           Editá los términos y la política de privacidad de la plataforma.
         </p>
       </div>

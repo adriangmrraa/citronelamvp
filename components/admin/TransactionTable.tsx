@@ -53,7 +53,7 @@ export default function TransactionTable({ transactions, onExport }: Transaction
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-zinc-400">
           {transactions.length} transacción{transactions.length !== 1 ? 'es' : ''}
         </p>
         <Button variant="outline" size="sm" onClick={handleExport}>
@@ -63,43 +63,43 @@ export default function TransactionTable({ transactions, onExport }: Transaction
       </div>
 
       {transactions.length === 0 ? (
-        <p className="text-center py-12 text-gray-500 dark:text-gray-400 text-sm">
+        <p className="text-center py-12 text-zinc-500 text-sm">
           No hay transacciones registradas.
         </p>
       ) : (
         <>
-          <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="overflow-x-auto rounded-xl border border-white/[0.08]">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 dark:bg-gray-800 text-left">
-                  <th className="px-4 py-3 font-semibold text-gray-600 dark:text-gray-300">#</th>
-                  <th className="px-4 py-3 font-semibold text-gray-600 dark:text-gray-300">Usuario</th>
-                  <th className="px-4 py-3 font-semibold text-gray-600 dark:text-gray-300">Monto</th>
-                  <th className="px-4 py-3 font-semibold text-gray-600 dark:text-gray-300">Razón</th>
-                  <th className="px-4 py-3 font-semibold text-gray-600 dark:text-gray-300">Fecha</th>
+                <tr className="bg-white/[0.04] text-left">
+                  <th className="px-4 py-3 font-semibold text-zinc-400">#</th>
+                  <th className="px-4 py-3 font-semibold text-zinc-400">Usuario</th>
+                  <th className="px-4 py-3 font-semibold text-zinc-400">Monto</th>
+                  <th className="px-4 py-3 font-semibold text-zinc-400">Razón</th>
+                  <th className="px-4 py-3 font-semibold text-zinc-400">Fecha</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+              <tbody className="divide-y divide-white/[0.04]">
                 {paginated.map((tx) => (
                   <tr
                     key={tx.id}
-                    className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                    className="hover:bg-white/[0.03] transition-colors"
                   >
-                    <td className="px-4 py-3 text-gray-400 text-xs">{tx.id}</td>
-                    <td className="px-4 py-3 font-medium text-gray-900 dark:text-gray-100">{tx.username}</td>
+                    <td className="px-4 py-3 text-zinc-500 text-xs">{tx.id}</td>
+                    <td className="px-4 py-3 font-medium text-zinc-100">{tx.username}</td>
                     <td className="px-4 py-3">
                       <span
                         className={`font-bold ${
                           tx.amount >= 0
-                            ? 'text-green-600 dark:text-green-400'
-                            : 'text-red-500 dark:text-red-400'
+                            ? 'text-lime-400'
+                            : 'text-red-400'
                         }`}
                       >
                         {tx.amount >= 0 ? '+' : ''}{tx.amount}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-gray-600 dark:text-gray-300 max-w-xs truncate">{tx.reason}</td>
-                    <td className="px-4 py-3 text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                    <td className="px-4 py-3 text-zinc-300 max-w-xs truncate">{tx.reason}</td>
+                    <td className="px-4 py-3 text-zinc-500 whitespace-nowrap">
                       {new Date(tx.createdAt).toLocaleString('es-AR', {
                         day: '2-digit',
                         month: '2-digit',
@@ -125,7 +125,7 @@ export default function TransactionTable({ transactions, onExport }: Transaction
                 <ChevronLeft className="w-4 h-4" />
                 Anterior
               </Button>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
+              <span className="text-sm text-zinc-500">
                 Página {page} de {totalPages}
               </span>
               <Button

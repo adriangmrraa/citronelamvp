@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Package } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import WishlistButton from './WishlistButton';
@@ -67,15 +68,15 @@ export default function ProductDetail({
     <div className="space-y-6">
       {/* Notification */}
       {notification && (
-        <div className="fixed top-4 right-4 bg-[#16A34A] text-white px-5 py-3 rounded-xl shadow-lg z-50 text-sm font-medium">
+        <div className="fixed top-4 right-4 bg-lime-400 text-[#07120b] px-5 py-3 rounded-xl shadow-lg z-50 text-sm font-semibold">
           {notification}
         </div>
       )}
 
       {/* Main card */}
-      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
+      <div className="glass-surface rounded-2xl overflow-hidden">
         {/* Image */}
-        <div className="h-64 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center relative">
+        <div className="h-64 bg-white/[0.02] flex items-center justify-center relative">
           {product.imageUrl ? (
             <img
               src={product.imageUrl}
@@ -83,11 +84,11 @@ export default function ProductDetail({
               className="w-full h-full object-cover"
             />
           ) : (
-            <span className="text-8xl">📦</span>
+            <Package className="w-20 h-20 text-zinc-600" />
           )}
           {/* Stock dot */}
           <div className={`absolute top-3 right-3 w-3 h-3 rounded-full ${
-            product.stock === 0 ? 'bg-red-500' : product.stock <= 3 ? 'bg-amber-500' : 'bg-green-500'
+            product.stock === 0 ? 'bg-red-500' : product.stock <= 3 ? 'bg-amber-500' : 'bg-lime-400'
           }`} />
         </div>
 
@@ -96,11 +97,11 @@ export default function ProductDetail({
           <div className="flex items-start justify-between gap-3">
             <div className="space-y-2 flex-1">
               <Badge variant="secondary">{product.category}</Badge>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{product.name}</h1>
+              <h1 className="text-2xl font-bold text-zinc-100">{product.name}</h1>
               {product.sellerUsername && (
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-zinc-500">
                   Vendido por{' '}
-                  <span className="font-medium text-[#16A34A]">{product.sellerUsername}</span>
+                  <span className="font-medium text-lime-400">{product.sellerUsername}</span>
                 </p>
               )}
             </div>
@@ -108,30 +109,30 @@ export default function ProductDetail({
           </div>
 
           {product.description && (
-            <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+            <p className="text-zinc-400 text-sm leading-relaxed">
               {product.description}
             </p>
           )}
 
           {/* Cannabinoid profile */}
           {hasCannabinoids && (
-            <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-4 space-y-2">
-              <h3 className="text-xs font-semibold text-green-800 dark:text-green-400 uppercase tracking-wide">
+            <div className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-4 space-y-2">
+              <h3 className="text-xs font-semibold text-lime-400 uppercase tracking-wide">
                 Perfil cannabinoide
               </h3>
               <div className="flex flex-wrap gap-2">
                 {product.thc != null && (
-                  <span className="inline-flex items-center gap-1 bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300 text-xs font-semibold px-2.5 py-1 rounded-full">
+                  <span className="inline-flex items-center gap-1 bg-lime-400/10 text-lime-400 text-xs font-semibold px-2.5 py-1 rounded-full border border-lime-400/20">
                     THC {product.thc}%
                   </span>
                 )}
                 {product.cbd != null && (
-                  <span className="inline-flex items-center gap-1 bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">
+                  <span className="inline-flex items-center gap-1 bg-blue-400/10 text-blue-400 text-xs font-semibold px-2.5 py-1 rounded-full border border-blue-400/20">
                     CBD {product.cbd}%
                   </span>
                 )}
                 {product.terpenes && (
-                  <span className="inline-flex items-center gap-1 bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300 text-xs font-semibold px-2.5 py-1 rounded-full">
+                  <span className="inline-flex items-center gap-1 bg-purple-400/10 text-purple-400 text-xs font-semibold px-2.5 py-1 rounded-full border border-purple-400/20">
                     Terpenos: {product.terpenes}
                   </span>
                 )}
@@ -140,11 +141,11 @@ export default function ProductDetail({
           )}
 
           {/* Price + actions */}
-          <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-800">
+          <div className="flex items-center justify-between pt-2 border-t border-white/[0.08]">
             <div>
-              <p className="text-xs text-gray-400 dark:text-gray-500">Precio por unidad</p>
-              <span className="text-3xl font-bold" style={{ color: '#D97706' }}>
-                🪙 {product.price.toLocaleString('es-AR')}
+              <p className="text-xs text-zinc-500">Precio por unidad</p>
+              <span className="text-2xl font-black text-lime-400">
+                {product.price.toLocaleString('es-AR')} tokens
               </span>
             </div>
             <div className="flex gap-2">
@@ -157,6 +158,7 @@ export default function ProductDetail({
                 + Carrito
               </Button>
               <Button
+                className="bg-lime-400 text-[#07120b] hover:bg-lime-300 font-semibold"
                 onClick={handlePurchase}
                 disabled={!inStock || purchasing}
               >
@@ -168,10 +170,10 @@ export default function ProductDetail({
           {/* Stock */}
           <p className={`text-xs ${
             product.stock === 0
-              ? 'text-red-500 dark:text-red-400'
+              ? 'text-red-400'
               : product.stock <= 3
-              ? 'text-amber-600 dark:text-amber-400'
-              : 'text-gray-400 dark:text-gray-500'
+              ? 'text-amber-400'
+              : 'text-zinc-500'
           }`}>
             {product.stock === 0
               ? 'Sin stock disponible'

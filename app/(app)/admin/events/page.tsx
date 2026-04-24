@@ -57,8 +57,8 @@ export default function AdminEventsPage() {
     <div className="p-6 max-w-5xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Gestión de eventos</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">{events.length} evento{events.length !== 1 ? 's' : ''} registrado{events.length !== 1 ? 's' : ''}</p>
+          <h1 className="text-2xl font-bold text-zinc-50">Gestión de eventos</h1>
+          <p className="text-zinc-400 mt-1">{events.length} evento{events.length !== 1 ? 's' : ''} registrado{events.length !== 1 ? 's' : ''}</p>
         </div>
         <Button onClick={() => setShowForm(true)}>
           <Plus className="w-4 h-4 mr-1.5" />
@@ -67,9 +67,9 @@ export default function AdminEventsPage() {
       </div>
 
       {loading ? (
-        <div className="text-center py-16 text-gray-400">Cargando eventos...</div>
+        <div className="text-center py-16 text-zinc-500">Cargando eventos...</div>
       ) : events.length === 0 ? (
-        <div className="text-center py-16 text-gray-500 dark:text-gray-400">
+        <div className="text-center py-16 text-zinc-500">
           <Calendar className="w-10 h-10 mx-auto mb-3 opacity-40" />
           <p>No hay eventos todavía.</p>
           <Button className="mt-4" onClick={() => setShowForm(true)}>
@@ -78,34 +78,34 @@ export default function AdminEventsPage() {
           </Button>
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
+        <div className="overflow-x-auto rounded-xl border border-white/[0.08]">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 dark:bg-gray-800 text-left">
-                <th className="px-4 py-3 font-semibold text-gray-600 dark:text-gray-300">Evento</th>
-                <th className="px-4 py-3 font-semibold text-gray-600 dark:text-gray-300">Fecha</th>
-                <th className="px-4 py-3 font-semibold text-gray-600 dark:text-gray-300">Lugar</th>
-                <th className="px-4 py-3 font-semibold text-gray-600 dark:text-gray-300">Reservas</th>
-                <th className="px-4 py-3 font-semibold text-gray-600 dark:text-gray-300">Acciones</th>
+              <tr className="bg-white/[0.04] text-left">
+                <th className="px-4 py-3 font-semibold text-zinc-400">Evento</th>
+                <th className="px-4 py-3 font-semibold text-zinc-400">Fecha</th>
+                <th className="px-4 py-3 font-semibold text-zinc-400">Lugar</th>
+                <th className="px-4 py-3 font-semibold text-zinc-400">Reservas</th>
+                <th className="px-4 py-3 font-semibold text-zinc-400">Acciones</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+            <tbody className="divide-y divide-white/[0.04]">
               {events.map((ev) => (
-                <tr key={ev.id} className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                <tr key={ev.id} className="hover:bg-white/[0.03] transition-colors">
                   <td className="px-4 py-3">
-                    <Link href={`/admin/events/${ev.id}`} className="font-medium text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                    <Link href={`/admin/events/${ev.id}`} className="font-medium text-zinc-100 hover:text-lime-400 transition-colors">
                       {ev.title}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-gray-600 dark:text-gray-300 whitespace-nowrap">
+                  <td className="px-4 py-3 text-zinc-300 whitespace-nowrap">
                     {new Date(ev.date).toLocaleDateString('es-AR')}
-                    {ev.time && <span className="text-gray-400 ml-1">{ev.time}</span>}
+                    {ev.time && <span className="text-zinc-500 ml-1">{ev.time}</span>}
                   </td>
-                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400 max-w-[180px] truncate">
+                  <td className="px-4 py-3 text-zinc-400 max-w-[180px] truncate">
                     {ev.location ?? '—'}
                   </td>
                   <td className="px-4 py-3">
-                    <span className="flex items-center gap-1 text-gray-600 dark:text-gray-300">
+                    <span className="flex items-center gap-1 text-zinc-300">
                       <Users className="w-3.5 h-3.5" />
                       {ev.reservationsCount}{ev.capacity ? `/${ev.capacity}` : ''}
                     </span>

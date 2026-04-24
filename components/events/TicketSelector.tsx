@@ -54,7 +54,7 @@ export default function TicketSelector({ eventId, categories, userTokens, onSucc
 
   if (categories.length === 0) {
     return (
-      <div className="p-4 text-center text-gray-500 dark:text-gray-400 text-sm">
+      <div className="p-4 text-center text-zinc-500 text-sm">
         No hay categorías de entrada disponibles.
       </div>
     );
@@ -63,18 +63,18 @@ export default function TicketSelector({ eventId, categories, userTokens, onSucc
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-          <Ticket className="w-4 h-4 text-green-600 dark:text-green-400" />
+        <h3 className="font-semibold text-zinc-100 flex items-center gap-2">
+          <Ticket className="w-4 h-4 text-lime-400" />
           Seleccioná tu entrada
         </h3>
-        <div className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
+        <div className="flex items-center gap-1.5 text-sm text-zinc-400">
           <Coins className="w-4 h-4" />
-          <span>Tu balance: <strong className="text-green-600 dark:text-green-400">{userTokens} tokens</strong></span>
+          <span>Tu balance: <strong className="text-lime-400">{userTokens} tokens</strong></span>
         </div>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg text-sm dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
+        <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg text-sm">
           {error}
         </div>
       )}
@@ -90,10 +90,10 @@ export default function TicketSelector({ eventId, categories, userTokens, onSucc
               key={cat.id}
               className={`flex items-start gap-3 p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
                 full
-                  ? 'opacity-50 cursor-not-allowed border-gray-200 dark:border-gray-700'
+                  ? 'opacity-50 cursor-not-allowed border-white/[0.06]'
                   : isSelected
-                  ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
-                  : 'border-gray-200 dark:border-gray-700 hover:border-green-300 dark:hover:border-green-700'
+                  ? 'border-lime-400/50 bg-lime-400/5'
+                  : 'border-white/[0.08] hover:border-lime-400/30'
               }`}
             >
               <input
@@ -103,33 +103,33 @@ export default function TicketSelector({ eventId, categories, userTokens, onSucc
                 checked={isSelected}
                 onChange={() => !full && setSelected(cat.id)}
                 disabled={full}
-                className="mt-0.5 accent-green-600"
+                className="mt-0.5 accent-lime-400"
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-medium text-gray-900 dark:text-gray-100">{cat.name}</span>
-                  <span className={`font-bold text-sm ${affordable ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
+                  <span className="font-medium text-zinc-100">{cat.name}</span>
+                  <span className={`font-bold text-sm ${affordable ? 'text-lime-400' : 'text-red-400'}`}>
                     {cat.price === 0 ? 'Gratis' : `${cat.price} tokens`}
                   </span>
                 </div>
                 {cat.benefits && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{cat.benefits}</p>
+                  <p className="text-xs text-zinc-500 mt-0.5">{cat.benefits}</p>
                 )}
                 <div className="flex items-center gap-3 mt-1">
                   {cat.capacity !== null && (
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-zinc-500">
                       {cat.capacity - cat.reserved} lugar{cat.capacity - cat.reserved !== 1 ? 'es' : ''} disponible{cat.capacity - cat.reserved !== 1 ? 's' : ''}
                     </span>
                   )}
                   {full && (
-                    <span className="text-xs font-medium text-red-500 dark:text-red-400">Agotado</span>
+                    <span className="text-xs font-medium text-red-400">Agotado</span>
                   )}
                   {!affordable && !full && cat.price > 0 && (
                     <span className="text-xs text-red-400">Tokens insuficientes</span>
                   )}
                 </div>
               </div>
-              {isSelected && !full && <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-400 shrink-0 mt-0.5" />}
+              {isSelected && !full && <CheckCircle2 className="w-4 h-4 text-lime-400 shrink-0 mt-0.5" />}
             </label>
           );
         })}

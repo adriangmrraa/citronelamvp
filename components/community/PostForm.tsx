@@ -88,15 +88,15 @@ export default function PostForm({ postId, initialValues, onClose, onSuccess }: 
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden">
+      <div className="bg-[#07120b] border border-white/[0.08] rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-800">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08]">
+          <h2 className="text-lg font-semibold text-zinc-50">
             {isEdit ? 'Editar publicación' : 'Nueva publicación'}
           </h2>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.06] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -104,14 +104,14 @@ export default function PostForm({ postId, initialValues, onClose, onSuccess }: 
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-sm rounded-lg px-4 py-2">
+            <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-xl px-4 py-2">
               {error}
             </div>
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Título <span className="text-red-500">*</span>
+            <label className="block text-zinc-300 font-medium text-sm mb-1">
+              Título <span className="text-red-400">*</span>
             </label>
             <input
               type="text"
@@ -119,32 +119,36 @@ export default function PostForm({ postId, initialValues, onClose, onSuccess }: 
               value={form.title}
               onChange={handleChange}
               placeholder="Título de tu publicación"
-              className="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              className="w-full border border-white/[0.08] rounded-xl px-4 py-2.5 bg-white/[0.04] text-zinc-50 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/30 transition"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block text-zinc-300 font-medium text-sm mb-2">
               Categoría
             </label>
-            <select
-              name="category"
-              value={form.category}
-              onChange={handleChange}
-              className="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
-            >
+            <div className="flex flex-wrap gap-2">
               {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat}>
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setForm((prev) => ({ ...prev, category: cat }))}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                    form.category === cat
+                      ? 'bg-lime-400 text-[#07120b]'
+                      : 'bg-white/[0.04] text-zinc-400 border border-white/[0.08] hover:text-zinc-200 hover:bg-white/[0.08]'
+                  }`}
+                >
                   {cat}
-                </option>
+                </button>
               ))}
-            </select>
+            </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Contenido <span className="text-red-500">*</span>
+            <label className="block text-zinc-300 font-medium text-sm mb-1">
+              Contenido <span className="text-red-400">*</span>
             </label>
             <textarea
               name="content"
@@ -152,14 +156,14 @@ export default function PostForm({ postId, initialValues, onClose, onSuccess }: 
               onChange={handleChange}
               placeholder="Escribí tu contenido acá..."
               rows={8}
-              className="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 transition resize-y"
+              className="w-full border border-white/[0.08] rounded-xl px-4 py-2.5 bg-white/[0.04] text-zinc-50 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/30 transition resize-y"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Link de YouTube <span className="text-gray-400 font-normal">(opcional)</span>
+            <label className="block text-zinc-300 font-medium text-sm mb-1">
+              Link de YouTube <span className="text-zinc-500 font-normal">(opcional)</span>
             </label>
             <input
               type="text"
@@ -167,13 +171,13 @@ export default function PostForm({ postId, initialValues, onClose, onSuccess }: 
               value={form.youtubeLink}
               onChange={handleChange}
               placeholder="https://youtube.com/watch?v=..."
-              className="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              className="w-full border border-white/[0.08] rounded-xl px-4 py-2.5 bg-white/[0.04] text-zinc-50 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/30 transition"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              URL de archivo <span className="text-gray-400 font-normal">(opcional)</span>
+            <label className="block text-zinc-300 font-medium text-sm mb-1">
+              URL de archivo <span className="text-zinc-500 font-normal">(opcional)</span>
             </label>
             <input
               type="text"
@@ -181,7 +185,7 @@ export default function PostForm({ postId, initialValues, onClose, onSuccess }: 
               value={form.fileUrl}
               onChange={handleChange}
               placeholder="https://..."
-              className="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              className="w-full border border-white/[0.08] rounded-xl px-4 py-2.5 bg-white/[0.04] text-zinc-50 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/30 transition"
             />
           </div>
 
@@ -189,14 +193,14 @@ export default function PostForm({ postId, initialValues, onClose, onSuccess }: 
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm font-medium"
+              className="px-5 py-2.5 rounded-xl bg-white/[0.06] border border-white/[0.10] text-zinc-300 hover:bg-white/[0.10] transition-colors text-sm font-medium"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2.5 rounded-xl bg-green-600 hover:bg-green-700 text-white text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 rounded-xl bg-lime-400 hover:bg-lime-300 text-[#07120b] text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Guardando...' : isEdit ? 'Guardar cambios' : 'Publicar'}
             </button>

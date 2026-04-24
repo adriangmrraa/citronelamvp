@@ -87,31 +87,31 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
             <div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Usuario</p>
-              <p className="font-medium text-gray-900 dark:text-gray-100">{profile.username}</p>
+              <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Usuario</p>
+              <p className="font-medium text-zinc-100">{profile.username}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Email</p>
-              <p className="font-medium text-gray-900 dark:text-gray-100">{profile.email ?? '—'}</p>
+              <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Email</p>
+              <p className="font-medium text-zinc-100">{profile.email ?? '—'}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Rol</p>
+              <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Rol</p>
               <Badge variant="secondary">
                 {roleLabel[profile.role] ?? profile.role}
               </Badge>
             </div>
             <div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Tokens</p>
-              <p className="font-bold text-green-600 dark:text-green-400">{profile.tokens}</p>
+              <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Tokens</p>
+              <p className="font-bold text-lime-400">{profile.tokens}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Plan</p>
-              <p className="font-medium text-gray-900 dark:text-gray-100">
+              <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Plan</p>
+              <p className="font-medium text-zinc-100">
                 {profile.planType ? planLabel[profile.planType] ?? profile.planType : '—'}
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Estado</p>
+              <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Estado</p>
               <Badge variant={profile.isVerified ? 'default' : 'secondary'}>
                 {profile.isVerified ? 'Verificado' : 'Pendiente'}
               </Badge>
@@ -128,18 +128,18 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
         <CardContent>
           <form onSubmit={handleSave} className="space-y-4">
             {saveError && (
-              <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg text-sm dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
+              <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-xl text-sm">
                 {saveError}
               </div>
             )}
             {saveSuccess && (
-              <div className="bg-green-50 border border-green-200 text-green-700 p-3 rounded-lg text-sm dark:bg-green-900/20 dark:border-green-800 dark:text-green-400">
+              <div className="bg-lime-400/10 border border-lime-400/20 text-lime-400 p-3 rounded-xl text-sm">
                 Perfil actualizado correctamente.
               </div>
             )}
 
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-zinc-300 font-medium text-sm">
                 Teléfono
               </label>
               <Input
@@ -151,7 +151,7 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-zinc-300 font-medium text-sm">
                 Dirección
               </label>
               <Input
@@ -163,7 +163,7 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-zinc-300 font-medium text-sm">
                 Biografía
               </label>
               <textarea
@@ -171,12 +171,12 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
                 onChange={(e) => setBio(e.target.value)}
                 rows={3}
                 placeholder="Contanos algo sobre vos..."
-                className="flex w-full rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500"
+                className="flex w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-sm text-zinc-50 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/30"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-zinc-300 font-medium text-sm">
                 Genética preferida
               </label>
               <Input
@@ -188,7 +188,7 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-zinc-300 font-medium text-sm">
                 URL de avatar
               </label>
               <Input
@@ -199,9 +199,13 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
               />
             </div>
 
-            <Button type="submit" disabled={saving}>
+            <button
+              type="submit"
+              disabled={saving}
+              className="px-6 py-2.5 rounded-xl bg-lime-400 text-[#07120b] hover:bg-lime-300 font-semibold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
               {saving ? 'Guardando...' : 'Guardar cambios'}
-            </Button>
+            </button>
           </form>
         </CardContent>
       </Card>

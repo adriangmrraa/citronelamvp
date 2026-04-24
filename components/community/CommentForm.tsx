@@ -44,7 +44,7 @@ export default function CommentForm({ postId, onComment }: CommentFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       {error && (
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-sm rounded-lg px-4 py-2">
+        <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-lg px-4 py-2">
           {error}
         </div>
       )}
@@ -53,13 +53,13 @@ export default function CommentForm({ postId, onComment }: CommentFormProps) {
         onChange={(e) => setContent(e.target.value)}
         placeholder="Escribí tu comentario..."
         rows={4}
-        className="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 transition resize-none"
+        className="w-full border border-white/[0.08] rounded-xl px-4 py-3 bg-white/[0.04] text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-lime-400/50 transition resize-none"
       />
       <div className="flex justify-end">
         <button
           type="submit"
           disabled={loading || !content.trim()}
-          className="flex items-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 px-5 py-2.5 bg-lime-400 text-[#07120b] text-sm font-semibold rounded-xl hover:bg-lime-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Send className="w-4 h-4" />
           {loading ? 'Publicando...' : 'Comentar'}

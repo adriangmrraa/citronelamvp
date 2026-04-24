@@ -23,7 +23,7 @@ export default async function CultivatorPatientsPage() {
   if (forbidden) {
     return (
       <div className="p-6 max-w-3xl mx-auto">
-        <div className="bg-amber-50 border border-amber-200 text-amber-800 dark:bg-amber-900/20 dark:border-amber-800 dark:text-amber-300 p-5 rounded-xl">
+        <div className="bg-amber-400/10 border border-amber-400/20 text-amber-300 p-5 rounded-xl">
           <h2 className="font-semibold mb-1">Acceso restringido</h2>
           <p className="text-sm">
             Esta sección es solo para cultivadores. Si creés que es un error, contactá al administrador.
@@ -36,8 +36,8 @@ export default async function CultivatorPatientsPage() {
   return (
     <div className="p-6 max-w-5xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Mis Pacientes</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1">
+        <h1 className="text-2xl font-bold text-zinc-50">Mis Pacientes</h1>
+        <p className="text-zinc-400 mt-1">
           {patients.length} paciente{patients.length !== 1 ? 's' : ''} asignado{patients.length !== 1 ? 's' : ''}
         </p>
       </div>

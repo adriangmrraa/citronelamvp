@@ -75,9 +75,9 @@ export default function PostCard({ post }: PostCardProps) {
       <div className="mt-4 flex items-center justify-between text-sm text-zinc-500">
         <div className="flex items-center gap-1.5">
           <div className="w-5 h-5 bg-gradient-to-br from-lime-400/30 to-green-600/30 rounded-full flex items-center justify-center text-lime-400 text-xs font-bold shrink-0">
-            {post.author.charAt(0).toUpperCase()}
+            {(post.author || '?').charAt(0).toUpperCase()}
           </div>
-          <span>{post.author}</span>
+          <span>{post.author || 'Anónimo'}</span>
           <span>·</span>
           <span>{formatDate(post.createdAt)}</span>
         </div>

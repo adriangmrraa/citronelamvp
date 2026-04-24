@@ -20,8 +20,8 @@ export default async function AdminTransactionsPage() {
     <div className="p-6 max-w-6xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Transacciones de tokens</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">Historial completo de movimientos</p>
+          <h1 className="text-2xl font-bold text-zinc-50">Transacciones de tokens</h1>
+          <p className="text-zinc-400 mt-1">Historial completo de movimientos</p>
         </div>
         <ExportButton
           url="/api/admin/transactions/export"
