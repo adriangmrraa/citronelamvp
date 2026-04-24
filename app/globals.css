@@ -167,6 +167,50 @@ body {
       linear-gradient(90deg, rgba(163, 230, 53, 0.08) 1px, transparent 1px);
     background-size: 48px 48px;
   }
+
+  /* Phone floating animation */
+  .animate-float-phone {
+    animation: floatPhone 5s ease-in-out infinite;
+  }
+
+  /* Magnetic button hover glow */
+  .magnetic-btn {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .magnetic-btn::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: inherit;
+    filter: blur(16px);
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.4s ease;
+  }
+
+  .magnetic-btn:hover::before {
+    opacity: 0.6;
+  }
+
+  /* Lenis smooth scroll */
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
 }
 
 @keyframes fadeIn {
@@ -216,6 +260,13 @@ body {
   0%, 100% { transform: translate(0, 0) scale(1); }
   33% { transform: translate(40px, -30px) scale(1.1); }
   66% { transform: translate(-30px, 20px) scale(0.95); }
+}
+
+@keyframes floatPhone {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(0.3deg); }
+  50% { transform: translateY(-6px) rotate(-0.2deg); }
+  75% { transform: translateY(-12px) rotate(0.2deg); }
 }
 
 /* Scrollbar */
