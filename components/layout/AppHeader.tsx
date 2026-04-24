@@ -23,16 +23,20 @@ export default function AppHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800 shadow-sm">
+    <header className="sticky top-0 z-40 w-full bg-[#07120b]/80 backdrop-blur-xl border-b border-white/[0.06]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
           {/* Logo */}
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 font-bold text-[#16A34A] text-lg tracking-tight shrink-0"
+            className="flex items-center gap-2 font-bold text-lg tracking-tight shrink-0"
           >
-            <Leaf className="w-5 h-5 text-[#16A34A]" />
-            Citronela
+            <Leaf
+              className="w-5 h-5 text-lime-400"
+              style={{ filter: 'drop-shadow(0 0 8px rgba(163,230,53,0.4))' }}
+            />
+            <span className="text-white">Citro</span>
+            <span className="text-lime-400 -ml-1">nela</span>
           </Link>
 
           {/* Nav desktop */}
@@ -41,10 +45,10 @@ export default function AppHeader() {
               <Link
                 key={href}
                 href={href}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 text-sm font-medium transition-colors ${
                   isActive(href)
-                    ? 'bg-green-50 dark:bg-green-900/20 text-[#16A34A] dark:text-green-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800'
+                    ? 'bg-lime-400/10 text-lime-400 rounded-lg'
+                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.05] rounded-lg'
                 }`}
               >
                 {label}
@@ -60,27 +64,27 @@ export default function AppHeader() {
             <div className="relative">
               <button
                 onClick={() => setUserMenuOpen((prev) => !prev)}
-                className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm font-medium text-gray-700 dark:text-gray-300"
+                className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-white/[0.05] transition-colors text-sm font-medium text-zinc-300"
               >
-                <span className="w-6 h-6 rounded-full bg-[#16A34A] text-white text-xs font-bold flex items-center justify-center">
+                <span className="w-6 h-6 rounded-full bg-gradient-to-br from-lime-400 to-green-600 text-[#07120b] text-xs font-bold flex items-center justify-center">
                   U
                 </span>
-                <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
+                <ChevronDown className="w-3.5 h-3.5 text-zinc-500" />
               </button>
 
               {userMenuOpen && (
-                <div className="absolute right-0 top-full mt-1.5 w-44 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-1 z-50">
+                <div className="absolute right-0 top-full mt-1.5 w-44 glass-surface rounded-xl shadow-xl shadow-black/40 py-1 z-50">
                   <Link
                     href="/profile"
                     onClick={() => setUserMenuOpen(false)}
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                    className="block px-4 py-2 text-sm text-zinc-300 hover:bg-white/[0.05]"
                   >
                     Mi perfil
                   </Link>
-                  <hr className="my-1 border-gray-100 dark:border-gray-800" />
+                  <hr className="my-1 border-white/[0.06]" />
                   <Link
                     href="/api/auth/logout"
-                    className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10"
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10"
                   >
                     <LogOut className="w-3.5 h-3.5" />
                     Cerrar sesión
@@ -92,13 +96,13 @@ export default function AppHeader() {
             {/* Hamburger mobile */}
             <button
               onClick={() => setMenuOpen((prev) => !prev)}
-              className="md:hidden p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="md:hidden p-2 rounded-xl hover:bg-white/[0.05] transition-colors"
               aria-label="Menú"
             >
               {menuOpen ? (
-                <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                <X className="w-5 h-5 text-zinc-300" />
               ) : (
-                <Menu className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                <Menu className="w-5 h-5 text-zinc-300" />
               )}
             </button>
           </div>
@@ -107,7 +111,7 @@ export default function AppHeader() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 pb-4 pt-2 space-y-1">
+        <div className="md:hidden border-t border-white/[0.06] bg-[#07120b]/95 backdrop-blur-xl px-4 pb-4 pt-2 space-y-1">
           {NAV_LINKS.map(({ href, label }) => (
             <Link
               key={href}
@@ -115,24 +119,24 @@ export default function AppHeader() {
               onClick={() => setMenuOpen(false)}
               className={`block px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                 isActive(href)
-                  ? 'bg-green-50 dark:bg-green-900/20 text-[#16A34A] dark:text-green-400'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+                  ? 'bg-lime-400/10 text-lime-400'
+                  : 'text-zinc-400 hover:bg-white/[0.05] hover:text-zinc-200'
               }`}
             >
               {label}
             </Link>
           ))}
-          <hr className="border-gray-100 dark:border-gray-800 my-2" />
+          <hr className="border-white/[0.06] my-2" />
           <Link
             href="/profile"
             onClick={() => setMenuOpen(false)}
-            className="block px-3 py-2.5 rounded-xl text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+            className="block px-3 py-2.5 rounded-xl text-sm text-zinc-400 hover:bg-white/[0.05] hover:text-zinc-200"
           >
             Mi perfil
           </Link>
           <Link
             href="/api/auth/logout"
-            className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-red-400 hover:bg-red-500/10"
           >
             <LogOut className="w-4 h-4" />
             Cerrar sesión

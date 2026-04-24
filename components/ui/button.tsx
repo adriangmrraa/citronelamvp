@@ -10,12 +10,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = 'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50';
     
     const variants = {
-      default: 'bg-green-600 text-white hover:bg-green-700 hover:shadow-lg hover:shadow-green-600/25',
+      default: 'bg-gradient-to-r from-lime-400 to-green-500 text-[#07120b] font-semibold hover:from-lime-300 hover:to-green-400 hover:shadow-lg hover:shadow-lime-400/30 hover:scale-105 active:scale-100',
       destructive: 'bg-red-600 text-white hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/25',
-      outline: 'border border-gray-300 bg-transparent hover:bg-gray-100 hover:border-gray-400 text-gray-700 dark:border-gray-600 dark:hover:bg-gray-800 dark:text-gray-300',
-      secondary: 'bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700',
-      ghost: 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300',
-      link: 'text-green-600 underline-offset-4 hover:underline dark:text-green-400',
+      outline: 'glass-surface text-zinc-300 hover:border-lime-400/25 hover:bg-white/[0.06] hover:text-zinc-50',
+      secondary: 'bg-white/[0.06] border border-white/[0.10] text-zinc-300 hover:bg-white/[0.10] hover:text-zinc-50',
+      ghost: 'text-zinc-400 hover:bg-white/[0.05] hover:text-zinc-50',
+      link: 'text-lime-400 underline-offset-4 hover:underline hover:text-lime-300',
     };
 
     const sizes = {

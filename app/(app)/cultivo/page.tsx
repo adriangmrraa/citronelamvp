@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { Plus, Sprout } from 'lucide-react';
 import CropCard from '@/components/crops/CropCard';
 import CropForm from '@/components/crops/CropForm';
+import { Button } from '@/components/ui/button';
 import type { Crop } from '@/db/schema';
 
 export default function CultivoPage() {
@@ -37,10 +39,10 @@ export default function CultivoPage() {
     return (
       <div className="p-6 max-w-5xl mx-auto">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 dark:bg-gray-800 rounded w-48"></div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="h-8 bg-white/[0.04] rounded w-48"></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-48 bg-gray-200 dark:bg-gray-800 rounded-2xl"></div>
+              <div key={i} className="h-48 bg-white/[0.04] rounded-2xl"></div>
             ))}
           </div>
         </div>
@@ -49,57 +51,58 @@ export default function CultivoPage() {
   }
 
   return (
-    <div className="p-6 max-w-5xl mx-auto space-y-6">
+    <div className="relative p-6 max-w-5xl mx-auto space-y-6">
+      {/* Background image */}
+      <div
+        className="fixed inset-0 -z-10 opacity-[0.04] animate-bg-drift bg-cover bg-center"
+        style={{ backgroundImage: "url('/images/bg/cultivo.jpg')" }}
+      />
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Mi Cultivo</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+          <h1 className="text-3xl font-black text-white">Mi Cultivo</h1>
+          <p className="text-sm text-zinc-400 mt-0.5">
             {crops.length} {crops.length === 1 ? 'parcela registrada' : 'parcelas registradas'}
           </p>
         </div>
-        <button
+        <Button
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 bg-[#16A34A] text-white px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-[#14532D] transition-colors shadow-sm"
+          className="bg-lime-400 hover:bg-lime-300 text-[#07120b] font-semibold"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
+          <Plus className="w-4 h-4" />
           Nueva Parcela
-        </button>
+        </Button>
       </div>
 
       {error && (
-        <div className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 px-4 py-3 rounded-xl text-sm">
+        <div className="bg-red-900/20 text-red-400 px-4 py-3 rounded-xl text-sm">
           {error}
         </div>
       )}
 
       {/* Empty state */}
       {crops.length === 0 && !error && (
-        <div className="text-center py-20 bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800">
-          <div className="w-20 h-20 mx-auto mb-4 bg-green-50 dark:bg-green-900/20 rounded-2xl flex items-center justify-center">
-            <svg className="w-10 h-10 text-green-400 dark:text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1M4.22 4.22l.707.707M18.364 18.364l.707.707M1 12h1m20 0h1M4.22 19.778l.707-.707M18.364 5.636l.707-.707" />
-              <circle cx="12" cy="12" r="4" strokeWidth={1.5} />
-            </svg>
+        <div className="text-center py-20 glass-surface rounded-2xl border border-white/[0.08]">
+          <div className="w-20 h-20 mx-auto mb-4 bg-white/[0.04] rounded-2xl flex items-center justify-center">
+            <Sprout className="w-12 h-12 text-zinc-600" />
           </div>
-          <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">Sin parcelas todavía</h2>
-          <p className="text-gray-500 dark:text-gray-400 text-sm max-w-sm mx-auto mb-6">
+          <h2 className="text-xl font-bold text-white mb-2">Sin parcelas todavía</h2>
+          <p className="text-zinc-400 text-sm max-w-sm mx-auto mb-6">
             Creá tu primera parcela para empezar a registrar el progreso de tus plantas
           </p>
-          <button
+          <Button
             onClick={() => setShowForm(true)}
-            className="bg-[#16A34A] text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-[#14532D] transition-colors"
+            className="bg-lime-400 hover:bg-lime-300 text-[#07120b] font-semibold"
           >
             Crear primera parcela
-          </button>
+          </Button>
         </div>
       )}
 
       {/* Crops grid */}
       {crops.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {crops.map((crop) => (
             <CropCard key={crop.id} crop={crop} />
           ))}

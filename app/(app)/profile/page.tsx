@@ -25,7 +25,7 @@ export default async function ProfilePage() {
   if (!profile) {
     return (
       <div className="p-6">
-        <p className="text-red-600 dark:text-red-400">
+        <p className="text-red-400">
           No se pudo cargar el perfil. Por favor, iniciá sesión nuevamente.
         </p>
       </div>
@@ -33,8 +33,14 @@ export default async function ProfilePage() {
   }
 
   return (
-    <div className="p-6 max-w-3xl mx-auto space-y-8">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Mi Perfil</h1>
+    <div className="relative p-6 max-w-3xl mx-auto space-y-8">
+      {/* Background image */}
+      <div
+        className="fixed inset-0 -z-10 opacity-[0.04] animate-bg-drift bg-cover bg-center"
+        style={{ backgroundImage: "url('/images/bg/cta.jpg')" }}
+      />
+
+      <h1 className="text-3xl font-black text-white">Mi Perfil</h1>
 
       <ProfileForm profile={profile} />
 

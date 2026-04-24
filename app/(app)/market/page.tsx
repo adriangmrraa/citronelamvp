@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import { Search, ShoppingCart, Plus } from 'lucide-react';
 import ProductCard, { type Product } from '@/components/market/ProductCard';
 import FilterBar from '@/components/market/FilterBar';
 import CartDrawer, { type CartItem } from '@/components/market/CartDrawer';
@@ -141,7 +142,7 @@ export default function MarketPage() {
     if (errors.length === 0) {
       setCart([]);
       setCartOpen(false);
-      notify('¡Canges confirmados!');
+      notify('Canges confirmados!');
       fetchProducts(); // refresh stock
     } else {
       notify(`Errores: ${errors.join(', ')}`);
@@ -152,10 +153,16 @@ export default function MarketPage() {
   const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
+    <div className="relative p-6 max-w-6xl mx-auto space-y-6">
+      {/* Background image */}
+      <div
+        className="fixed inset-0 -z-10 opacity-[0.04] animate-bg-drift bg-cover bg-center"
+        style={{ backgroundImage: "url('/images/bg/market.jpg')" }}
+      />
+
       {/* Notification */}
       {notification && (
-        <div className="fixed top-4 right-4 bg-[#16A34A] text-white px-5 py-3 rounded-xl shadow-lg z-50 text-sm font-medium">
+        <div className="fixed top-4 right-4 glass-surface border border-lime-400/25 text-lime-400 px-5 py-3 rounded-xl shadow-lg z-50 text-sm font-medium">
           {notification}
         </div>
       )}
@@ -163,29 +170,30 @@ export default function MarketPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Mercado GTL</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+          <h1 className="text-3xl font-black text-white">Mercado GTL</h1>
+          <p className="text-sm text-zinc-400 mt-0.5">
             {products.length} productos disponibles
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" onClick={() => setShowProductForm(true)} size="sm">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
+          <Button
+            variant="outline"
+            onClick={() => setShowProductForm(true)}
+            size="sm"
+            className="bg-white/[0.04] border border-white/[0.08] text-zinc-300 hover:bg-white/[0.08]"
+          >
+            <Plus className="w-4 h-4" />
             Publicar producto
           </Button>
           {/* Cart button */}
           <button
             onClick={() => setCartOpen(true)}
-            className="relative flex items-center gap-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 px-4 py-2 rounded-xl hover:border-[#16A34A] transition-colors shadow-sm"
+            className="relative flex items-center gap-2 bg-lime-400 text-[#07120b] px-4 py-2 rounded-xl hover:bg-lime-300 transition-colors shadow-sm font-medium text-sm"
           >
-            <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Carrito</span>
+            <ShoppingCart className="w-5 h-5" />
+            <span>Carrito</span>
             {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-[#16A34A] text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-[#07120b] text-lime-400 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
                 {cartCount}
               </span>
             )}
@@ -205,23 +213,23 @@ export default function MarketPage() {
 
       {/* Error */}
       {error && (
-        <div className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 px-4 py-3 rounded-xl text-sm">
+        <div className="bg-red-900/20 text-red-400 px-4 py-3 rounded-xl text-sm">
           {error}
         </div>
       )}
 
       {/* Loading */}
       {loading && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-64 bg-gray-100 dark:bg-gray-800 rounded-2xl animate-pulse" />
+            <div key={i} className="h-64 bg-white/[0.04] rounded-2xl animate-pulse" />
           ))}
         </div>
       )}
 
       {/* Products grid */}
       {!loading && filtered.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filtered.map((product) => (
             <ProductCard
               key={product.id}
@@ -234,12 +242,12 @@ export default function MarketPage() {
 
       {/* Empty state */}
       {!loading && filtered.length === 0 && !error && (
-        <div className="text-center py-20 bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800">
-          <div className="text-5xl mb-4">🔍</div>
-          <h2 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-2">
+        <div className="text-center py-20 glass-surface rounded-2xl border border-white/[0.08]">
+          <Search className="w-12 h-12 text-zinc-600 mx-auto mb-4" />
+          <h2 className="text-lg font-bold text-white mb-2">
             Sin productos
           </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-sm text-zinc-400">
             No se encontraron productos con esos filtros
           </p>
         </div>
@@ -262,7 +270,7 @@ export default function MarketPage() {
           onSuccess={(newProduct) => {
             setProducts((prev) => [newProduct, ...prev]);
             setShowProductForm(false);
-            notify('¡Producto publicado!');
+            notify('Producto publicado!');
           }}
           onCancel={() => setShowProductForm(false)}
         />

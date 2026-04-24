@@ -44,9 +44,9 @@ export default function LoginForm() {
   };
 
   return (
-    <Card>
+    <Card className="glass-surface rounded-2xl">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl text-green-800 dark:text-green-400">
+        <CardTitle className="text-2xl text-lime-400 font-black">
           Iniciar Sesión
         </CardTitle>
         <CardDescription>
@@ -55,20 +55,20 @@ export default function LoginForm() {
       </CardHeader>
       <CardContent>
         {verified && (
-          <div className="mb-4 bg-green-50 border border-green-200 text-green-700 p-3 rounded-lg text-sm dark:bg-green-900/20 dark:border-green-800 dark:text-green-400">
+          <div className="mb-4 bg-lime-400/[0.08] border border-lime-400/25 rounded-xl p-3 text-lime-400 text-sm">
             Email verificado correctamente. Podés iniciar sesión.
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg text-sm dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
+            <div className="bg-red-500/[0.08] border border-red-500/25 rounded-xl p-3 text-red-400 text-sm">
               {error}
             </div>
           )}
 
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="block text-sm font-medium text-zinc-300">
               Usuario
             </label>
             <Input
@@ -82,7 +82,7 @@ export default function LoginForm() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="block text-sm font-medium text-zinc-300">
               Contraseña
             </label>
             <Input
@@ -100,9 +100,9 @@ export default function LoginForm() {
           </Button>
         </form>
 
-        <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
-          ¿No tenés cuenta?{' '}
-          <Link href="/register" className="text-green-600 hover:underline dark:text-green-400">
+        <p className="mt-4 text-center text-sm text-zinc-400">
+          No tenés cuenta?{' '}
+          <Link href="/register" className="text-lime-400 hover:text-lime-300">
             Registrate
           </Link>
         </p>

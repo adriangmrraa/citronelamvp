@@ -43,11 +43,31 @@ function PhoneMockup({
 /* ================================================================
    ANIMATED ORB — Floating gradient orb for backgrounds
    ================================================================ */
-function AnimatedOrb({ className, color, delay = 0 }: { className: string; color: string; delay?: number }) {
+function AnimatedOrb({ className, color, delay = 0, ...props }: { className: string; color: string; delay?: number; [key: string]: any }) {
   return (
     <div
       className={`absolute rounded-full pointer-events-none animate-blob ${className}`}
       style={{ background: color, animationDelay: `${delay}s` }}
+      {...props}
+    />
+  );
+}
+
+/* ================================================================
+   BACKGROUND IMAGE — Parallax image with opacity and movement
+   ================================================================ */
+function BgImage({ src, className = '', position = 'center' }: { src: string; className?: string; position?: string }) {
+  return (
+    <div
+      data-bg-image
+      className={`absolute inset-0 pointer-events-none opacity-[0.07] animate-bg-drift ${className}`}
+      style={{
+        backgroundImage: `url(${src})`,
+        backgroundSize: 'cover',
+        backgroundPosition: position,
+        maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 80%)',
+        WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 80%)',
+      }}
     />
   );
 }
@@ -193,9 +213,9 @@ function LeafIcon({ className = '' }: { className?: string }) {
    PANEL CONFIG
    ================================================================ */
 const panelConfig = [
-  { tag: 'Gestión de Cultivo', tagCls: 'bg-lime-400/10 border-lime-400/20 text-lime-300', title: 'Control ', hl: 'total', end: ' de cada planta', desc: 'Registrá pH, EC, nutrientes y fases de crecimiento. Nuestra IA te sugiere correcciones en tiempo real para maximizar tu cosecha.', chips: ['pH/EC', 'IA', 'Fases', 'Lab Reports'], chipCls: 'bg-lime-400/10 text-lime-300 border-lime-400/20', glow: 'rgba(163,230,53,0.2)', orbColor: 'rgba(163,230,53,0.12)', orbColor2: 'rgba(34,197,94,0.08)' },
-  { tag: 'Marketplace', tagCls: 'bg-emerald-400/10 border-emerald-400/20 text-emerald-300', title: 'Tu ', hl: 'mercado', end: ' cannábico', desc: 'Comprá y vendé genéticas, nutrientes y equipos. Reseñas verificadas, informes de laboratorio y reputación de vendedores.', chips: ['Genéticas', 'Nutrientes', 'Equipos', 'Reseñas'], chipCls: 'bg-emerald-400/10 text-emerald-300 border-emerald-400/20', glow: 'rgba(16,185,129,0.2)', orbColor: 'rgba(6,182,212,0.1)', orbColor2: 'rgba(16,185,129,0.08)' },
-  { tag: 'Comunidad', tagCls: 'bg-amber-400/10 border-amber-400/20 text-amber-300', title: 'Compartí y ', hl: 'aprendé', end: '', desc: 'Debates, papers, investigaciones y eventos. Una comunidad de cultivadores que comparte conocimiento y experiencia real.', chips: ['Debates', 'Papers', 'Eventos', 'Tips'], chipCls: 'bg-amber-400/10 text-amber-300 border-amber-400/20', glow: 'rgba(251,191,36,0.15)', orbColor: 'rgba(251,191,36,0.08)', orbColor2: 'rgba(245,158,11,0.05)' },
+  { tag: 'Gestión de Cultivo', tagCls: 'bg-lime-400/10 border-lime-400/20 text-lime-300', title: 'Control ', hl: 'total', end: ' de cada planta', desc: 'Registrá pH, EC, nutrientes y fases de crecimiento. Nuestra IA te sugiere correcciones en tiempo real para maximizar tu cosecha.', chips: ['pH/EC', 'IA', 'Fases', 'Lab Reports'], chipCls: 'bg-lime-400/10 text-lime-300 border-lime-400/20', glow: 'rgba(163,230,53,0.2)', orbColor: 'rgba(163,230,53,0.12)', orbColor2: 'rgba(34,197,94,0.08)', bgImage: '/images/bg/cultivo.jpg' },
+  { tag: 'Marketplace', tagCls: 'bg-emerald-400/10 border-emerald-400/20 text-emerald-300', title: 'Tu ', hl: 'mercado', end: ' cannábico', desc: 'Comprá y vendé genéticas, nutrientes y equipos. Reseñas verificadas, informes de laboratorio y reputación de vendedores.', chips: ['Genéticas', 'Nutrientes', 'Equipos', 'Reseñas'], chipCls: 'bg-emerald-400/10 text-emerald-300 border-emerald-400/20', glow: 'rgba(16,185,129,0.2)', orbColor: 'rgba(6,182,212,0.1)', orbColor2: 'rgba(16,185,129,0.08)', bgImage: '/images/bg/market.jpg' },
+  { tag: 'Comunidad', tagCls: 'bg-amber-400/10 border-amber-400/20 text-amber-300', title: 'Compartí y ', hl: 'aprendé', end: '', desc: 'Debates, papers, investigaciones y eventos. Una comunidad de cultivadores que comparte conocimiento y experiencia real.', chips: ['Debates', 'Papers', 'Eventos', 'Tips'], chipCls: 'bg-amber-400/10 text-amber-300 border-amber-400/20', glow: 'rgba(251,191,36,0.15)', orbColor: 'rgba(251,191,36,0.08)', orbColor2: 'rgba(245,158,11,0.05)', bgImage: '/images/bg/community.jpg' },
 ];
 const screenComponents = [CultivoScreen, MarketScreen, CommunityScreen];
 
@@ -272,14 +292,14 @@ export default function LandingPage() {
         // Phone items stagger in
         phase1.to(items, { y: 0, opacity: 1, stagger: 0.03, duration: 0.3 }, '-=0.2');
 
-        // Phase 2: Phone exits upward before showcase starts
+        // Phase 2: Phone stays visible, then gently fades out before showcase
         gsap.to(heroPhoneRef.current, {
-          y: -250, scale: 0.6, opacity: 0,
+          y: -150, scale: 0.85, opacity: 0,
           scrollTrigger: {
             trigger: horizontalWrapperRef.current,
-            start: 'top 95%',
-            end: 'top 40%',
-            scrub: 1,
+            start: 'top 70%',
+            end: 'top 15%',
+            scrub: 1.5,
           },
         });
       }
@@ -458,8 +478,26 @@ export default function LandingPage() {
         </div>
       </header>
 
+      {/* ============ PARALLAX FIXED BACKGROUND ============ */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        {/* Image with Ken Burns cinematic zoom */}
+        <div
+          className="absolute inset-0 animate-ken-burns"
+          style={{
+            backgroundImage: 'url(/images/imagen-parallax.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        />
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-[#07120b]/60" />
+        {/* Bottom gradient fade */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#07120b] via-transparent to-[#07120b]/40" />
+      </div>
+
       {/* ============ HERO ============ */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden pt-20">
+      <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden pt-20 z-[1]">
         {/* Animated background orbs */}
         <AnimatedOrb data-parallax-orb className="top-[-10%] left-[-5%] w-[520px] h-[520px] blur-[100px]" color="rgba(163,230,53,0.18)" />
         <AnimatedOrb data-parallax-orb className="top-[20%] right-[-10%] w-[600px] h-[600px] blur-[120px]" color="rgba(34,197,94,0.12)" delay={-4} />
@@ -522,13 +560,15 @@ export default function LandingPage() {
       </section>
 
       {/* ============ HORIZONTAL SHOWCASE ============ */}
-      <section ref={horizontalWrapperRef} className="relative overflow-hidden">
+      <section ref={horizontalWrapperRef} className="relative overflow-hidden z-[2] bg-[#07120b]/95 backdrop-blur-xl border-t border-lime-400/10 shadow-[0_-40px_80px_rgba(7,18,11,0.9)]">
 
         <div ref={horizontalTrackRef} className="flex" style={{ width: `${panelConfig.length * 100}vw` }}>
           {panelConfig.map((panel, i) => {
             const Screen = screenComponents[i];
             return (
               <div key={i} data-panel className="relative w-screen h-screen flex-shrink-0 flex items-center overflow-hidden">
+                {/* Background photo */}
+                <BgImage src={panel.bgImage} />
                 {/* Per-panel animated background */}
                 <div className="absolute inset-0 pointer-events-none">
                   <AnimatedOrb className="top-[10%] left-[15%] w-[500px] h-[500px] blur-[120px]" color={panel.orbColor} delay={i * -3} />
@@ -561,7 +601,8 @@ export default function LandingPage() {
       </section>
 
       {/* ============ FEATURES ============ */}
-      <section ref={featuresRef} className="relative py-24 sm:py-32 overflow-hidden">
+      <section ref={featuresRef} className="relative py-24 sm:py-32 overflow-hidden z-[2] bg-[#07120b]">
+        <BgImage src="/images/bg/features.jpg" position="center" />
         <AnimatedOrb className="top-[20%] left-[-5%] w-[400px] h-[400px] blur-[100px]" color="rgba(163,230,53,0.08)" delay={-2} />
         <AnimatedOrb className="bottom-[10%] right-[-5%] w-[350px] h-[350px] blur-[90px]" color="rgba(34,197,94,0.06)" delay={-6} />
         <div className="absolute inset-0 bg-grid-weed opacity-12 [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_60%)]" />
@@ -590,7 +631,7 @@ export default function LandingPage() {
       </section>
 
       {/* ============ ECOSYSTEM ============ */}
-      <section ref={ecosystemRef} className="relative py-20 border-y border-lime-400/10 overflow-hidden">
+      <section ref={ecosystemRef} className="relative py-20 border-y border-lime-400/10 overflow-hidden z-[2] bg-[#07120b]">
         <AnimatedOrb className="top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] blur-[120px]" color="rgba(163,230,53,0.06)" />
         <div className="relative max-w-5xl mx-auto px-6 text-center">
           <p data-eco-word className="text-xs tracking-[0.3em] uppercase text-lime-400/60 mb-8">Un ecosistema completo</p>
@@ -603,7 +644,8 @@ export default function LandingPage() {
       </section>
 
       {/* ============ CTA ============ */}
-      <section ref={ctaRef} className="relative py-28 sm:py-36 overflow-hidden">
+      <section ref={ctaRef} className="relative py-28 sm:py-36 overflow-hidden z-[2] bg-[#07120b]">
+        <BgImage src="/images/bg/cta.jpg" position="center" />
         <AnimatedOrb data-parallax-orb className="top-[-10%] left-[20%] w-[450px] h-[450px] blur-[120px]" color="rgba(163,230,53,0.15)" />
         <AnimatedOrb data-parallax-orb className="bottom-[-10%] right-[20%] w-[450px] h-[450px] blur-[120px]" color="rgba(34,197,94,0.12)" delay={-5} />
         <AnimatedOrb className="top-[30%] right-[40%] w-[250px] h-[250px] blur-[80px]" color="rgba(251,191,36,0.06)" delay={-3} />
@@ -623,7 +665,7 @@ export default function LandingPage() {
       </section>
 
       {/* ============ FOOTER ============ */}
-      <footer className="relative border-t border-lime-400/10 bg-[#050d07] py-12">
+      <footer className="relative border-t border-lime-400/10 bg-[#050d07] py-12 z-[2]">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-3">

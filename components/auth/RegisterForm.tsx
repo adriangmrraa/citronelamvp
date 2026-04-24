@@ -48,17 +48,17 @@ export default function RegisterForm() {
 
   if (success) {
     return (
-      <Card>
+      <Card className="glass-surface rounded-2xl">
         <CardContent className="pt-6 text-center space-y-4">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto dark:bg-green-900/30">
-            <svg className="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-16 h-16 bg-lime-400/10 rounded-full flex items-center justify-center mx-auto">
+            <svg className="w-8 h-8 text-lime-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
           </div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-            ¡Registración exitosa!
+          <h2 className="text-xl font-bold text-zinc-50">
+            Registración exitosa!
           </h2>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-zinc-400">
             Verificá tu email para activar tu cuenta. Una vez verificado, un administrador aprobará tu acceso.
           </p>
           <Link href="/login">
@@ -72,9 +72,9 @@ export default function RegisterForm() {
   }
 
   return (
-    <Card>
+    <Card className="glass-surface rounded-2xl">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl text-green-800 dark:text-green-400">
+        <CardTitle className="text-2xl text-lime-400 font-black">
           Crear Cuenta
         </CardTitle>
         <CardDescription>
@@ -84,13 +84,13 @@ export default function RegisterForm() {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg text-sm dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
+            <div className="bg-red-500/[0.08] border border-red-500/25 rounded-xl p-3 text-red-400 text-sm">
               {error}
             </div>
           )}
 
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="block text-sm font-medium text-zinc-300">
               Usuario <span className="text-red-500">*</span>
             </label>
             <Input
@@ -105,7 +105,7 @@ export default function RegisterForm() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="block text-sm font-medium text-zinc-300">
               Email
             </label>
             <Input
@@ -118,7 +118,7 @@ export default function RegisterForm() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="block text-sm font-medium text-zinc-300">
               Contraseña <span className="text-red-500">*</span>
             </label>
             <Input
@@ -137,9 +137,9 @@ export default function RegisterForm() {
           </Button>
         </form>
 
-        <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
-          ¿Ya tenés cuenta?{' '}
-          <Link href="/login" className="text-green-600 hover:underline dark:text-green-400">
+        <p className="mt-4 text-center text-sm text-zinc-400">
+          Ya tenés cuenta?{' '}
+          <Link href="/login" className="text-lime-400 hover:text-lime-300">
             Iniciá sesión
           </Link>
         </p>

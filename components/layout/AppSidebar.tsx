@@ -38,21 +38,21 @@ export default function AppSidebar() {
 
   return (
     <aside
-      className={`hidden lg:flex flex-col shrink-0 bg-white dark:bg-gray-950 border-r border-gray-100 dark:border-gray-800 transition-all duration-200 ${
+      className={`hidden lg:flex flex-col shrink-0 bg-[#07120b]/90 backdrop-blur-xl border-r border-white/[0.06] transition-all duration-200 ${
         collapsed ? 'w-16' : 'w-56'
       }`}
     >
       {/* Collapse toggle */}
-      <div className="flex justify-end p-3 border-b border-gray-100 dark:border-gray-800">
+      <div className="flex justify-end p-3 border-b border-white/[0.06]">
         <button
           onClick={() => setCollapsed((prev) => !prev)}
-          className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          className="p-1.5 rounded-lg hover:bg-white/[0.05] text-zinc-500 transition-colors"
           aria-label={collapsed ? 'Expandir sidebar' : 'Colapsar sidebar'}
         >
           {collapsed ? (
-            <ChevronRight className="w-4 h-4 text-gray-400" />
+            <ChevronRight className="w-4 h-4" />
           ) : (
-            <ChevronLeft className="w-4 h-4 text-gray-400" />
+            <ChevronLeft className="w-4 h-4" />
           )}
         </button>
       </div>
@@ -65,17 +65,13 @@ export default function AppSidebar() {
               key={href}
               href={href}
               title={collapsed ? label : undefined}
-              className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors group ${
+              className={`flex items-center gap-3 px-3 py-2 text-sm font-medium transition-colors group ${
                 active
-                  ? 'bg-green-50 dark:bg-green-900/20 text-[#16A34A] dark:text-green-400'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100'
+                  ? 'bg-lime-400/[0.08] text-lime-400 border-l-2 border-lime-400/60 rounded-r-xl'
+                  : 'text-zinc-500 hover:bg-white/[0.04] hover:text-zinc-200 rounded-xl'
               }`}
             >
-              <Icon
-                className={`w-4 h-4 shrink-0 ${
-                  active ? 'text-[#16A34A] dark:text-green-400' : 'text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'
-                }`}
-              />
+              <Icon className="w-4 h-4 shrink-0" />
               {!collapsed && <span className="truncate">{label}</span>}
             </Link>
           );

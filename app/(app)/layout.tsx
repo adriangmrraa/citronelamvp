@@ -3,7 +3,7 @@ import AdminSidebarWrapper from '@/components/layout/AdminSidebarWrapper';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-950">
+    <div className="min-h-screen flex flex-col bg-[#07120b]">
       <AppHeader />
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar solo visible en rutas /admin */}
