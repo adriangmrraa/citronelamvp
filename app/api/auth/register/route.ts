@@ -53,21 +53,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
     }
 
-    // Beta: skip email verification — emailVerified = true directamente
-    // En producción, cambiar a false y activar envío de email
+    // Beta/Dev: auto-approve — todos los registros se verifican automáticamente
+    // En producción, cambiar isVerified a false y tokens a 0
+    const INITIAL_TOKENS = 300;
     const [newUser] = await db.insert(users).values({
       username,
       email,
       password: hashedPassword,
       verificationToken,
-      isVerified: false,
+      isVerified: true,
       emailVerified: true,
-      tokens: 0,
+      tokens: INITIAL_TOKENS,
     }).returning({ id: users.id, username: users.username, email: users.email });
 
     return NextResponse.json({
       user: { id: newUser.id, username: newUser.username, email: newUser.email },
-      message: 'Cuenta creada. Un administrador debe aprobar tu cuenta para continuar.',
+      message: 'Cuenta creada. Ya podés iniciar sesión.',
     }, { status: 201 });
   } catch (error) {
     console.error('Register error:', error);

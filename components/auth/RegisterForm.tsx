@@ -59,7 +59,7 @@ export default function RegisterForm() {
             Registración exitosa!
           </h2>
           <p className="text-zinc-400">
-            Verificá tu email para activar tu cuenta. Una vez verificado, un administrador aprobará tu acceso.
+            Tu cuenta está lista. Ya podés iniciar sesión y empezar a usar la plataforma.
           </p>
           <Link href="/login">
             <Button variant="outline" className="mt-2">
