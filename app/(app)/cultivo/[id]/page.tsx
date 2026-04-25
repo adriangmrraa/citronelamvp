@@ -141,7 +141,7 @@ export default function CropDetailPage() {
   return (
     <div className="p-6 max-w-5xl mx-auto space-y-6">
       {/* Back + actions */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <button
           onClick={() => router.push('/cultivo')}
           className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-lime-400 transition-colors"
@@ -149,7 +149,7 @@ export default function CropDetailPage() {
           <ArrowLeft className="w-4 h-4" />
           Mis Cultivos
         </button>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <button
             onClick={() => setShowCalculator((v) => !v)}
             className="flex items-center gap-1.5 text-sm px-3 py-2 rounded-xl border border-white/[0.08] hover:bg-white/[0.04] transition text-zinc-400"

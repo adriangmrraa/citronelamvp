@@ -55,7 +55,7 @@ export default function AdminEventsPage() {
 
   return (
     <div className="p-6 max-w-5xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-zinc-50">Gestión de eventos</h1>
           <p className="text-zinc-400 mt-1">{events.length} evento{events.length !== 1 ? 's' : ''} registrado{events.length !== 1 ? 's' : ''}</p>

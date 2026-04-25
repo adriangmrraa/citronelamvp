@@ -59,7 +59,7 @@ export default function CultivoPage() {
       />
 
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-black text-white">Mi Cultivo</h1>
           <p className="text-sm text-zinc-400 mt-0.5">
@@ -68,7 +68,7 @@ export default function CultivoPage() {
         </div>
         <Button
           onClick={() => setShowForm(true)}
-          className="bg-lime-400 hover:bg-lime-300 text-[#07120b] font-semibold"
+          className="bg-lime-400 hover:bg-lime-300 text-[#07120b] font-semibold w-fit"
         >
           <Plus className="w-4 h-4" />
           Nueva Parcela
