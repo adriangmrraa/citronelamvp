@@ -1,8 +1,22 @@
 'use client';
 
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
+
+function useWebGLSupport() {
+  const [supported, setSupported] = useState(false);
+  useEffect(() => {
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+      setSupported(!!gl);
+    } catch {
+      setSupported(false);
+    }
+  }, []);
+  return supported;
+}
 
 /* ================================================================
    MOUSE TRACKER — Shared mouse position for interactive elements
@@ -72,6 +86,9 @@ function TrichomeParticles({ count = 80, mouseRef }: { count?: number; mouseRef:
    ================================================================ */
 export function HeroScene({ className = '' }: { className?: string }) {
   const mouseRef = useMousePosition();
+  const webgl = useWebGLSupport();
+
+  if (!webgl) return null;
 
   return (
     <div className={`absolute inset-0 -z-10 ${className}`}>
@@ -93,6 +110,9 @@ export function HeroScene({ className = '' }: { className?: string }) {
    ================================================================ */
 export function ShowcaseScene({ className = '' }: { className?: string }) {
   const mouseRef = useMousePosition();
+  const webgl = useWebGLSupport();
+
+  if (!webgl) return null;
 
   return (
     <div className={`absolute inset-0 -z-10 ${className}`}>

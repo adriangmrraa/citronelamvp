@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, Component } from 'react';
 import Link from 'next/link';
 import { AnimatedOrb } from '@/components/shared/AnimatedOrb';
 import { LeafIcon } from '@/components/shared/LeafIcon';
@@ -8,6 +8,20 @@ import { DashboardScreen } from '../screens/DashboardScreen';
 import { heroStats } from '../data';
 
 const HeroScene = lazy(() => import('@/components/landing/Scene3D').then((m) => ({ default: m.HeroScene })));
+
+class SceneErrorBoundary extends Component<{ children: React.ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  render() {
+    if (this.state.hasError) return null;
+    return this.props.children;
+  }
+}
 
 interface HeroProps {
   textRef: React.RefObject<HTMLDivElement>;
@@ -24,9 +38,11 @@ export const Hero = React.forwardRef<HTMLElement, HeroProps>(({ textRef, phoneRe
 
       <div className="absolute inset-0 bg-grid-weed opacity-25 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" />
 
-      <Suspense fallback={null}>
-        <HeroScene className="opacity-50 lg:opacity-65" />
-      </Suspense>
+      <SceneErrorBoundary>
+        <Suspense fallback={null}>
+          <HeroScene className="opacity-50 lg:opacity-65" />
+        </Suspense>
+      </SceneErrorBoundary>
 
       <LeafIcon className="absolute top-28 left-[8%] w-20 h-20 text-lime-400/[0.06] animate-float rotate-12" />
       <LeafIcon className="absolute top-[55%] right-[5%] w-28 h-28 text-emerald-400/[0.04] animate-float-slow -rotate-12" />
