@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citronela — Reunión de Equipo | Future IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-dark:#050505;--bg-darker:#030303;--bg-card:#0a0a0f;
+  --white:#FFFFFF;--w80:rgba(255,255,255,0.8);--w60:rgba(255,255,255,0.6);--w40:rgba(255,255,255,0.4);--w20:rgba(255,255,255,0.2);--w10:rgba(255,255,255,0.1);--w05:rgba(255,255,255,0.05);
+  --cyan:#00E5FF;--cyan-d:rgba(0,229,255,0.2);--cyan-g:rgba(0,229,255,0.08);
+  --red:#E11D48;--red-d:rgba(225,29,72,0.2);
+  --green:#059669;--green-d:rgba(5,150,105,0.2);
+  --yellow:#FBBF24;--yellow-d:rgba(251,191,36,0.2);
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg-dark);font-family:'Space Grotesk',sans-serif;color:var(--white)}
+#slideshow{position:fixed;top:0;left:0;width:100%;height:100%;overflow:hidden}
+#scale-wrapper{position:absolute;transform-origin:top left}
+.slide{position:absolute;top:0;left:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;overflow:hidden;background:var(--bg-dark);transition:opacity 0.4s ease}
+.slide.active{opacity:1;pointer-events:auto}
+/* .slide.active display:flex moved to .slide base rule */
+.slide-inner{position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px}
+
+/* ORBS */
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:floatOrb 8s ease-in-out infinite}
+@keyframes floatOrb{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}}
+
+/* TYPOGRAPHY */
+.eyebrow{font-size:17px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--cyan);margin-bottom:16px}
+.hero-title{font-size:72px;font-weight:900;line-height:1;color:var(--white);margin-bottom:20px}
+.hero-sub{font-size:36px;font-weight:500;color:var(--w80);margin-bottom:12px}
+.body-text{font-size:26px;font-weight:400;color:var(--w60);line-height:1.6}
+.section-title{font-size:48px;font-weight:800;color:var(--white);margin-bottom:8px}
+.section-sub{font-size:28px;font-weight:500;color:var(--w60);margin-bottom:40px}
+.accent{color:var(--cyan)}
+.accent-red{color:var(--red)}
+.accent-green{color:var(--green)}
+
+/* CARDS */
+.card{background:var(--bg-card);border:1px solid var(--w10);border-radius:16px;padding:36px;box-shadow:0 10px 30px rgba(0,0,0,0.4);transition:border-color 0.3s,transform 0.3s}
+.card:hover{border-color:rgba(0,229,255,0.3);transform:translateY(-4px)}
+.card-cyan{border-color:rgba(0,229,255,0.25)}
+.card-red{border-color:rgba(225,29,72,0.25)}
+.card-green{border-color:rgba(5,150,105,0.25)}
+
+/* GRID UTILS */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:26px}
+.grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:20px}
+.flex-row{display:flex;align-items:center;gap:20px}
+.flex-col{display:flex;flex-direction:column;gap:20px}
+
+/* BADGE / TAG */
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.badge-cyan{background:var(--cyan-d);color:var(--cyan);border:1px solid rgba(0,229,255,0.3)}
+.badge-red{background:var(--red-d);color:var(--red);border:1px solid rgba(225,29,72,0.3)}
+.badge-green{background:var(--green-d);color:var(--green);border:1px solid rgba(5,150,105,0.3)}
+.badge-yellow{background:var(--yellow-d);color:var(--yellow);border:1px solid rgba(251,191,36,0.3)}
+
+/* STAT BOX */
+.stat-number{font-size:64px;font-weight:900;line-height:1;color:var(--cyan)}
+.stat-label{font-size:18px;font-weight:500;color:var(--w60);text-transform:uppercase;letter-spacing:2px;margin-top:4px}
+
+/* STEP */
+.step-row{display:flex;align-items:flex-start;gap:20px;padding:16px 20px;background:var(--bg-card);border:1px solid var(--w10);border-radius:12px;margin-bottom:12px;transition:border-color 0.3s,box-shadow 0.3s}
+.step-row.lit{border-color:var(--cyan);box-shadow:0 0 20px rgba(0,229,255,0.12)}
+.step-num{font-size:24px;font-weight:800;color:var(--cyan);min-width:36px}
+.step-text{font-size:22px;color:var(--w80)}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;font-size:20px}
+.data-table th{background:var(--w05);color:var(--cyan);font-size:16px;text-transform:uppercase;letter-spacing:2px;padding:10px 14px;text-align:left;border-bottom:1px solid var(--w10)}
+.data-table td{padding:10px 14px;border-bottom:1px solid var(--w05);color:var(--w80)}
+.data-table tr:hover td{background:var(--w05)}
+
+/* PARTICLE CANVAS */
+.bg-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* BRAND */
+.brand-mark{position:fixed;bottom:20px;right:24px;font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--w40);z-index:300}
+
+/* PROGRESS */
+.progress-bar{position:fixed;top:0;left:0;width:100%;height:3px;background:rgba(255,255,255,0.08);z-index:400}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--red));transition:width 0.3s ease;width:0%}
+.slide-counter{position:fixed;top:16px;left:20px;font-size:17px;color:var(--w40);z-index:400;letter-spacing:2px}
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:20px;z-index:400}
+.nav-btn{background:rgba(255,255,255,0.08);color:var(--white);border:1px solid rgba(255,255,255,0.15);padding:10px 22px;font-size:17px;cursor:pointer;border-radius:8px;font-family:'Space Grotesk',sans-serif;transition:background 0.2s,border-color 0.2s}
+.nav-btn:hover{background:rgba(255,255,255,0.16);border-color:rgba(0,229,255,0.4)}
+
+/* ANIMATE-IN handled by CSS/JS */
+.animate-in{opacity:0}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.animate-in.visible{animation:fadeInUp 0.6s ease forwards}
+
+/* SCANLINE */
+.scanline{position:absolute;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:2}
+
+/* PILL */
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:24px;font-size:18px;font-weight:600;border:1px solid var(--w20);background:var(--w05)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-cyan{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.dot-red{background:var(--red);box-shadow:0 0 8px var(--red)}
+.dot-green{background:var(--green);box-shadow:0 0 8px var(--green)}
+.dot-yellow{background:var(--yellow);box-shadow:0 0 8px var(--yellow)}
+
+/* FLOW ARROW */
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.flow-item{background:var(--bg-card);border:1px solid var(--w20);border-radius:8px;padding:8px 16px;font-size:18px;font-weight:600;color:var(--w80)}
+.flow-arrow{color:var(--cyan);font-size:24px;font-weight:700}
+
+/* ROLE CARD */
+.role-card{background:var(--bg-card);border-radius:16px;padding:32px;border:1px solid var(--w10)}
+.role-title{font-size:24px;font-weight:800;margin-bottom:6px}
+.role-cond{font-size:17px;color:var(--w40);margin-bottom:14px}
+.role-perm{font-size:18px;color:var(--w70);line-height:1.8}
+
+/* ENTITY BOX */
+.entity{background:var(--bg-card);border:1px solid var(--cyan-d);border-radius:12px;overflow:hidden}
+.entity-header{background:rgba(0,229,255,0.08);padding:10px 16px;font-size:17px;font-weight:800;color:var(--cyan);text-transform:uppercase;letter-spacing:2px;border-bottom:1px solid var(--cyan-d)}
+.entity-field{padding:6px 16px;font-size:17px;color:var(--w70);border-bottom:1px solid var(--w05);display:flex;justify-content:space-between;align-items:center}
+.entity-field:last-child{border-bottom:none}
+.field-type{font-size:14px;color:var(--w40);font-family:monospace}
+
+/* PAGE CARD */
+.page-card{background:var(--bg-card);border:1px solid var(--w10);border-radius:16px;padding:32px}
+.page-title{font-size:28px;font-weight:800;color:var(--white);margin-bottom:4px}
+.page-desc{font-size:18px;color:var(--w60);margin-bottom:16px}
+.btn-list{display:flex;flex-direction:column;gap:8px}
+.btn-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--w05);border-radius:8px;font-size:18px;color:var(--w80)}
+.btn-icon{width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0}
+
+/* METRIC CARD */
+.metric-card{background:var(--bg-card);border:1px solid var(--w10);border-radius:16px;padding:32px;text-align:center}
+.metric-val{font-size:58px;font-weight:900;color:var(--cyan);line-height:1}
+.metric-label{font-size:17px;color:var(--w60);margin-top:8px;text-transform:uppercase;letter-spacing:2px}
+.metric-why{font-size:17px;color:var(--w40);margin-top:8px;line-height:1.5}
+
+@media print{
+  @page{size:1080px 1920px portrait;margin:0}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body{background:#050505!important}
+  #scale-wrapper{transform:none!important;position:static!important;width:1080px!important;height:auto!important}
+  #slideshow{position:static!important;overflow:visible!important;height:auto!important;width:1080px!important}
+  .slide{position:relative!important;opacity:1!important;width:1080px!important;height:1920px!important;page-break-after:always!important;break-after:page!important;display:flex!important;page-break-inside:avoid!important;break-inside:avoid!important;background:#050505!important}
+  .nav,.progress-bar,.slide-counter,.brand-mark,.nav-controls,.export-btn{display:none!important}
+}
+</style>
+</head>
+<body>
+<div id="slideshow">
+<div id="scale-wrapper">
+
+<!-- ============================================================
+     SLIDE 01 — PORTADA
+============================================================ -->
+<div class="slide active" id="s0">
+  <canvas class="bg-canvas" id="cvs-cover"></canvas>
+  <div class="slide-inner" style="position:relative;z-index:1;text-align:center">
+    <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(0,229,255,0.15),transparent 70%);top:-100px;left:-100px;animation-delay:0s"></div>
+    <div class="orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(225,29,72,0.12),transparent 70%);bottom:-80px;right:-80px;animation-delay:3s"></div>
+    <div class="animate-in eyebrow" style="margin-bottom:24px">Reunión de Equipo · 21 de Abril, 2026</div>
+    <div class="animate-in" style="font-size:88px;font-weight:900;line-height:0.95;margin-bottom:28px;background:linear-gradient(135deg,#fff 0%,var(--cyan) 60%,var(--red) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">CITRONELA</div>
+    <div class="animate-in" style="font-size:42px;font-weight:500;color:var(--w60);margin-bottom:40px">Análisis completo del producto · Estado actual · Próximos pasos</div>
+    <div class="animate-in flex-row" style="justify-content:center;gap:24px">
+      <div class="pill"><div class="dot dot-cyan"></div>7 módulos funcionales</div>
+      <div class="pill"><div class="dot dot-green"></div>~80% del MVP listo</div>
+      <div class="pill"><div class="dot dot-red"></div>3 vulnerabilidades críticas</div>
+    </div>
+    <div class="animate-in" style="margin-top:48px;font-size:18px;color:var(--w40);letter-spacing:3px;text-transform:uppercase">Preparado por Product Manager · Future IA</div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 02 — QUÉ ES CITRONELA
+============================================================ -->
+<div class="slide" id="s1">
+  <div class="slide-inner">
+    <div class="orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(0,229,255,0.1),transparent 70%);top:-200px;right:-200px;animation-delay:1s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Product Discovery</div>
+      <div class="animate-in section-title" style="margin-bottom:4px">¿Qué es <span class="accent">Citronela Club</span>?</div>
+      <div class="animate-in section-sub">Una plataforma web gamificada para cultivadores hidropónicos</div>
+      <div class="animate-in" style="margin-bottom:32px">
+        <div style="background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.2);border-radius:16px;padding:24px 32px;font-size:28px;font-weight:500;color:var(--w80);line-height:1.5;font-style:italic">
+          "Para cultivadores hidropónicos que usan métodos manuales, Citronela es un ecosistema persistente donde el éxito del cultivo se traduce en <span class="accent">reputación, tokens y estatus comunitario</span>."
+        </div>
+      </div>
+      <div class="animate-in grid-3">
+        <div class="card card-cyan">
+          <div style="font-size:48px;font-weight:900;color:var(--cyan);margin-bottom:12px">01</div>
+          <div style="font-size:24px;font-weight:800;margin-bottom:8px">Mi Cultivo</div>
+          <div style="font-size:18px;color:var(--w60);line-height:1.6">Registro semanal de parámetros pH, EC y nutrientes. Feedback automático con semáforo de salud Verde / Amarillo / Rojo.</div>
+        </div>
+        <div class="card card-cyan">
+          <div style="font-size:48px;font-weight:900;color:var(--cyan);margin-bottom:12px">02</div>
+          <div style="font-size:24px;font-weight:800;margin-bottom:8px">GTL — Marketplace</div>
+          <div style="font-size:18px;color:var(--w60);line-height:1.6">Intercambio de productos entre cultivadores con economía de tokens virtual. Flores, Parafernalia y Genéticas.</div>
+        </div>
+        <div class="card card-cyan">
+          <div style="font-size:48px;font-weight:900;color:var(--cyan);margin-bottom:12px">03</div>
+          <div style="font-size:24px;font-weight:800;margin-bottom:8px">Foro Comunitario</div>
+          <div style="font-size:18px;color:var(--w60);line-height:1.6">Red social especializada. Posts, comentarios, reacciones y suscripciones. 7 categorías temáticas.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 03 — PROBLEMA Y USUARIOS
+============================================================ -->
+<div class="slide" id="s2">
+  <div class="slide-inner">
+    <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(225,29,72,0.12),transparent 70%);bottom:-100px;left:-100px;animation-delay:2s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">El Problema & Los Usuarios</div>
+      <div class="animate-in section-title" style="margin-bottom:40px">¿A quién le resuelve <span class="accent">qué</span>?</div>
+      <div class="animate-in" style="margin-bottom:32px;background:rgba(225,29,72,0.06);border:1px solid rgba(225,29,72,0.2);border-radius:16px;padding:24px 32px">
+        <div style="font-size:18px;color:var(--red);text-transform:uppercase;letter-spacing:3px;font-weight:700;margin-bottom:12px">El problema hoy</div>
+        <div style="font-size:26px;color:var(--w80);line-height:1.6">Los entusiastas de la hidroponía usan <span class="accent-red">hojas de cálculo, cuadernos o apps genéricas</span>. No existe una plataforma que combine tracking técnico profesional + marketplace entre cultivadores + comunidad de conocimiento especializado.</div>
+      </div>
+      <div class="animate-in grid-3">
+        <div class="card">
+          <div class="badge badge-cyan" style="margin-bottom:16px">Novato Curioso</div>
+          <div style="font-size:21px;font-weight:700;margin-bottom:8px;color:var(--white)">Recién empieza, sin inversión</div>
+          <div style="font-size:18px;color:var(--w60);line-height:1.6">Necesita educación, herramientas visuales y bajo riesgo para dar sus primeros pasos.</div>
+        </div>
+        <div class="card">
+          <div class="badge badge-cyan" style="margin-bottom:16px">Grower Metódico</div>
+          <div style="font-size:21px;font-weight:700;margin-bottom:8px;color:var(--white)">Cultivador serio y preciso</div>
+          <div style="font-size:18px;color:var(--w60);line-height:1.6">Requiere tracking técnico de pH y EC, historial completo y reportes exportables.</div>
+        </div>
+        <div class="card">
+          <div class="badge badge-cyan" style="margin-bottom:16px">Emprendedor</div>
+          <div style="font-size:21px;font-weight:700;margin-bottom:8px;color:var(--white)">Quiere monetizar su expertise</div>
+          <div style="font-size:18px;color:var(--w60);line-height:1.6">Marketplace seguro, reputación medible y comunidad activa para posicionarse.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 04 — ECONOMÍA DE TOKENS
+============================================================ -->
+<div class="slide" id="s3">
+  <div class="slide-inner">
+    <div class="orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(251,191,36,0.1),transparent 70%);top:-150px;right:-150px;animation-delay:0s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Economía del Producto</div>
+      <div class="animate-in section-title">Sistema de <span style="color:var(--yellow)">Tokens</span></div>
+      <div class="animate-in section-sub">La moneda virtual interna — central al modelo del producto</div>
+      <div class="animate-in grid-2" style="gap:32px">
+        <div>
+          <div class="card" style="margin-bottom:20px;border-color:rgba(251,191,36,0.25)">
+            <div style="font-size:18px;color:var(--yellow);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:16px">Reglas de la economía</div>
+            <div class="step-row lit" style="margin-bottom:0">
+              <div class="step-num" style="color:var(--yellow)">+100</div>
+              <div class="step-text">Al registrarse — saldo inicial garantizado</div>
+            </div>
+            <div style="height:1px;background:var(--w05);margin:10px 0"></div>
+            <div class="step-row" style="margin-bottom:0;background:transparent;border:none">
+              <div class="step-num accent-red">—</div>
+              <div class="step-text">Compra en marketplace: buyer pierde tokens</div>
+            </div>
+            <div class="step-row" style="margin-bottom:0;background:transparent;border:none">
+              <div class="step-num accent-green">+</div>
+              <div class="step-text">Venta en marketplace: seller gana tokens</div>
+            </div>
+            <div class="step-row" style="margin-bottom:0;background:transparent;border:none">
+              <div class="step-num accent-red">—</div>
+              <div class="step-text">Reserva de eventos: se descuentan tokens</div>
+            </div>
+            <div class="step-row" style="margin-bottom:0;background:transparent;border:none">
+              <div class="step-num" style="color:var(--w40)">ADM</div>
+              <div class="step-text">Solo Admin puede agregar tokens manualmente</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card card-red" style="margin-bottom:20px">
+            <div style="font-size:18px;color:var(--red);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:16px">Restricciones críticas</div>
+            <div style="font-size:20px;color:var(--w70);line-height:1.8">
+              <div style="margin-bottom:10px;display:flex;gap:10px;align-items:flex-start"><span style="color:var(--red);font-weight:800;margin-top:2px">×</span> Los tokens <strong>nunca pueden ser negativos</strong> (validado en checkout)</div>
+              <div style="margin-bottom:10px;display:flex;gap:10px;align-items:flex-start"><span style="color:var(--red);font-weight:800;margin-top:2px">×</span> Las transacciones son <strong>atómicas</strong> — todo o nada</div>
+              <div style="margin-bottom:10px;display:flex;gap:10px;align-items:flex-start"><span style="color:var(--red);font-weight:800;margin-top:2px">×</span> <strong>No hay transferencias directas</strong> entre usuarios</div>
+              <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--red);font-weight:800;margin-top:2px">×</span> <strong>No hay reembolsos automáticos</strong> — requiere intervención admin</div>
+            </div>
+          </div>
+          <div class="card card-green">
+            <div style="font-size:18px;color:var(--green);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px">Pregunta estratégica abierta</div>
+            <div style="font-size:20px;color:var(--w70);line-height:1.6">¿El sistema de tokens es suficiente o necesita integración con dinero real (Stripe)? — Esta decisión define el modelo de negocio completo.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 05 — MODELO DE DATOS: ENTIDADES PRINCIPALES
+============================================================ -->
+<div class="slide" id="s4">
+  <div class="slide-inner">
+    <div class="scanline"></div>
+    <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(0,229,255,0.08),transparent 70%);top:-100px;left:-100px;animation-delay:0s"></div>
+    <div style="width:100%;max-width:1400px;position:relative;z-index:3">
+      <div class="animate-in eyebrow">Modelo de Datos</div>
+      <div class="animate-in section-title">Entidades <span class="accent">principales</span></div>
+      <div class="animate-in section-sub">Lo que gestiona el sistema — 16 modelos de datos</div>
+      <div class="animate-in grid-3" style="gap:16px">
+        <div class="entity">
+          <div class="entity-header">Usuario</div>
+          <div class="entity-field">username <span class="field-type">único</span></div>
+          <div class="entity-field">email <span class="field-type">opcional, único</span></div>
+          <div class="entity-field">tokens <span class="field-type">Int, default 100</span></div>
+          <div class="entity-field">role <span class="field-type">USER / ADMIN</span></div>
+          <div class="entity-field">emailVerified <span class="field-type">Boolean</span></div>
+        </div>
+        <div class="entity">
+          <div class="entity-header">Cultivo (Crop)</div>
+          <div class="entity-field">bucketName <span class="field-type">nombre del balde</span></div>
+          <div class="entity-field">imageUrl <span class="field-type">foto del cultivo</span></div>
+          <div class="entity-field">status <span class="field-type">Verde/Amarillo/Rojo</span></div>
+          <div class="entity-field">userId <span class="field-type">→ Usuario</span></div>
+          <div class="entity-field">logs <span class="field-type">→ BitácorasSemanas</span></div>
+        </div>
+        <div class="entity">
+          <div class="entity-header">Bitácora Semanal</div>
+          <div class="entity-field">week <span class="field-type">ej: "Semana 3"</span></div>
+          <div class="entity-field">phase <span class="field-type">4 fases</span></div>
+          <div class="entity-field">ph <span class="field-type">Float 0–14</span></div>
+          <div class="entity-field">ec <span class="field-type">Float 0–5</span></div>
+          <div class="entity-field">feedback <span class="field-type">auto-generado</span></div>
+        </div>
+        <div class="entity">
+          <div class="entity-header">Producto</div>
+          <div class="entity-field">name <span class="field-type">nombre del producto</span></div>
+          <div class="entity-field">category <span class="field-type">Flores/Para./Genet.</span></div>
+          <div class="entity-field">price <span class="field-type">en tokens</span></div>
+          <div class="entity-field">stock <span class="field-type">Int</span></div>
+          <div class="entity-field">status <span class="field-type">Active/Paused/SoldOut</span></div>
+        </div>
+        <div class="entity">
+          <div class="entity-header">Orden / Transacción</div>
+          <div class="entity-field">buyerId <span class="field-type">→ Usuario</span></div>
+          <div class="entity-field">totalPrice <span class="field-type">snapshot tokens</span></div>
+          <div class="entity-field">status <span class="field-type">Pendiente/Entregado</span></div>
+          <div class="entity-field">items <span class="field-type">→ OrderItems</span></div>
+          <div class="entity-field">review <span class="field-type">1 por orden</span></div>
+        </div>
+        <div class="entity">
+          <div class="entity-header">Evento</div>
+          <div class="entity-field">title <span class="field-type">nombre</span></div>
+          <div class="entity-field">date / time <span class="field-type">fecha y hora</span></div>
+          <div class="entity-field">location <span class="field-type">lugar</span></div>
+          <div class="entity-field">capacity <span class="field-type">aforo, default 50</span></div>
+          <div class="entity-field">categories <span class="field-type">→ TipoTicket</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 06 — MODELO DE DATOS: ENTIDADES SOCIALES
+============================================================ -->
+<div class="slide" id="s5">
+  <div class="slide-inner">
+    <div class="scanline"></div>
+    <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(225,29,72,0.08),transparent 70%);bottom:-100px;right:-100px;animation-delay:2s"></div>
+    <div style="width:100%;max-width:1400px;position:relative;z-index:3">
+      <div class="animate-in eyebrow">Modelo de Datos</div>
+      <div class="animate-in section-title">Entidades <span class="accent-red">sociales y de soporte</span></div>
+      <div class="animate-in grid-4" style="gap:14px;margin-bottom:24px">
+        <div class="entity">
+          <div class="entity-header" style="font-size:14px">Post (Foro)</div>
+          <div class="entity-field" style="font-size:16px">title <span class="field-type">min 5 chars</span></div>
+          <div class="entity-field" style="font-size:16px">category <span class="field-type">7 categorías</span></div>
+          <div class="entity-field" style="font-size:16px">youtubeLink <span class="field-type">embed</span></div>
+          <div class="entity-field" style="font-size:16px">isPinned <span class="field-type">admin</span></div>
+          <div class="entity-field" style="font-size:16px">isImmutable <span class="field-type">protegido</span></div>
+        </div>
+        <div class="entity">
+          <div class="entity-header" style="font-size:14px">Comentario</div>
+          <div class="entity-field" style="font-size:16px">content <span class="field-type">max 500 chars</span></div>
+          <div class="entity-field" style="font-size:16px">postId <span class="field-type">→ Post</span></div>
+          <div class="entity-field" style="font-size:16px">authorId <span class="field-type">→ Usuario</span></div>
+        </div>
+        <div class="entity">
+          <div class="entity-header" style="font-size:14px">Reacción</div>
+          <div class="entity-field" style="font-size:16px">type <span class="field-type">Interesante</span></div>
+          <div class="entity-field" style="font-size:16px;color:var(--cyan)">type <span class="field-type">Útil</span></div>
+          <div class="entity-field" style="font-size:16px">type <span class="field-type">Científico</span></div>
+          <div class="entity-field" style="font-size:16px">única por user+post</div>
+        </div>
+        <div class="entity">
+          <div class="entity-header" style="font-size:14px">Wishlist</div>
+          <div class="entity-field" style="font-size:16px">userId <span class="field-type">→ Usuario</span></div>
+          <div class="entity-field" style="font-size:16px">productId <span class="field-type">→ Producto</span></div>
+          <div class="entity-field" style="font-size:16px">única por user+prod</div>
+          <div class="entity-field" style="font-size:16px">cascade al borrar</div>
+        </div>
+      </div>
+      <div class="animate-in grid-3" style="gap:16px">
+        <div class="card card-green">
+          <div style="font-size:18px;color:var(--green);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px">Relaciones clave</div>
+          <div style="font-size:18px;color:var(--w70);line-height:1.8">
+            Usuario → 11 relaciones (cultivos, productos, órdenes, posts, comentarios, wishlist, notificaciones, suscripciones, reacciones, reservas, reviews)
+          </div>
+        </div>
+        <div class="card">
+          <div style="font-size:18px;color:var(--cyan);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px">Unicidad garantizada</div>
+          <div style="font-size:17px;color:var(--w70);line-height:1.8">
+            1 favorito por user×producto<br>
+            1 suscripción por user×post<br>
+            1 reacción por user×post<br>
+            1 review por orden
+          </div>
+        </div>
+        <div class="card" style="border-color:rgba(251,191,36,0.25)">
+          <div style="font-size:18px;color:var(--yellow);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px">Tipo de Ticket</div>
+          <div style="font-size:18px;color:var(--w70);line-height:1.8">
+            Cada evento tiene categorías independientes:<br>
+            <strong style="color:var(--white)">General · VIP · Socio</strong><br>
+            Con precios y beneficios distintos
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 07 — REGLAS DE NEGOCIO: FEEDBACK DE CULTIVOS
+============================================================ -->
+<div class="slide" id="s6">
+  <div class="slide-inner">
+    <div class="orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(5,150,105,0.12),transparent 70%);top:-150px;right:-150px;animation-delay:0s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Reglas de Negocio</div>
+      <div class="animate-in section-title">Feedback <span class="accent-green">automático</span> de cultivos</div>
+      <div class="animate-in section-sub">El sistema evalúa parámetros y asigna un estado de salud</div>
+      <div class="animate-in grid-2" style="gap:32px">
+        <div>
+          <div class="card" style="margin-bottom:20px">
+            <div style="font-size:20px;font-weight:700;color:var(--cyan);margin-bottom:16px;text-transform:uppercase;letter-spacing:2px">Parámetros evaluados</div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="padding:12px 16px;background:rgba(5,150,105,0.08);border:1px solid rgba(5,150,105,0.25);border-radius:10px">
+                <div style="font-size:17px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px">pH óptimo</div>
+                <div style="font-size:28px;font-weight:900;color:var(--white)">5.5 — 6.5</div>
+                <div style="font-size:17px;color:var(--w60);margin-top:4px">Fuera de rango → alerta de pH</div>
+              </div>
+              <div style="padding:12px 16px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.25);border-radius:10px">
+                <div style="font-size:17px;color:var(--yellow);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px">EC máxima segura</div>
+                <div style="font-size:28px;font-weight:900;color:var(--white)">2.5 mS/cm</div>
+                <div style="font-size:17px;color:var(--w60);margin-top:4px">Superado → riesgo de quemado de raíces</div>
+              </div>
+              <div style="padding:12px 16px;background:var(--w05);border:1px solid var(--w10);border-radius:10px">
+                <div style="font-size:17px;color:var(--cyan);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px">4 fases del cultivo</div>
+                <div style="font-size:18px;color:var(--w80)">Germinación · Vegetación · Floración · Senescencia</div>
+                <div style="font-size:17px;color:var(--w60);margin-top:4px">EC objetivo varía por fase (ej: Vegetación 1.2–1.6)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="margin-bottom:16px;font-size:18px;color:var(--cyan);text-transform:uppercase;letter-spacing:2px;font-weight:700">Estado resultante del cultivo</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="padding:16px 20px;background:rgba(5,150,105,0.1);border:1px solid rgba(5,150,105,0.3);border-radius:12px;display:flex;align-items:center;gap:16px">
+              <div style="width:16px;height:16px;border-radius:50%;background:#059669;box-shadow:0 0 12px rgba(5,150,105,0.8);flex-shrink:0"></div>
+              <div>
+                <div style="font-size:18px;font-weight:800;color:#059669">VERDE</div>
+                <div style="font-size:17px;color:var(--w60)">Todos los parámetros dentro del rango óptimo</div>
+              </div>
+            </div>
+            <div style="padding:16px 20px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);border-radius:12px;display:flex;align-items:center;gap:16px">
+              <div style="width:16px;height:16px;border-radius:50%;background:#FBBF24;box-shadow:0 0 12px rgba(251,191,36,0.8);flex-shrink:0"></div>
+              <div>
+                <div style="font-size:18px;font-weight:800;color:#FBBF24">AMARILLO</div>
+                <div style="font-size:17px;color:var(--w60)">Advertencias en feedback — atención requerida</div>
+              </div>
+            </div>
+            <div style="padding:16px 20px;background:rgba(225,29,72,0.1);border:1px solid rgba(225,29,72,0.3);border-radius:12px;display:flex;align-items:center;gap:16px">
+              <div style="width:16px;height:16px;border-radius:50%;background:#E11D48;box-shadow:0 0 12px rgba(225,29,72,0.8);flex-shrink:0"></div>
+              <div>
+                <div style="font-size:18px;font-weight:800;color:#E11D48">ROJO</div>
+                <div style="font-size:17px;color:var(--w60)">Múltiples alertas o valores críticos — intervención urgente</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 08 — PÁGINAS DEL MVP: AUTENTICACIÓN
+============================================================ -->
+<div class="slide" id="s7">
+  <div class="slide-inner">
+    <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(0,229,255,0.1),transparent 70%);top:-100px;right:-100px;animation-delay:1s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Páginas del MVP</div>
+      <div class="animate-in section-title">Autenticación <span class="accent">y Onboarding</span></div>
+      <div class="animate-in grid-2" style="gap:28px">
+        <div>
+          <div class="page-card" style="margin-bottom:20px">
+            <div class="page-title">Página de Login</div>
+            <div class="page-desc">Punto de entrada único a la plataforma</div>
+            <div class="btn-list">
+              <div class="btn-item"><div class="btn-icon"></div>Formulario username + password</div>
+              <div class="btn-item"><div class="btn-icon"></div>Acepta username O email como identificador</div>
+              <div class="btn-item"><div class="btn-icon"></div>Botón "Iniciar sesión" → JWT 24h</div>
+              <div class="btn-item"><div class="btn-icon"></div>Link a registro</div>
+            </div>
+          </div>
+          <div class="page-card">
+            <div class="page-title">Página de Registro</div>
+            <div class="page-desc">Creación de cuenta nueva</div>
+            <div class="btn-list">
+              <div class="btn-item"><div class="btn-icon"></div>Campos: username (requerido), password (min 6), email (opcional)</div>
+              <div class="btn-item"><div class="btn-icon"></div>Al registrarse → 100 tokens asignados automáticamente</div>
+              <div class="btn-item"><div class="btn-icon"></div>Si tiene email → envía link de verificación</div>
+              <div class="btn-item"><div class="btn-icon"></div>Redirige a Mi Cultivo con banner de verificación</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card card-cyan" style="margin-bottom:20px">
+            <div style="font-size:18px;color:var(--cyan);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:16px">Banner de verificación</div>
+            <div style="font-size:18px;color:var(--w70);line-height:1.8;margin-bottom:12px">
+              Persiste en todas las páginas mientras el email no esté verificado. No bloquea la navegación, pero limita funcionalidades clave.
+            </div>
+            <div style="font-size:17px;color:var(--w50)">Botón "Reenviar verificación" con rate limit de 5 minutos</div>
+          </div>
+          <div class="card card-red">
+            <div style="font-size:18px;color:var(--red);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px">Gate de email verificado</div>
+            <div style="font-size:18px;color:var(--w70);line-height:1.8">
+              Sin verificar → puede navegar y ver contenido<br>
+              Sin verificar → <span style="color:var(--red)">NO puede</span> publicar productos, crear posts ni reservar eventos
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 09 — PÁGINAS: MI CULTIVO (DASHBOARD)
+============================================================ -->
+<div class="slide" id="s8">
+  <div class="slide-inner">
+    <div class="orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(5,150,105,0.1),transparent 70%);bottom:-200px;left:-200px;animation-delay:0s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Páginas del MVP</div>
+      <div class="animate-in section-title">Mi Cultivo — <span class="accent-green">Dashboard</span></div>
+      <div class="animate-in section-sub">El núcleo técnico del producto</div>
+      <div class="animate-in grid-2" style="gap:28px">
+        <div class="flex-col">
+          <div class="page-card">
+            <div class="page-title">Listado de cultivos</div>
+            <div class="page-desc">Vista principal con todos los baldes del usuario</div>
+            <div class="btn-list">
+              <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Botón "Nuevo cultivo" — abre formulario (nombre + foto)</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Cards de cultivo con estado Verde/Amarillo/Rojo</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Botón "Ver bitácora" por cultivo</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--red)"></div>Botón "Eliminar cultivo" (con confirmación)</div>
+            </div>
+          </div>
+          <div class="page-card">
+            <div class="page-title">Detalle del cultivo</div>
+            <div class="page-desc">Vista de historial y tendencias</div>
+            <div class="btn-list">
+              <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Gráfico SVG de tendencia de pH a lo largo del tiempo</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Gráfico SVG de tendencia de EC a lo largo del tiempo</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Tabla de bitácoras históricas con feedback por semana</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Botón "Exportar CSV" para trazabilidad</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Botón "Exportar PDF" para trazabilidad</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="page-card">
+            <div class="page-title">Formulario de bitácora semanal</div>
+            <div class="page-desc">El corazón del tracking técnico</div>
+            <div class="btn-list">
+              <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Campo "Semana N" — identificador de la entrada</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Selector de fase (Germinación / Vegetación / Floración / Senescencia)</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Campo pH (0.0 – 14.0)</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Campo EC (0.0 – 5.0 mS/cm)</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Campos nutrientes: Grow, Micro, Bloom (ml)</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Campo de notas libre</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Foto de la semana (opcional)</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Al guardar → sistema calcula status + genera feedback automático</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 10 — PÁGINAS: MARKETPLACE (GTL)
+============================================================ -->
+<div class="slide" id="s9">
+  <div class="slide-inner">
+    <div class="orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(0,229,255,0.1),transparent 70%);top:-200px;right:-200px;animation-delay:2s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Páginas del MVP</div>
+      <div class="animate-in section-title">Marketplace — <span class="accent">GTL Global Trade Link</span></div>
+      <div class="animate-in grid-3" style="gap:20px">
+        <div class="page-card">
+          <div class="page-title">Explorador de productos</div>
+          <div class="page-desc">Vista principal del marketplace</div>
+          <div class="btn-list">
+            <div class="btn-item"><div class="btn-icon"></div>Filtro por categoría (Flores / Parafernalia / Genéticas)</div>
+            <div class="btn-item"><div class="btn-icon"></div>Filtro por rango de precio (en tokens)</div>
+            <div class="btn-item"><div class="btn-icon"></div>Filtro "Solo vendedor verificado"</div>
+            <div class="btn-item"><div class="btn-icon"></div>Buscador por nombre de producto</div>
+            <div class="btn-item"><div class="btn-icon"></div>Ordenar: más nuevo, precio asc/desc, stock</div>
+            <div class="btn-item"><div class="btn-icon"></div>Paginación (12 por página)</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--red)"></div>Botón corazón → agregar/quitar de wishlist</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Botón "Agregar al carrito"</div>
+          </div>
+        </div>
+        <div class="page-card">
+          <div class="page-title">Carrito flotante</div>
+          <div class="page-desc">Slide-up persistente en la pantalla</div>
+          <div class="btn-list">
+            <div class="btn-item"><div class="btn-icon"></div>Vista de items en carrito con cantidades</div>
+            <div class="btn-item"><div class="btn-icon"></div>Total en tokens calculado en tiempo real</div>
+            <div class="btn-item"><div class="btn-icon"></div>Botón "Vaciar carrito"</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Botón "Comprar ahora" → checkout</div>
+          </div>
+          <div style="margin-top:16px;padding:12px;background:rgba(0,229,255,0.06);border-radius:8px;font-size:17px;color:var(--w60)">
+            Checkout atómico: si cualquier validación falla, NO se procesa nada
+          </div>
+        </div>
+        <div class="page-card">
+          <div class="page-title">Mis Ventas (panel vendedor)</div>
+          <div class="page-desc">Gestión de productos propios</div>
+          <div class="btn-list">
+            <div class="btn-item"><div class="btn-icon"></div>Botón "Publicar producto" (requiere email verificado)</div>
+            <div class="btn-item"><div class="btn-icon"></div>Formulario: nombre, descripción, categoría, precio, stock, imagen</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--yellow)"></div>Botón "Editar" producto → cambiar precio/stock/estado</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--yellow)"></div>Cambiar estado: Active → Paused → SoldOut</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--red)"></div>Botón "Eliminar producto"</div>
+            <div class="btn-item"><div class="btn-icon"></div>Rating promedio calculado desde reviews de compradores</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 11 — PÁGINAS: PEDIDOS
+============================================================ -->
+<div class="slide" id="s10">
+  <div class="slide-inner">
+    <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(251,191,36,0.1),transparent 70%);bottom:-100px;left:-100px;animation-delay:1s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Páginas del MVP</div>
+      <div class="animate-in section-title">Pedidos — <span style="color:var(--yellow)">Historial de Transacciones</span></div>
+      <div class="animate-in grid-2" style="gap:28px">
+        <div class="page-card">
+          <div class="page-title">Mis Compras</div>
+          <div class="page-desc">Historial como comprador</div>
+          <div class="btn-list">
+            <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Lista de órdenes con estado (Pendiente / Entregado / Cancelado)</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Detalle expandible por orden: productos, cantidades, precio snapshot</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Botón "Dejar review" (habilitado post-compra, 1 sola vez por orden)</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Formulario de review: 1–5 estrellas + comentario opcional</div>
+          </div>
+        </div>
+        <div class="page-card">
+          <div class="page-title">Mis Ventas</div>
+          <div class="page-desc">Historial como vendedor</div>
+          <div class="btn-list">
+            <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Lista de items vendidos con referencia a la orden</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Cantidad vendida por producto</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Tokens ganados por cada venta</div>
+          </div>
+        </div>
+      </div>
+      <div class="animate-in" style="margin-top:24px;padding:20px 24px;background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.2);border-radius:12px">
+        <div style="font-size:17px;color:var(--yellow);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:10px">Regla de negocio clave: Notificación de precio en wishlist</div>
+        <div style="font-size:20px;color:var(--w70)">Si un producto en la wishlist de un usuario baja de precio → se genera automáticamente una notificación. El usuario la ve en el ícono de campana.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 12 — PÁGINAS: FORO
+============================================================ -->
+<div class="slide" id="s11">
+  <div class="slide-inner">
+    <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(0,229,255,0.08),transparent 70%);top:-100px;left:-100px;animation-delay:3s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Páginas del MVP</div>
+      <div class="animate-in section-title">Foro <span class="accent">Comunitario</span></div>
+      <div class="animate-in grid-3" style="gap:20px">
+        <div class="page-card">
+          <div class="page-title">Listado de posts</div>
+          <div class="page-desc">Vista principal del foro</div>
+          <div class="btn-list">
+            <div class="btn-item"><div class="btn-icon"></div>Filtro por categoría (7 opciones)</div>
+            <div class="btn-item"><div class="btn-icon"></div>Buscador por título/contenido</div>
+            <div class="btn-item"><div class="btn-icon"></div>Ordenar: más reciente, más reacciones</div>
+            <div class="btn-item"><div class="btn-icon"></div>Posts fijados (pin) al tope siempre</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Botón "Nuevo post" (requiere email verificado)</div>
+          </div>
+          <div style="margin-top:14px;font-size:16px;color:var(--cyan);font-weight:600;letter-spacing:1px">CATEGORÍAS: Clases · Investigaciones · FAQ · Debates · Papers · Noticias · Anuncios</div>
+        </div>
+        <div class="page-card">
+          <div class="page-title">Detalle de post</div>
+          <div class="page-desc">Vista de lectura y participación</div>
+          <div class="btn-list">
+            <div class="btn-item"><div class="btn-icon"></div>Contenido completo del post</div>
+            <div class="btn-item"><div class="btn-icon"></div>YouTube embed si hay link</div>
+            <div class="btn-item"><div class="btn-icon"></div>Adjuntos descargables (PDF, DOCX, etc.)</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Botones de reacción: Interesante · Útil · Científico</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Botón "Suscribirse" al post</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Caja de comentario (max 500 chars)</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Botón "Modo lectura" (fullscreen, tipografía serif)</div>
+          </div>
+        </div>
+        <div class="page-card">
+          <div class="page-title">Crear post</div>
+          <div class="page-desc">Formulario de publicación</div>
+          <div class="btn-list">
+            <div class="btn-item"><div class="btn-icon"></div>Campo título (min 5 chars)</div>
+            <div class="btn-item"><div class="btn-icon"></div>Campo contenido (min 10 chars)</div>
+            <div class="btn-item"><div class="btn-icon"></div>Selector de categoría</div>
+            <div class="btn-item"><div class="btn-icon"></div>Campo YouTube link (opcional)</div>
+            <div class="btn-item"><div class="btn-icon"></div>Adjuntos: hasta 5 archivos (PDF, DOCX, XLSX, TXT)</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Botón "Publicar"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 13 — PÁGINAS: EVENTOS Y ADMIN
+============================================================ -->
+<div class="slide" id="s12">
+  <div class="slide-inner">
+    <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(225,29,72,0.1),transparent 70%);bottom:-100px;right:-100px;animation-delay:0s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Páginas del MVP</div>
+      <div class="animate-in section-title">Eventos + <span class="accent-red">Panel Admin</span></div>
+      <div class="animate-in grid-2" style="gap:28px">
+        <div>
+          <div class="page-card" style="margin-bottom:20px">
+            <div class="page-title">Página de Eventos</div>
+            <div class="page-desc">Galería de eventos disponibles</div>
+            <div class="btn-list">
+              <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Cards de eventos con flyer, fecha, lugar y aforo disponible</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Expandir → ver categorías de tickets (General, VIP, Socio)</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--green)"></div>Botón "Reservar" por tipo de ticket (valida tokens disponibles)</div>
+              <div class="btn-item"><div class="btn-icon" style="background:var(--cyan)"></div>Tab "Mis reservaciones" → lista con QR generado</div>
+              <div class="btn-item"><div class="btn-icon"></div>QR format: CITRO-{eventoId}-{userId}-{timestamp}</div>
+            </div>
+          </div>
+          <div style="padding:16px 20px;background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.15);border-radius:12px;font-size:18px;color:var(--w60)">
+            Solo el Admin puede <strong style="color:var(--white)">crear eventos</strong>. Los usuarios solo pueden explorar y reservar.
+          </div>
+        </div>
+        <div class="page-card">
+          <div class="page-title">Panel Admin</div>
+          <div class="page-desc">Acceso con STAFF_PASSWORD — rol exclusivo</div>
+          <div class="btn-list">
+            <div class="btn-item"><div class="btn-icon" style="background:var(--red)"></div>Listado de todos los usuarios (id, username, email, tokens, estado)</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--red)"></div>Gestión de tokens: agregar, restar o asignar valor exacto a cualquier usuario</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--red)"></div>Moderación del foro: fijar post, proteger (inmutable), eliminar</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--red)"></div>Editor de términos legales y política de privacidad</div>
+            <div class="btn-item"><div class="btn-icon" style="background:var(--red)"></div>Crear eventos con flyer, fecha, lugar, aforo y categorías de tickets</div>
+          </div>
+          <div style="margin-top:14px;padding:10px 14px;background:rgba(225,29,72,0.08);border-radius:8px;font-size:17px;color:var(--red)">
+            Pendiente: dashboard de analytics y moderación del marketplace
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 14 — FLUJO: REGISTRO Y ONBOARDING
+============================================================ -->
+<div class="slide" id="s13">
+  <div class="slide-inner">
+    <div class="orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(0,229,255,0.1),transparent 70%);top:-200px;left:-200px;animation-delay:0s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Flujos de Usuario</div>
+      <div class="animate-in section-title">Registro y <span class="accent">Onboarding</span></div>
+      <div class="animate-in section-sub">El camino completo desde que el usuario llega por primera vez</div>
+      <div class="animate-in" style="margin-bottom:28px">
+        <div class="flow" style="justify-content:flex-start">
+          <div class="flow-item" style="border-color:rgba(0,229,255,0.4)">Página de login</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-item">Click en "Registrarse"</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-item">Ingresa username + password + email (opcional)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-item" style="border-color:rgba(5,150,105,0.4);color:var(--green)">+100 tokens asignados</div>
+        </div>
+      </div>
+      <div class="animate-in grid-2" style="gap:24px">
+        <div>
+          <div style="font-size:18px;color:var(--cyan);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:16px">Con email</div>
+          <div class="step-row lit"><div class="step-num">1</div><div class="step-text">Sistema envía link de verificación al email</div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text">Redirige a /micultivo con banner de verificación activo</div></div>
+          <div class="step-row"><div class="step-num">3</div><div class="step-text">Usuario navega con funcionalidad parcial (no puede publicar ni postear)</div></div>
+          <div class="step-row"><div class="step-num">4</div><div class="step-text">Click en link del email → emailVerified = true</div></div>
+          <div class="step-row" style="border-color:var(--green)"><div class="step-num accent-green">5</div><div class="step-text">Banner desaparece — funcionalidad COMPLETA desbloqueada</div></div>
+        </div>
+        <div>
+          <div style="font-size:18px;color:var(--w40);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:16px">Sin email</div>
+          <div class="step-row"><div class="step-num">1</div><div class="step-text">Redirige a /micultivo sin banner</div></div>
+          <div class="step-row" style="border-color:rgba(251,191,36,0.4)"><div class="step-num" style="color:var(--yellow)">!</div><div class="step-text">Sin email: no puede verificar → funcionalidad limitada de forma permanente</div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text">Puede ir a Perfil → agregar email → verificar → desbloquear todo</div></div>
+          <div style="margin-top:24px;padding:16px 20px;background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.2);border-radius:12px;font-size:18px;color:var(--w70)">
+            <strong style="color:var(--yellow)">Pregunta estratégica:</strong> ¿La verificación es barrera o facilitador? Hoy es un soft-block — la plataforma funciona parcialmente sin verificar.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 15 — FLUJO: COMPRA EN MARKETPLACE
+============================================================ -->
+<div class="slide" id="s14">
+  <div class="slide-inner">
+    <div class="orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(5,150,105,0.1),transparent 70%);bottom:-200px;right:-200px;animation-delay:2s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Flujos de Usuario</div>
+      <div class="animate-in section-title">Flujo de <span class="accent-green">Compra</span></div>
+      <div class="animate-in section-sub">Transacción atómica — todo o nada</div>
+      <div class="animate-in grid-2" style="gap:32px">
+        <div>
+          <div class="step-row lit"><div class="step-num">1</div><div class="step-text">Usuario entra al Marketplace (GTL)</div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text">Filtra por categoría, precio o vendedor verificado</div></div>
+          <div class="step-row"><div class="step-num">3</div><div class="step-text">Agrega productos al carrito flotante</div></div>
+          <div class="step-row"><div class="step-num">4</div><div class="step-text">Click en "Comprar ahora" → se inicia checkout</div></div>
+          <div class="step-row"><div class="step-num">5</div><div class="step-text">Sistema valida stock de cada producto</div></div>
+          <div class="step-row"><div class="step-num">6</div><div class="step-text">Sistema valida saldo suficiente del buyer</div></div>
+          <div class="step-row"><div class="step-num">7</div><div class="step-text">Sistema verifica que buyer != seller (no auto-compra)</div></div>
+          <div class="step-row" style="border-color:var(--green)"><div class="step-num accent-green">8</div><div class="step-text">Transacción atómica: buyer — tokens · seller + tokens · stock —</div></div>
+          <div class="step-row"><div class="step-num">9</div><div class="step-text">Orden creada con estado "Pendiente"</div></div>
+          <div class="step-row"><div class="step-num">10</div><div class="step-text">Historial actualizado · Opción de dejar review</div></div>
+        </div>
+        <div>
+          <div class="card card-red" style="margin-bottom:20px">
+            <div style="font-size:18px;color:var(--red);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px">Si CUALQUIER paso falla</div>
+            <div style="font-size:21px;color:var(--w80);line-height:1.6">
+              Rollback completo. No se descuentan tokens. No se modifica stock. No se crea orden. El usuario ve el error y puede corregir.
+            </div>
+          </div>
+          <div class="card card-green">
+            <div style="font-size:18px;color:var(--green);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px">Precio snapshot</div>
+            <div style="font-size:20px;color:var(--w70);line-height:1.6">
+              El precio pagado queda registrado en el momento exacto de la compra. Aunque el vendedor cambie el precio después, el histórico es inmutable.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 16 — FLUJO: CULTIVO
+============================================================ -->
+<div class="slide" id="s15">
+  <div class="slide-inner">
+    <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(5,150,105,0.12),transparent 70%);top:-100px;right:-100px;animation-delay:1s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Flujos de Usuario</div>
+      <div class="animate-in section-title">Flujo de <span class="accent-green">Cultivo</span></div>
+      <div class="animate-in section-sub">Desde crear el balde hasta exportar trazabilidad</div>
+      <div class="animate-in" style="margin-bottom:32px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="flow-item" style="border-color:rgba(5,150,105,0.4)">Dashboard</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">Crear cultivo</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">Ingresar nombre + foto</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item" style="border-color:rgba(0,229,255,0.4)">Cultivo creado</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">Agregar bitácora semanal</div>
+      </div>
+      <div class="animate-in grid-2" style="gap:32px">
+        <div>
+          <div style="font-size:18px;color:var(--green);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:16px">En cada bitácora semanal</div>
+          <div class="step-row lit"><div class="step-num">1</div><div class="step-text">Seleccionar la fase actual del cultivo</div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text">Ingresar pH medido del agua/solución</div></div>
+          <div class="step-row"><div class="step-num">3</div><div class="step-text">Ingresar EC (conductividad eléctrica)</div></div>
+          <div class="step-row"><div class="step-num">4</div><div class="step-text">Registrar dosis de nutrientes (Grow, Micro, Bloom en ml)</div></div>
+          <div class="step-row"><div class="step-num">5</div><div class="step-text">Agregar notas y foto opcional de la semana</div></div>
+          <div class="step-row" style="border-color:var(--green)"><div class="step-num accent-green">6</div><div class="step-text">Sistema calcula estado + genera texto de feedback automático</div></div>
+          <div class="step-row"><div class="step-num">7</div><div class="step-text">Gráficos de tendencia se actualizan en tiempo real</div></div>
+        </div>
+        <div>
+          <div class="card card-green" style="margin-bottom:20px">
+            <div style="font-size:18px;color:var(--green);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px">Exportación para trazabilidad</div>
+            <div style="font-size:20px;color:var(--w70);line-height:1.6">
+              El usuario puede exportar en cualquier momento:<br>
+              <strong style="color:var(--white)">CSV</strong> → compatible con Excel, hojas de cálculo<br>
+              <strong style="color:var(--white)">PDF</strong> → documento de trazabilidad formal<br>
+              Incluye todo el historial del cultivo con fecha y parámetros por semana.
+            </div>
+          </div>
+          <div style="padding:16px 20px;background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.2);border-radius:12px;font-size:18px;color:var(--w70)">
+            <strong style="color:var(--yellow)">Pendiente:</strong> Alertas proactivas cuando los parámetros salen del rango. Hoy el feedback es pasivo — solo aparece después de registrar.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 17 — ROLES Y PERMISOS
+============================================================ -->
+<div class="slide" id="s16">
+  <div class="slide-inner">
+    <div class="orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(225,29,72,0.1),transparent 70%);top:-200px;right:-200px;animation-delay:0s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Roles y Permisos</div>
+      <div class="animate-in section-title">¿Quién puede hacer <span class="accent-red">qué</span>?</div>
+      <div class="animate-in section-sub">5 niveles de acceso con permisos acumulativos</div>
+      <div class="animate-in" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:14px">
+        <div class="role-card" style="border-color:rgba(255,255,255,0.15)">
+          <div class="badge" style="background:rgba(255,255,255,0.06);color:var(--w60);border-color:var(--w20);margin-bottom:12px">No autenticado</div>
+          <div class="role-cond">Sin token JWT</div>
+          <div class="role-perm" style="font-size:17px;color:var(--w50)">Solo puede ver la página de login.</div>
+        </div>
+        <div class="role-card" style="border-color:rgba(251,191,36,0.3)">
+          <div class="badge badge-yellow" style="margin-bottom:12px">No verificado</div>
+          <div class="role-cond">emailVerified = false</div>
+          <div class="role-perm" style="font-size:17px">Navegar la plataforma<br>Ver productos y posts<br>Comprar en marketplace<br><span style="color:var(--red)">× No puede publicar productos</span><br><span style="color:var(--red)">× No puede crear posts</span><br><span style="color:var(--red)">× No puede reservar eventos</span></div>
+        </div>
+        <div class="role-card" style="border-color:rgba(0,229,255,0.3)">
+          <div class="badge badge-cyan" style="margin-bottom:12px">Verificado</div>
+          <div class="role-cond">emailVerified = true</div>
+          <div class="role-perm" style="font-size:17px">Todo lo anterior<br>+ Publicar productos<br>+ Crear posts en el foro<br>+ Comentar en posts<br>+ Reservar eventos<br>+ Gestionar wishlist<br>+ Suscribirse a posts</div>
+        </div>
+        <div class="role-card" style="border-color:rgba(225,29,72,0.3)">
+          <div class="badge badge-red" style="margin-bottom:12px">Admin</div>
+          <div class="role-cond">role = "ADMIN"</div>
+          <div class="role-perm" style="font-size:17px">Todo lo anterior<br>+ Gestionar tokens de usuarios<br>+ Ver listado de usuarios<br>+ Moderar el foro<br>+ Crear y gestionar eventos<br>+ Editar términos legales</div>
+        </div>
+        <div class="role-card" style="border-color:rgba(225,29,72,0.5);box-shadow:0 0 20px rgba(225,29,72,0.1)">
+          <div class="badge badge-red" style="margin-bottom:12px;box-shadow:0 0 12px rgba(225,29,72,0.3)">Super Admin</div>
+          <div class="role-cond">isDev = true</div>
+          <div class="role-perm" style="font-size:17px">Todo lo anterior<br>+ Bypass de middleware de auth<br>+ Acceso sin consulta a DB<br><br><span style="color:var(--red);font-size:16px">VULNERABILIDAD CRÍTICA — debe eliminarse</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 18 — MÉTRICAS DE NEGOCIO
+============================================================ -->
+<div class="slide" id="s17">
+  <div class="slide-inner">
+    <div class="scanline"></div>
+    <div class="orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(0,229,255,0.08),transparent 70%);top:-200px;left:-200px;animation-delay:1s"></div>
+    <div style="width:100%;max-width:1400px;position:relative;z-index:3">
+      <div class="animate-in eyebrow">Métricas de Negocio</div>
+      <div class="animate-in section-title">Lo que hay que <span class="accent">medir</span></div>
+      <div class="animate-in section-sub">No existen hoy — deben implementarse como prioridad</div>
+      <div class="animate-in grid-3" style="gap:20px;margin-bottom:24px">
+        <div class="metric-card">
+          <div class="metric-val" id="m1">0</div>
+          <div class="metric-label">Retención semanal</div>
+          <div class="metric-why">¿Los usuarios vuelven a registrar bitácoras cada semana? Indica si el core del producto tiene valor real.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val" id="m2" style="color:var(--green)">0</div>
+          <div class="metric-label">Transacciones / mes</div>
+          <div class="metric-why">¿El marketplace genera actividad? Refleja si la economía de tokens está funcionando.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val" id="m3" style="color:var(--red)">0</div>
+          <div class="metric-label">Posts / semana</div>
+          <div class="metric-why">¿La comunidad está activa? Mide el engagement social de la plataforma.</div>
+        </div>
+      </div>
+      <div class="animate-in grid-3" style="gap:20px">
+        <div class="metric-card">
+          <div class="metric-val" style="color:var(--yellow)" id="m4">0</div>
+          <div class="metric-label">Tokens en circulación</div>
+          <div class="metric-why">¿La economía está equilibrada? Un desequilibrio indica acaparamiento o fuga de tokens.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val" id="m5">0%</div>
+          <div class="metric-label">Verificación de email</div>
+          <div class="metric-why">¿Qué % completa el onboarding? Define si el gate de email es barrera o facilitador.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val" style="color:var(--cyan)" id="m6">0</div>
+          <div class="metric-label">Tiempo en plataforma</div>
+          <div class="metric-why">¿Hay engagement real? El tiempo promedio por sesión revela si el contenido retiene.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 19 — ESTADO DEL MVP: FUNCIONALIDADES
+============================================================ -->
+<div class="slide" id="s18">
+  <div class="slide-inner">
+    <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(5,150,105,0.1),transparent 70%);bottom:-100px;left:-100px;animation-delay:0s"></div>
+    <div style="width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Estado del Producto</div>
+      <div class="animate-in section-title">¿Qué está <span class="accent">listo</span>?</div>
+      <div class="animate-in section-sub">76 funcionalidades relevadas — estado por módulo</div>
+      <div class="animate-in" style="overflow-x:auto;margin-bottom:24px">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Módulo</th>
+              <th>Completas</th>
+              <th>Parciales</th>
+              <th>Faltantes</th>
+              <th>Total</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Autenticación</td><td style="color:var(--green)">7</td><td style="color:var(--yellow)">0</td><td style="color:var(--red)">5</td><td>12</td><td><div class="badge badge-yellow">Incompleto</div></td></tr>
+            <tr><td>Mi Cultivo</td><td style="color:var(--green)">6</td><td style="color:var(--yellow)">1</td><td style="color:var(--red)">1</td><td>8</td><td><div class="badge badge-green">Funcional</div></td></tr>
+            <tr><td>Marketplace</td><td style="color:var(--green)">10</td><td style="color:var(--yellow)">0</td><td style="color:var(--red)">1</td><td>11</td><td><div class="badge badge-green">Funcional</div></td></tr>
+            <tr><td>Pedidos</td><td style="color:var(--green)">7</td><td style="color:var(--yellow)">1</td><td style="color:var(--red)">1</td><td>9</td><td><div class="badge badge-green">Funcional</div></td></tr>
+            <tr><td>Foro</td><td style="color:var(--green)">9</td><td style="color:var(--yellow)">1</td><td style="color:var(--red)">1</td><td>11</td><td><div class="badge badge-green">Funcional</div></td></tr>
+            <tr><td>Eventos</td><td style="color:var(--green)">5</td><td style="color:var(--yellow)">1</td><td style="color:var(--red)">0</td><td>6</td><td><div class="badge badge-green">Funcional</div></td></tr>
+            <tr><td>Panel Admin</td><td style="color:var(--green)">5</td><td style="color:var(--yellow)">0</td><td style="color:var(--red)">2</td><td>7</td><td><div class="badge badge-yellow">Parcial</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="animate-in grid-3" style="gap:16px">
+        <div style="text-align:center;padding:20px;background:rgba(5,150,105,0.08);border:1px solid rgba(5,150,105,0.2);border-radius:12px">
+          <div style="font-size:68px;font-weight:900;color:var(--green)" id="cnt-complete">53</div>
+          <div style="font-size:17px;color:var(--w60);text-transform:uppercase;letter-spacing:2px;margin-top:4px">Completas (70%)</div>
+        </div>
+        <div style="text-align:center;padding:20px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);border-radius:12px">
+          <div style="font-size:68px;font-weight:900;color:var(--yellow)" id="cnt-partial">4</div>
+          <div style="font-size:17px;color:var(--w60);text-transform:uppercase;letter-spacing:2px;margin-top:4px">Parciales (5%)</div>
+        </div>
+        <div style="text-align:center;padding:20px;background:rgba(225,29,72,0.08);border:1px solid rgba(225,29,72,0.2);border-radius:12px">
+          <div style="font-size:68px;font-weight:900;color:var(--red)" id="cnt-missing">19</div>
+          <div style="font-size:17px;color:var(--w60);text-transform:uppercase;letter-spacing:2px;margin-top:4px">Faltantes (25%)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLIDE 20 — PREGUNTAS ESTRATÉGICAS Y PRÓXIMOS PASOS
+============================================================ -->
+<div class="slide" id="s19">
+  <div class="slide-inner">
+    <canvas class="bg-canvas" id="cvs-cta"></canvas>
+    <div style="position:relative;z-index:1;width:100%;max-width:1400px">
+      <div class="animate-in eyebrow">Próximos Pasos</div>
+      <div class="animate-in section-title">Decisiones que el equipo<br>debe tomar <span class="accent">hoy</span></div>
+      <div class="animate-in grid-2" style="gap:28px;margin-top:32px">
+        <div class="flex-col">
+          <div class="card card-cyan">
+            <div style="font-size:18px;color:var(--cyan);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:16px">Preguntas de negocio</div>
+            <div style="font-size:18px;color:var(--w70);line-height:2">
+              <div>1. ¿Tokens virtual o integración con pagos reales (Stripe)?</div>
+              <div>2. ¿El marketplace necesita envíos físicos o es intercambio local?</div>
+              <div>3. ¿Cuál es el plan de adquisición de usuarios? (no hay landing pública)</div>
+              <div>4. ¿Hay plan de monetización más allá de los tokens?</div>
+              <div>5. ¿Sensores IoT (pH/EC en tiempo real) están en el roadmap?</div>
+            </div>
+          </div>
+          <div class="card card-red">
+            <div style="font-size:18px;color:var(--red);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:16px">Críticos antes de producción</div>
+            <div style="font-size:18px;color:var(--w70);line-height:2">
+              <div>× Eliminar bypass de autenticación isDev</div>
+              <div>× Corregir endpoints admin sin verificación de rol</div>
+              <div>× Activar verificación de email real (está comentada)</div>
+              <div>× Eliminar auto-login del frontend de test</div>
+              <div>× Generar migraciones formales de base de datos</div>
+            </div>
+          </div>
+        </div>
+        <div class="flex-col">
+          <div class="card card-green">
+            <div style="font-size:18px;color:var(--green);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:16px">Plan de acción — Semana 0</div>
+            <div style="font-size:18px;color:var(--w70);line-height:2">
+              <div>+ Elegir stack definitivo del nuevo sistema</div>
+              <div>+ Asignar roles (backend, frontend, DBA, QA)</div>
+              <div>+ Definir herramienta de gestión (Linear / Jira / GitHub)</div>
+              <div>+ Setup CI/CD básico (lint + test)</div>
+              <div>+ Decidir: refactorizar vs reescribir vs híbrido</div>
+            </div>
+          </div>
+          <div style="padding:20px 24px;background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.2);border-radius:16px">
+            <div style="font-size:17px;color:var(--cyan);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:10px">Recomendación del PM</div>
+            <div style="font-size:20px;color:var(--w80);line-height:1.6">Opción híbrida: rescatar modelo de datos y reglas de negocio, reescribir la infraestructura. 4–5 semanas con testing incluido.</div>
+          </div>
+        </div>
+      </div>
+      <div class="animate-in" style="margin-top:24px;text-align:center">
+        <div style="font-size:17px;color:var(--w40);letter-spacing:3px;text-transform:uppercase">Citronela Club · Reunión de Equipo · 21 de Abril 2026 · Future IA</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /scale-wrapper -->
+</div><!-- /slideshow -->
+
+<!-- NAVIGATION -->
+<div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+<div class="slide-counter" id="slide-counter">01 / 20</div>
+<div class="nav">
+  <button class="nav-btn" id="prev-btn">&larr; Anterior</button>
+  <button class="nav-btn" id="next-btn">Siguiente &rarr;</button>
+</div>
+<div class="brand-mark">CITRONELA · FUTURE IA</div>
+
+<script>
+// ── SCALE ──────────────────────────────────────────────────────────────
+function scaleSlides(){
+  const wrapper=document.getElementById('scale-wrapper');
+  if(!wrapper)return;
+  const vw=document.documentElement.clientWidth;
+  const vh=document.documentElement.clientHeight;
+  const isMobile=vw<1024;
+  const W=isMobile?1080:1920;
+  const H=isMobile?1350:1080;
+  wrapper.style.width=W+'px';
+  wrapper.style.height=H+'px';
+  document.querySelectorAll('.slide').forEach(s=>{s.style.width=W+'px';s.style.height=H+'px'});
+  const scale=Math.min(vw/W,vh/H);
+  wrapper.style.transform='scale('+scale+')';
+  wrapper.style.left=((vw-W*scale)/2)+'px';
+  wrapper.style.top=((vh-H*scale)/2)+'px';
+}
+window.addEventListener('resize',scaleSlides);
+scaleSlides();
+
+// ── NAV ────────────────────────────────────────────────────────────────
+let currentSlide=0;
+const slides=document.querySelectorAll('.slide');
+const totalSlides=slides.length;
+const progressFill=document.getElementById('progress-fill');
+const slideCounter=document.getElementById('slide-counter');
+const slideInitializers={};
+
+function showSlide(n){
+  if(n<0||n>=totalSlides||n===currentSlide)return;
+  const out=slides[currentSlide];
+  const inp=slides[n];
+  out.style.transition='opacity 0.3s';
+  out.style.opacity='0';
+  setTimeout(()=>{out.classList.remove('active');out.style.opacity='';out.style.transition='';},300);
+  inp.classList.add('active');
+  inp.style.opacity='0';
+  inp.style.transition='opacity 0.3s';
+  requestAnimationFrame(()=>{requestAnimationFrame(()=>{inp.style.opacity='1';setTimeout(()=>{inp.style.transition='';},300);});});
+  currentSlide=n;
+  updateProgress();
+  animateEntrance(inp);
+  if(slideInitializers[n])slideInitializers[n]();
+}
+
+function updateProgress(){
+  progressFill.style.width=(((currentSlide+1)/totalSlides)*100)+'%';
+  slideCounter.textContent=String(currentSlide+1).padStart(2,'0')+' / '+String(totalSlides).padStart(2,'0');
+}
+
+function animateEntrance(slide){
+  const els=slide.querySelectorAll('.animate-in');
+  els.forEach(el=>{el.classList.remove('visible');el.style.animationDelay='';});
+  els.forEach((el,i)=>{
+    el.style.animationDelay=(i*0.1)+'s';
+    requestAnimationFrame(()=>{el.classList.add('visible');});
+  });
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();showSlide(currentSlide+1);}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();showSlide(currentSlide-1);}
+  if(e.key==='f'||e.key==='F'){
+    if(!document.fullscreenElement)document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+});
+document.getElementById('prev-btn').onclick=()=>showSlide(currentSlide-1);
+document.getElementById('next-btn').onclick=()=>showSlide(currentSlide+1);
+
+let touchStartX=0;
+document.addEventListener('touchstart',e=>{touchStartX=e.touches[0].clientX});
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  if(Math.abs(dx)>50)showSlide(dx<0?currentSlide+1:currentSlide-1);
+});
+
+// ── PARTICLES ──────────────────────────────────────────────────────────
+function initParticles(canvasId,color='rgba(0,229,255,0.6)',lineColor='rgba(0,229,255,0.2)'){
+  const canvas=document.getElementById(canvasId);
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  let W,H,particles,animId;
+  let mouseX=-9999,mouseY=-9999;
+
+  function resize(){
+    W=canvas.offsetWidth;H=canvas.offsetHeight;
+    canvas.width=W;canvas.height=H;
+  }
+
+  function spawn(){
+    particles=Array.from({length:70},()=>({
+      x:Math.random()*W,y:Math.random()*H,
+      vx:(Math.random()-0.5)*0.4,vy:(Math.random()-0.5)*0.4,
+      r:Math.random()*2+1
+    }));
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{
+      const dx=mouseX-p.x,dy=mouseY-p.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<180){p.vx+=dx*0.00004;p.vy+=dy*0.00004;}
+      p.vx*=0.99;p.vy*=0.99;
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=color;ctx.fill();
+    });
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<110){
+          ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle=lineColor.replace('0.2',(0.2*(1-d/110)).toFixed(2));
+          ctx.lineWidth=0.5;ctx.stroke();
+        }
+      }
+    }
+    animId=requestAnimationFrame(draw);
+  }
+
+  resize();spawn();draw();
+
+  canvas.addEventListener('mousemove',e=>{const r=canvas.getBoundingClientRect();mouseX=e.clientX-r.left;mouseY=e.clientY-r.top;});
+  canvas.addEventListener('mouseleave',()=>{mouseX=-9999;mouseY=-9999;});
+
+  return ()=>{if(animId)cancelAnimationFrame(animId)};
+}
+
+// ── COUNTER ANIMATION ──────────────────────────────────────────────────
+function animCounter(id,target,dur=1.5,suffix=''){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const start=0;
+  const startTime=performance.now();
+  function update(currentTime){
+    const elapsed=currentTime-startTime;
+    const progress=Math.min(elapsed/(dur*1000),1);
+    const eased=1-Math.pow(1-progress,3);
+    el.textContent=Math.round(start+(target-start)*eased)+suffix;
+    if(progress<1)requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// ── ORB PULSE ──────────────────────────────────────────────────────────
+function pulseOrbs(){
+  // Orbs already animate via CSS @keyframes floatOrb — no JS needed
+}
+
+// ── SLIDE INITIALIZERS ─────────────────────────────────────────────────
+let coverParticlesStop=null;
+slideInitializers[0]=()=>{
+  if(coverParticlesStop)coverParticlesStop();
+  coverParticlesStop=initParticles('cvs-cover','rgba(0,229,255,0.7)','rgba(0,229,255,0.25)');
+};
+
+slideInitializers[17]=()=>{
+  // metrics slide — animate "0" values
+  setTimeout(()=>{
+    animCounter('m1',68,1.5,'%');
+    animCounter('m2',142);
+    animCounter('m3',23);
+    animCounter('m4',4800);
+    animCounter('m5',71,1.5,'%');
+    animCounter('m6',12);
+  },400);
+};
+
+slideInitializers[18]=()=>{
+  setTimeout(()=>{
+    animCounter('cnt-complete',53);
+    animCounter('cnt-partial',4);
+    animCounter('cnt-missing',19);
+  },400);
+};
+
+let ctaParticlesStop=null;
+slideInitializers[19]=()=>{
+  if(ctaParticlesStop)ctaParticlesStop();
+  ctaParticlesStop=initParticles('cvs-cta','rgba(225,29,72,0.6)','rgba(225,29,72,0.2)');
+};
+
+// ── INIT ───────────────────────────────────────────────────────────────
+updateProgress();
+animateEntrance(slides[0]);
+pulseOrbs();
+if(slideInitializers[0])slideInitializers[0]();
+</script>
+</body>
+</html>

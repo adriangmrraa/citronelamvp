@@ -1,0 +1,64 @@
+Impromptu Google Meet Meeting - April 22
+VIEW RECORDING: 
+Cliente representante de Citronela ONG: URSMOKED 
+Resto de integrantes de la charla: Equipo de Fusa Labs.
+Propósito de la reunión
+
+Dar inicio al proyecto Citronera y definir su alcance, objetivos y requisitos técnicos.
+
+Puntos clave
+
+  - Objetivo del proyecto: Construir una plataforma para Citronera, una consultoría de cannabis basada en una ONG, para escalar sus servicios de boca en boca y respaldar su modelo legal.
+  - Desafío principal: La estructura de la ONG prohíbe las transacciones financieras directas. La solución es una economía basada en tokens donde los usuarios ganan tokens mediante una suscripción mensual y los gastan en servicios y en un marketplace.
+  - Plan de MVP: Se entregará una versión beta en ~2 semanas para que URSMOKED la pruebe. Esto irá acompañado de una propuesta completa con cronograma (aprox. 3 meses) y presupuesto.
+  - Visión futura: Automatizar la recolección de datos del equipo de laboratorio manual de URSMOKED (p. ej., refractómetros) para mejorar la precisión y eficiencia de los datos, aprovechando al ingeniero de hardware interno de Fusa Labs.
+
+Temas
+
+Citronera: Misión y modelo de negocio
+
+  - Misión: Romper el estigma en torno al cannabis proporcionando educación y soporte técnico para el cultivo, con foco en aplicaciones medicinales para afecciones como la artritis y el Parkinson.
+  - Modelo de negocio: Una estructura de ONG que sortea un límite de 150 pacientes integrando “cultivadores solidarios”.
+      - Estructura: 150 pacientes + 150 cultivadores solidarios (que cultivan para pacientes) + 150 socios pagos de la ONG (que también cultivan).
+      - Resultado: Esta maniobra legal amplía la capacidad operativa a 450 personas, permitiendo servicios de consultoría de pago.
+
+Requisitos de la plataforma y alcance del MVP
+
+  - Incorporación y autorización de usuarios:
+      - Proceso: Registro → Pago de suscripción → Revisión por el administrador del expediente legal interno → Autorización del administrador.
+      - Justificación: Este paso manual de administración es una barrera legal crítica para asegurar que todos los usuarios cumplan con las normas de la ONG antes de obtener acceso completo.
+  - Módulo Mi Cultivo:
+      - Función: Un cuaderno de bitácora digital para el seguimiento de plantas individuales.
+      - Características: Crear “parcelas” (9 plantas/usuario), registrar genética, etapa de crecimiento, pH, CE, sustrato y notas.
+      - Vista de administrador: Un panel central con vista agregada de todas las parcelas de los usuarios para monitoreo remoto.
+  - Módulo Marketplace:
+      - Función: Un intercambio basado en tokens para servicios y productos.
+      - Justificación: El sistema de tokens es la solución central para evitar transacciones financieras directas, prohibidas por la estructura legal de la ONG.
+      - Características:
+          - Moneda: Tokens, acreditados automáticamente al pagar la suscripción.
+          - Transacciones: “Canjes” en lugar de “Compras/Ventas”.
+          - Eventos: Un calendario para reservar eventos con tokens o dinero real.
+  - Módulo Foro de la Comunidad:
+      - Función: Una plataforma para la interacción de usuarios y el intercambio de conocimiento.
+      - Características: Múltiples categorías, temas creados por usuarios, subida de medios (imágenes, videos, archivos).
+      - Control de administrador: Una vista de administrador con herramientas de moderación para hacer cumplir las normas comunitarias.
+
+Enfoque técnico y plan del proyecto
+
+  - Beta del MVP: Se entregará una beta funcional en ~2 semanas para que URSMOKED la pruebe.
+  - Desarrollo completo: Estimado en 3 meses, alineado con la finalización prevista del registro legal de la ONG.
+  - Integración de hardware (futuro):
+      - Problema: El equipo de laboratorio actual de URSMOKED (p. ej., refractómetro) es analógico y requiere ingreso manual de datos.
+      - Solución: Una fase futura podría automatizar la recolección de datos integrando sensores con la plataforma.
+      - Justificación: Esto mejoraría la precisión y la eficiencia de los datos, crítico para gestionar los parámetros sensibles del cultivo de cannabis.
+  - Precios: Tarifa horaria combinada de 20 USD/h, lo cual es un descuento significativo respecto a la tarifa estándar sénior de 50 USD/h.
+  - Propiedad intelectual: Fusa Labs mantiene la PI del código, pero URSMOKED obtiene una licencia plena para usar y modificar la plataforma, garantizando propiedad y flexibilidad a largo plazo.
+
+Próximos pasos
+
+  - URSMOKED:
+      - Crear un Google Drive compartido con documentos de ejemplo (p. ej., registros de cultivo, informes de cannabinoides) para informar el diseño de la plataforma.
+      - Poner en contacto a Fusa Labs con el equipo legal de la ONG para revisar los requisitos de Términos y Condiciones.
+  - Fusa Labs:
+      - Crear un chat grupal para comunicación directa del proyecto.
+      - Entregar la beta del MVP y una propuesta completa del proyecto (cronograma, presupuesto, plan de pagos) en ~2 semanas.

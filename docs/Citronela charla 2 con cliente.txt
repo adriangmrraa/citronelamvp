@@ -1,0 +1,45 @@
+Impromptu Google Meet Meeting - April 22
+VIEW RECORDING: 
+Propósito de la reunión
+
+Revisar un contrato y un presupuesto de muestra para el proyecto de e-commerce de Citronela.
+
+Puntos clave
+
+  - Estimación de presupuesto: Se propuso un presupuesto de ~$4,800 (pagadero en ARS) para un proyecto de 3 meses, basado en una tarifa de $20/h (nivel junior) para mantener bajos los costos.
+  - Estructura de pago: Se propone un plan en cuotas de 6 meses ($800/mes), diseñado para generar confianza con el cliente y reducir el riesgo de la inversión inicial.
+  - Marco contractual: Se presentó un contrato de ejemplo para definir el alcance del proyecto, la propiedad intelectual, la responsabilidad y una cláusula de rescisión de 15 días.
+  - Próximo paso: Un presupuesto formal requiere un documento de "ingeniería de requerimientos" por parte del cliente para definir el alcance y las limitaciones del proyecto.
+
+Temas
+
+Presupuesto y estructura de pago
+
+  - Se propuso un presupuesto de ~$4,800, basado en una tarifa de $20/h (nivel junior) para mantener bajos los costos.
+      - Cálculo: 4 h/día × 5 días/sem × $20/h = $400/sem → $1,600/mes × 3 meses = $4,800.
+  - El pago es en ARS, convertido desde USD usando el tipo de cambio oficial promedio.
+  - Se propone un plan en cuotas de 6 meses ($800/mes).
+      - Justificación: Esta estructura genera confianza y reduce el riesgo de la inversión inicial del cliente.
+      - Validación: Un cliente anterior (Marcelo) que comenzó con este plan luego duplicó su pago mensual para ampliar el proyecto.
+
+Marco contractual
+
+  - Se revisó un contrato de muestra para establecer una base clara del proyecto.
+  - Cláusulas clave:
+      - Alcance: Definido por un documento de "ingeniería de requerimientos".
+      - Cronograma: ~3 meses, con un calendario diario detallado.
+      - Propiedad intelectual (PI): El cliente obtiene derechos de uso tras el pago total; el desarrollador conserva el know-how.
+      - Responsabilidad: El desarrollador no es responsable por fallas de servicios de terceros (p. ej., Cloudflare).
+      - Rescisión: Aviso con 15 días; el cliente paga las horas trabajadas.
+
+Camino a seguir del proyecto
+
+  - Un presupuesto formal requiere un documento de "ingeniería de requerimientos" por parte del cliente para definir el alcance y las limitaciones del proyecto.
+  - El equipo creará un grupo de WhatsApp para comunicación y retroalimentación directa.
+
+Próximos pasos
+
+  - Cliente: Proporcionar al equipo el documento de "ingeniería de requerimientos".
+  - Equipo:
+      - Crear un grupo de WhatsApp para la comunicación del proyecto.
+      - Elaborar un presupuesto formal al recibir el documento de requerimientos.
