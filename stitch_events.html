@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Events App</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#303033",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary": "#462153",
+                        "background": "#131316",
+                        "surface-container-lowest": "#0e0e11",
+                        "surface-container": "#1f1f22",
+                        "inverse-primary": "#446900",
+                        "surface-tint": "#98da27",
+                        "primary-fixed": "#b2f746",
+                        "on-background": "#e4e1e6",
+                        "on-primary-fixed-variant": "#334f00",
+                        "on-secondary-fixed-variant": "#334f00",
+                        "secondary": "#aed278",
+                        "on-tertiary-fixed-variant": "#5e376b",
+                        "on-secondary-fixed": "#121f00",
+                        "on-tertiary-fixed": "#2f093d",
+                        "on-surface": "#e4e1e6",
+                        "surface-container-low": "#1b1b1e",
+                        "outline-variant": "#424936",
+                        "inverse-surface": "#e4e1e6",
+                        "on-tertiary-container": "#734b80",
+                        "primary-container": "#a3e635",
+                        "tertiary": "#fee7ff",
+                        "on-secondary-container": "#a1c46b",
+                        "primary": "#ccff80",
+                        "surface-variant": "#353438",
+                        "on-primary-container": "#416400",
+                        "surface-container-high": "#2a2a2d",
+                        "tertiary-fixed-dim": "#e7b6f3",
+                        "on-surface-variant": "#c2cab0",
+                        "tertiary-container": "#f3c1ff",
+                        "primary-fixed-dim": "#98da27",
+                        "on-secondary": "#213600",
+                        "surface": "#131316",
+                        "surface-container-highest": "#353438",
+                        "on-primary-fixed": "#121f00",
+                        "outline": "#8c947c",
+                        "tertiary-fixed": "#fad7ff",
+                        "on-primary": "#213600",
+                        "surface-dim": "#131316",
+                        "surface-bright": "#39393c",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#aed278",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#caef91",
+                        "secondary-container": "#355102",
+                        "error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "display": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glow-effect {
+            box-shadow: 0 20px 40px rgba(163, 230, 53, 0.08);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body min-h-screen pb-32">
+<!-- Ambient Background Glow -->
+<div class="fixed top-0 left-0 w-full h-96 bg-primary opacity-5 blur-[120px] pointer-events-none -z-10"></div>
+<!-- Top Header -->
+<header class="px-6 py-6 flex items-center justify-between sticky top-0 z-40 bg-background/80 backdrop-blur-xl">
+<div class="flex flex-col gap-1">
+<span class="text-sm font-label text-on-surface-variant uppercase tracking-widest">Hi, User</span>
+<div class="flex items-center gap-2 text-on-surface font-headline font-bold text-xl cursor-pointer group">
+                New York, NY
+                <span class="material-symbols-outlined text-primary group-hover:translate-y-0.5 transition-transform">expand_more</span>
+</div>
+</div>
+<div class="relative">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-outline-variant/20 bg-surface-container-highest">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Portrait of a young woman with a neutral expression against a dark background, cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALuVDq0Em-g8TWlICzLJ5W4_ifMI1IZGaclLILmBFUFXpy0Wz0J6dOPxeE6Mi-CigK2MXy70J-jAgDriOioR4AOu5RXh9LADNZLTuLzDC0x42BF8ggEQPQ_HCGlV0AG2v0tMunX2bi4wovt5vSJeQb3Sh_6VfIU0G-mQBA0NsuKrTNICmfYgZIrmUaV8XTTS3XsONQfRRTfhfsVdaQ5_TWxStsZ4LFfZ-uBt9h200NgtewY-CMpLq355btimIDwBooK2C-nZCB"/>
+</div>
+<div class="absolute top-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-background animate-[pulse_2s_ease-in-out_infinite]"></div>
+</div>
+</header>
+<!-- Search Bar -->
+<section class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="flex-1 flex items-center bg-surface-container-lowest rounded-full px-5 py-4 border border-outline-variant/10 focus-within:border-primary/50 transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant mr-3">search</span>
+<input class="bg-transparent border-none outline-none text-on-surface placeholder:text-on-surface-variant/50 w-full font-body" placeholder="Search events..." type="text"/>
+</div>
+<button class="bg-primary-container text-on-primary-container rounded-DEFAULT p-4 flex-shrink-0 flex items-center justify-center glow-effect active:scale-95 transition-transform" style="background: radial-gradient(circle at top left, var(--color-primary), var(--color-primary-container))">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">tune</span>
+</button>
+</div>
+</section>
+<!-- Categories -->
+<section class="mb-12">
+<div class="px-6 flex items-center justify-between mb-6">
+<h2 class="font-headline font-bold text-2xl tracking-tight">Categories</h2>
+<button class="text-sm font-label text-primary uppercase tracking-wider hover:opacity-80">Show all</button>
+</div>
+<div class="flex gap-4 px-6 overflow-x-auto hide-scrollbar pb-4">
+<div class="flex flex-col items-center justify-center min-w-[100px] h-[100px] bg-primary rounded-lg flex-shrink-0 glow-effect relative overflow-hidden group cursor-pointer">
+<div class="absolute inset-0 bg-primary-container opacity-0 group-hover:opacity-20 transition-opacity"></div>
+<span class="material-symbols-outlined text-on-primary-container text-3xl mb-2" style="font-variation-settings: 'FILL' 1;">music_note</span>
+<span class="text-on-primary-container font-label text-sm font-semibold">Music</span>
+</div>
+<div class="flex flex-col items-center justify-center min-w-[100px] h-[100px] bg-surface-container-high rounded-lg flex-shrink-0 border border-outline-variant/10 hover:bg-surface-variant transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant text-3xl mb-2">palette</span>
+<span class="text-on-surface font-label text-sm font-semibold">Art</span>
+</div>
+<div class="flex flex-col items-center justify-center min-w-[100px] h-[100px] bg-surface-container-high rounded-lg flex-shrink-0 border border-outline-variant/10 hover:bg-surface-variant transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant text-3xl mb-2">sports_basketball</span>
+<span class="text-on-surface font-label text-sm font-semibold">Sports</span>
+</div>
+<div class="flex flex-col items-center justify-center min-w-[100px] h-[100px] bg-surface-container-high rounded-lg flex-shrink-0 border border-outline-variant/10 hover:bg-surface-variant transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant text-3xl mb-2">restaurant</span>
+<span class="text-on-surface font-label text-sm font-semibold">Food</span>
+</div>
+<div class="flex flex-col items-center justify-center min-w-[100px] h-[100px] bg-surface-container-high rounded-lg flex-shrink-0 border border-outline-variant/10 hover:bg-surface-variant transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant text-3xl mb-2">theater_comedy</span>
+<span class="text-on-surface font-label text-sm font-semibold">Theater</span>
+</div>
+</div>
+</section>
+<!-- Trending Events -->
+<section class="mb-12">
+<div class="px-6 flex items-center justify-between mb-6">
+<h2 class="font-headline font-bold text-2xl tracking-tight">Trending events</h2>
+<button class="text-sm font-label text-primary uppercase tracking-wider hover:opacity-80">Show all</button>
+</div>
+<div class="px-6 flex gap-6 overflow-x-auto hide-scrollbar pb-6">
+<!-- Trending Card 1 -->
+<div class="min-w-[320px] bg-surface-container-low rounded-xl flex-shrink-0 relative overflow-hidden group border border-outline-variant/5">
+<div class="h-48 relative">
+<img alt="Concert Event" class="w-full h-full object-cover" data-alt="Vibrant outdoor music concert at night with crowd silhouetted against dynamic green and purple stage lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2IlD4TJ57WJfoR2NLJoA2cfB6VAfHp73lgLp9UJiKUb-ejqcWyORz4Ez0VRW7lWCWbBgD68trB07FxhB8oZg992Aq759luyheF-14qbEF0WTqD5Ky5DPnTb4hEOVQclZEUvhjxPew__ZkhgVn_yUdbbeGfMTQgXh1UrQIHsTihcOMtPrLTgqh1x1J4CjLS3SbCBtHSBKfItP8hN9VVcMdUwqFYklGgmmVKUmllAT0AL9yCSyFaNmcvksqMrFJHuxI3PIS9DdH"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+<div class="absolute top-4 right-4 bg-surface-variant/40 backdrop-blur-[10px] border border-outline-variant/20 rounded-full px-3 py-1 flex items-center gap-1">
+<div class="w-2 h-2 bg-primary rounded-full animate-[pulse_2s_ease-in-out_infinite]"></div>
+<span class="text-xs font-label text-on-surface font-semibold uppercase tracking-wide">Live</span>
+</div>
+</div>
+<div class="p-6 relative -mt-8">
+<h3 class="font-headline font-bold text-3xl tracking-tight mb-4 leading-none">Neon Nights Festival</h3>
+<div class="flex flex-col gap-2 mb-6">
+<div class="flex items-center gap-2 text-on-surface-variant text-sm font-label">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                            Oct 24, 2023
+                        </div>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm font-label">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+                            8:00 PM - 2:00 AM
+                        </div>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm font-label">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+                            Central Park Main Stage
+                        </div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-3">
+<img alt="Attendee" class="w-10 h-10 rounded-full border-2 border-surface-container-low object-cover" data-alt="Close up portrait of smiling person" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIuGx10uw11FFntekt7idU1Cn4LEJXHJxy3HoJASkmZuTPKpujwyB2YkapGZYrfuo7U1KFC3ZEKiIgZvh_qFfL47N0ccBBIVuiha5G_Hj4CN8id22QeYZYJD0wcDhYMHK2Y75e-nDfg44ykoFyKXRf_Zt_ry9dt_cP9hNAT8ioNyNWSAS5ulCRdGhgt1Q4YB_T8oRzoXneAUBlpZI8QhDWaMh1v2PJJV7JphYYu5AEci4OVn0HAOtqMuK4iXtAHuE0Vf2O9gZk"/>
+<img alt="Attendee" class="w-10 h-10 rounded-full border-2 border-surface-container-low object-cover" data-alt="Close up portrait of person" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKTmc-4Dr47acDxtwuTjf_L_IVndAGsgv-afl3B8Yxxxd0UKy6kG0boPrfJJpE114j6DRTI6wVnoqFrRFPlN6Nva5TwZ9lT2jWc2tQ3aEt86lzASuqj7OBLZ_KB3IOzOu-qdQDRX_MtLV1c-98RfI-kqSKlr4JjB1dI2Bxk11HaEqiXlW5H7I8UPjUK38IZM0BOue26ezpKURqtWVdduhyL9ujsMqtPtOhU2QRhxFxHwkKSfFRjdixSSjJkey9mfzKm-7js4aJ"/>
+<img alt="Attendee" class="w-10 h-10 rounded-full border-2 border-surface-container-low object-cover" data-alt="Close up portrait of smiling person" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeM0OTmPI5pm9XL_-51b1qlJYpMNiR_6p5gJYer3QPY8Q1VSrNKRtG5pBXs3U6QBQK-xC5h3H11PUWg1ouP9jiTkqNO2CdnGj-zxApNBHjS6p_F5MKmrv2OkKoCTaQxJ92K3NBmQDG1TzXJUDwDDmUuo9iH7T4BgkIdOUJmXHXcaYaJEEZ4wF8G6Bb2hK_7nOCRFKY2PIcXDd5brI3b23py_HHZJ5u1-Ls0dqDzQA_g2Twm0ouLKZvUenXPIJ3hsVqHK90N7T0"/>
+<div class="w-10 h-10 rounded-full border-2 border-surface-container-low bg-surface-container-highest flex items-center justify-center text-xs font-bold text-on-surface">
+                                +2K
+                            </div>
+</div>
+<button class="bg-primary-container text-on-primary-container px-6 py-3 rounded-full font-label font-bold text-sm hover:scale-95 transition-transform glow-effect" style="background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-container) 100%)">
+                            Interested
+                        </button>
+</div>
+</div>
+</div>
+<!-- Trending Card 2 -->
+<div class="min-w-[320px] bg-surface-container-low rounded-xl flex-shrink-0 relative overflow-hidden group border border-outline-variant/5">
+<div class="h-48 relative">
+<img alt="Tech Meetup" class="w-full h-full object-cover" data-alt="Modern tech conference setting with moody blue and green lighting, abstract background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCycRl8k2_s6853zZo9Ou9zn5EDRwvrFDuBni-6Cqg3WTN5en9KiISnAGS6usIhMwPO_DmTWLHoJ2wzwiqKLS-SV5M-jOttz8F6Xow4ysMNJLjMUFsvB2arpc-cHkefUaiNiPXENSezvy8EeWEGj_QqhwuF7s4v056hsNTaFphJE5675JzfBznDPPTuHHu1gPuPb3iqqhZzR6BNDu7f85fvBYJK7KpHYJSSODc27fAYZhEmIh5v5CDPLuYr5vyi4xYu8tTgBoo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+</div>
+<div class="p-6 relative -mt-8">
+<h3 class="font-headline font-bold text-3xl tracking-tight mb-4 leading-none">Future Tech Expo</h3>
+<div class="flex flex-col gap-2 mb-6">
+<div class="flex items-center gap-2 text-on-surface-variant text-sm font-label">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                            Nov 12, 2023
+                        </div>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm font-label">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+                            9:00 AM - 5:00 PM
+                        </div>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm font-label">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+                            Innovation Center
+                        </div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-3">
+<img alt="Attendee" class="w-10 h-10 rounded-full border-2 border-surface-container-low object-cover" data-alt="Close up portrait of person" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDve-bpmwCvjW-3SX4ZK5jkgOrJ5RVMrqfLl8FTG6-6YvbbP6RNTOeG7TuQ85NIsNB1SJlvKJ2FOnR4wLYXWRZ8xF_AQCnIfJsYZbyNEsI-9DjZlKwzvOqqBtfvMsRRWVCTYmQg1sN9I0bW8CzZKTlbcoEBqkT2977uTPhhg7ZpWiLnUk2SIRAkREjsdq8oSvt3ic4_fJASZ7Oc8zOF54XUaVcXrZh2qmEXxOXs09tj-wK59vpaO4z6j9JvB123N0CG84sY6fzR"/>
+<img alt="Attendee" class="w-10 h-10 rounded-full border-2 border-surface-container-low object-cover" data-alt="Close up portrait of person" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9WE7cXfM0UUjs53zu7KJZS40MNBvYZoOjkNhKy4PfKiMfMxRpdVJk2SkqR2Yqr3UjAk8MK7YNQO_Xh2V1KASgsOeNuduBA7qK_QR6uIB_87-jCRDXCNWzwe11lJkaimmi13xzd4mOd_Vgr7H4b_pcUadzEjYPWZ9az9xZHB3mvWjJL0nAVwyQEMqOlpQzypO5j22QL6kyYhkzEISlFj8UP_lROohrsf9MeHAxHirA3OyZQOfowtUG_mAe42bjrwF4lNGwmDFf"/>
+<div class="w-10 h-10 rounded-full border-2 border-surface-container-low bg-surface-container-highest flex items-center justify-center text-xs font-bold text-on-surface">
+                                +500
+                            </div>
+</div>
+<button class="bg-surface-variant text-on-surface px-6 py-3 rounded-full font-label font-bold text-sm border border-outline-variant/20 hover:bg-surface-container-highest transition-colors">
+                            Interested
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Upcoming Events -->
+<section class="px-6 mb-12">
+<h2 class="font-headline font-bold text-2xl tracking-tight mb-6">Upcoming events</h2>
+<div class="flex flex-col gap-4">
+<!-- Upcoming Item 1 -->
+<div class="flex gap-4 p-4 bg-surface-container-low rounded-lg border border-outline-variant/5 items-center cursor-pointer hover:bg-surface-container-high transition-colors">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Food Tasting" class="w-full h-full object-cover" data-alt="High end culinary dish with delicate garnishes on dark slate plate, moody lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAc9x3-Xu4bARwFEUbbBpbn7mdePQa2NuCw_kPNDVRC63YwEImk8EAd1RjKX277GaHpO362-1IB4qHAdPxUT1H5-lpEsnCeMnBV4ywm1efvaT3-yekWdDTIOOha9AUOleiv9hVSp1QHzh6Sj50EUAco5QDXxxr1kaqA6--BRlyNucMmbt3k4hWjyTn4dp47s-3qGIn72gyuiF-0DnyFw-iUKCi0jdhPBFvafm7baieMhnhvCq3ZTal9rzLaWwdsilOhoDdWeX4i"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="text-primary text-xs font-bold uppercase tracking-wider mb-1 font-label">Oct 28 • 7:00 PM</div>
+<h4 class="font-headline font-bold text-lg text-on-surface truncate">Gourmet Tasting Menu</h4>
+<p class="text-on-surface-variant text-sm font-label truncate flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                        The Obsidian Room
+                    </p>
+</div>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined">bookmark_border</span>
+</button>
+</div>
+<!-- Upcoming Item 2 -->
+<div class="flex gap-4 p-4 bg-surface-container-low rounded-lg border border-outline-variant/5 items-center cursor-pointer hover:bg-surface-container-high transition-colors">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Art Exhibition" class="w-full h-full object-cover" data-alt="Abstract modern art piece in dark gallery setting with spotlight illumination" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBChRz4fTryNHOuT-vORaI62A8U4IgWu2iS-I0aYFLjwd5bAw53Vptw8pcGGDIltmtketo4Y4upEAdYjn6Zww65x5OJw42q7J3sBKhroISpPU5nkhv-rBxwjvA3wASiW8Ko64iQBWdwTN1zyzqTJ88WrT2ya3q0sJzBLJ4jbIzCjrnkHSwRPaMT-4bvVviYWAzBO0B-jlJUbjz0OVXKAWoOM7ule1zAHkIMKnQlW_bi1kAMCOrQsKlhXs25s7GONOANjKTtfKzk"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="text-primary text-xs font-bold uppercase tracking-wider mb-1 font-label">Nov 02 • 10:00 AM</div>
+<h4 class="font-headline font-bold text-lg text-on-surface truncate">Modern Art Showcase</h4>
+<p class="text-on-surface-variant text-sm font-label truncate flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                        City Gallery
+                    </p>
+</div>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined">bookmark_border</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Bottom Navigation Component from JSON -->
+<nav class="bg-zinc-900/80 backdrop-blur-2xl font-space-grotesk text-[10px] font-medium tracking-widest uppercase docked full-width bottom-0 rounded-t-[3rem] tonal shift via surface_container_high shadow-[0_-10px_40px_rgba(163,230,53,0.08)] fixed bottom-0 w-full z-50 flex justify-around items-center px-4 pt-3 pb-8 md:hidden">
+<div class="flex flex-col items-center justify-center bg-lime-400/10 text-lime-400 rounded-full px-4 py-1 hover:text-lime-300 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined mb-1 group-hover:scale-90 transition-all duration-200" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="text-[10px]">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-lime-300 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined mb-1 group-hover:scale-90 transition-all duration-200">search</span>
+<span class="text-[10px]">Explore</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-lime-300 transition-colors cursor-pointer group relative -top-6">
+<div class="bg-primary text-on-primary-container p-4 rounded-full glow-effect" style="background: radial-gradient(circle at top left, var(--color-primary), var(--color-primary-container))">
+<span class="material-symbols-outlined text-3xl group-hover:scale-90 transition-all duration-200">add_circle</span>
+</div>
+<span class="text-[10px] mt-2">Create</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-lime-300 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined mb-1 group-hover:scale-90 transition-all duration-200">bookmark</span>
+<span class="text-[10px]">Saved</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-lime-300 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined mb-1 group-hover:scale-90 transition-all duration-200">person</span>
+<span class="text-[10px]">Profile</span>
+</div>
+</nav>
+</body></html>
