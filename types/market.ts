@@ -12,6 +12,8 @@ export interface Product {
   soldCount?: number;
   hasFreeShipping?: boolean;
   isLastUnit?: boolean;
+  rating?: number;
+  ratingCount?: number;
 }
 
 export interface CartItem {
