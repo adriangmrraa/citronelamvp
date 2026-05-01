@@ -64,7 +64,7 @@ export default function ProductDetailPage() {
         <div className="space-y-4">
           <div className="relative aspect-square w-full bg-zinc-900 rounded-none overflow-hidden border border-white/5 shadow-2xl">
             <Image
-              src={product.image}
+              src={product.image || '/images/market/1.jpg'}
               alt={product.name}
               fill
               priority

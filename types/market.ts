@@ -1,12 +1,16 @@
 export interface Product {
   id: number;
   name: string;
-  description: string;
+  description?: string;
   price: number;
-  image: string;
+  image?: string;
+  imageUrl?: string;
   category: string;
   stock: number;
-  sellerUsername: string;
+  sellerUsername?: string;
+  sellerId?: number;
+  thc?: number | null;
+  cbd?: number | null;
   discountPercentage?: number;
   originalPrice?: number;
   soldCount?: number;

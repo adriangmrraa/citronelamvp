@@ -5,20 +5,9 @@ import { Package } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Product } from '@/types/market';
 
-export interface Product {
-  id: number;
-  name: string;
-  description?: string;
-  category: string;
-  price: number;
-  stock: number;
-  imageUrl?: string;
-  sellerUsername?: string;
-  sellerId?: number;
-  thc?: number | null;
-  cbd?: number | null;
-}
+export type { Product };
 
 interface ProductCardProps {
   product: Product;

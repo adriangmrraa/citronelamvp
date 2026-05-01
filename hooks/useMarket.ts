@@ -304,7 +304,7 @@ export function useMarket() {
       const q = search.toLowerCase();
       result = result.filter(p => 
         p.name.toLowerCase().includes(q) || 
-        p.description.toLowerCase().includes(q)
+        (p.description || '').toLowerCase().includes(q)
       );
     }
 

@@ -21,7 +21,7 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
       {/* Image Container */}
       <div className="relative aspect-[4/3] sm:aspect-square w-full overflow-hidden bg-[#07120b]">
         <Image
-          src={product.image}
+          src={product.image || '/images/market/1.jpg'}
           alt={product.name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 20vw"
