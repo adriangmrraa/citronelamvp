@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import type { Product } from './ProductCard';
+import { Product } from '@/types/market';
 
-const CATEGORIES = ['Flores', 'Parafernalia', 'Genéticas'];
+const CATEGORIES = ['Sustratos', 'Nutrientes', 'Semillas', 'Equipamiento', 'Kits', 'Parafernalia', 'Bienestar', 'Accesorios'];
 
 interface ProductFormProps {
   product?: Partial<Product>;
@@ -93,133 +93,152 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
   }
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#07120b] border border-white/[0.08] rounded-2xl shadow-xl w-full max-w-md overflow-y-auto max-h-[90vh]">
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[100] p-4 sm:p-6 animate-in fade-in duration-300">
+      <div className="bg-[#07120b] border border-[#a3e635]/30 rounded-[2.5rem] shadow-glow-lime/10 w-full max-w-lg overflow-y-auto max-h-[90vh] relative">
+        {/* Background Glow */}
+        <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/20 rounded-full blur-[60px] pointer-events-none" />
+        
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08]">
-          <h2 className="font-bold text-zinc-50 text-lg">
-            {isEditing ? 'Editar producto' : 'Publicar producto'}
+        <div className="flex items-center justify-between px-8 py-6 border-b border-white/[0.05] relative z-10">
+          <h2 
+            style={{ fontFamily: 'var(--font-avigea)' }}
+            className="text-2xl tracking-tight text-white"
+          >
+            {isEditing ? 'Editar' : 'Publicar'} <span className="text-primary">Producto</span>
           </h2>
           <button
             onClick={onCancel}
-            className="w-8 h-8 rounded-xl bg-white/[0.06] flex items-center justify-center text-zinc-400 hover:bg-white/[0.10] transition-colors"
+            className="w-10 h-10 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/[0.08] transition-all"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <span className="material-symbols-outlined">close</span>
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
+        <form onSubmit={handleSubmit} className="px-8 py-6 space-y-5 relative z-10">
           {error && (
-            <div className="bg-red-500/10 text-red-400 border border-red-500/20 px-4 py-3 rounded-xl text-sm">
+            <div className="bg-destructive/10 text-destructive border border-destructive/20 px-4 py-3 rounded-2xl text-sm animate-in shake duration-300">
               {error}
             </div>
           )}
 
           {/* Name */}
-          <div className="space-y-1.5">
-            <label className="text-zinc-300 font-medium text-sm">
-              Nombre <span className="text-red-400">*</span>
+          <div className="space-y-2">
+            <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold ml-1">
+              Nombre del Producto <span className="text-primary">*</span>
             </label>
-            <Input
+            <input
               value={form.name}
               onChange={(e) => set('name', e.target.value)}
-              placeholder="Gorilla Glue fem"
+              placeholder="Ej: Gorilla Glue Auto #4"
               required
+              className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-3.5 text-white placeholder-zinc-600 focus:outline-none focus:border-primary/50 focus:bg-white/[0.06] transition-all"
             />
           </div>
 
           {/* Description */}
-          <div className="space-y-1.5">
-            <label className="text-zinc-300 font-medium text-sm">
-              Descripción
+          <div className="space-y-2">
+            <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold ml-1">
+              Descripción Detallada
             </label>
             <textarea
               value={form.description}
               onChange={(e) => set('description', e.target.value)}
-              placeholder="Describí tu producto..."
+              placeholder="Describí las características, efectos o especificaciones..."
               rows={3}
-              className="flex w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-sm text-zinc-50 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/30 resize-none"
+              className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-3.5 text-white placeholder-zinc-600 focus:outline-none focus:border-primary/50 focus:bg-white/[0.06] transition-all resize-none"
             />
           </div>
 
           {/* Category */}
-          <div className="space-y-1.5">
-            <label className="text-zinc-300 font-medium text-sm">
-              Categoría <span className="text-red-400">*</span>
+          <div className="space-y-2">
+            <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold ml-1">
+              Categoría <span className="text-primary">*</span>
             </label>
-            <select
-              value={form.category}
-              onChange={(e) => set('category', e.target.value)}
-              className="flex h-10 w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-sm text-zinc-300 focus:outline-none focus:ring-2 focus:ring-lime-400/50"
-            >
-              {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat} className="bg-[#07120b] text-zinc-300">
-                  {cat}
-                </option>
-              ))}
-            </select>
+            <div className="relative">
+              <select
+                value={form.category}
+                onChange={(e) => set('category', e.target.value)}
+                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-3.5 text-white focus:outline-none focus:border-primary/50 focus:bg-white/[0.06] transition-all appearance-none cursor-pointer"
+              >
+                {CATEGORIES.map((cat) => (
+                  <option key={cat} value={cat} className="bg-[#07120b] text-white">
+                    {cat}
+                  </option>
+                ))}
+              </select>
+              <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500">
+                expand_more
+              </span>
+            </div>
           </div>
 
           {/* Price + Stock */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1.5">
-              <label className="text-zinc-300 font-medium text-sm">
-                Precio (tokens) <span className="text-red-400">*</span>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold ml-1">
+                Precio (TOKENS) <span className="text-primary">*</span>
               </label>
-              <Input
+              <input
                 type="number"
                 min="1"
                 value={form.price}
                 onChange={(e) => set('price', e.target.value)}
-                placeholder="5000"
+                placeholder="0"
                 required
+                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-3.5 text-white placeholder-zinc-600 focus:outline-none focus:border-primary/50 focus:bg-white/[0.06] transition-all"
               />
             </div>
-            <div className="space-y-1.5">
-              <label className="text-zinc-300 font-medium text-sm">
-                Stock <span className="text-red-400">*</span>
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold ml-1">
+                Stock Inicial <span className="text-primary">*</span>
               </label>
-              <Input
+              <input
                 type="number"
                 min="0"
                 value={form.stock}
                 onChange={(e) => set('stock', e.target.value)}
-                placeholder="10"
+                placeholder="0"
                 required
+                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-3.5 text-white placeholder-zinc-600 focus:outline-none focus:border-primary/50 focus:bg-white/[0.06] transition-all"
               />
             </div>
           </div>
 
           {/* Image URL */}
-          <div className="space-y-1.5">
-            <label className="text-zinc-300 font-medium text-sm">
-              URL de imagen
+          <div className="space-y-2">
+            <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold ml-1">
+              URL de la Imagen
             </label>
-            <Input
-              type="url"
-              value={form.imageUrl}
-              onChange={(e) => set('imageUrl', e.target.value)}
-              placeholder="https://..."
-            />
+            <div className="relative group">
+              <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within:text-primary transition-colors">
+                image
+              </span>
+              <input
+                type="url"
+                value={form.imageUrl}
+                onChange={(e) => set('imageUrl', e.target.value)}
+                placeholder="https://images.unsplash.com/..."
+                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-3.5 pl-12 pr-4 text-white placeholder-zinc-600 focus:outline-none focus:border-primary/50 focus:bg-white/[0.06] transition-all"
+              />
+            </div>
+            <p className="text-[9px] text-zinc-500 ml-1">Tip: Usá imágenes de Unsplash o links directos .jpg/.png</p>
           </div>
 
           {/* Actions */}
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-4 pt-4">
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.06] border border-white/[0.10] text-zinc-300 hover:bg-white/[0.10] transition-colors text-sm font-medium"
+              className="flex-1 px-6 py-4 rounded-2xl bg-zinc-900 border border-white/5 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all font-bold text-xs uppercase tracking-widest"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-4 py-2.5 rounded-xl bg-lime-400 text-[#07120b] hover:bg-lime-300 font-semibold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-[2] px-6 py-4 rounded-2xl bg-primary text-black hover:scale-[1.02] active:scale-[0.98] transition-all font-bold text-xs uppercase tracking-widest shadow-glow-lime/20 disabled:opacity-50 disabled:hover:scale-100"
             >
-              {loading ? 'Guardando...' : isEditing ? 'Guardar cambios' : 'Publicar producto'}
+              {loading ? 'Procesando...' : isEditing ? 'Guardar Cambios' : 'Publicar Producto'}
             </button>
           </div>
         </form>

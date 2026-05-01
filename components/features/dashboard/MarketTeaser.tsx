@@ -3,7 +3,7 @@
 export function MarketTeaser() {
   return (
     <div className="glass-surface p-8 rounded-2xl h-full flex flex-col">
-      <h2 className="font-display text-2xl font-bold mb-2 text-white italic">Tu Mercado</h2>
+      <h2 className="font-display text-2xl font-medium mb-2 text-white tracking-widest">Tu Mercado</h2>
       <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-8">Suministros Premium Citronela</p>
       
       <div className="space-y-4 flex-grow">
@@ -13,7 +13,7 @@ export function MarketTeaser() {
               <span className="material-symbols-outlined text-3xl">genetics</span>
             </div>
             <div>
-              <h4 className="font-display text-lg font-bold text-zinc-100 italic">Bóveda Genética</h4>
+              <h4 className="font-display text-lg font-medium text-zinc-100 tracking-widest">Bóveda Genética</h4>
               <p className="text-[10px] text-zinc-500 font-sans uppercase tracking-wider">Semillas híbridas y variedades únicas</p>
             </div>
             <span className="material-symbols-outlined ml-auto text-primary group-hover:translate-x-1 transition-transform">arrow_forward_ios</span>
@@ -26,7 +26,7 @@ export function MarketTeaser() {
               <span className="material-symbols-outlined text-3xl">science</span>
             </div>
             <div>
-              <h4 className="font-display text-lg font-bold text-zinc-100 italic">Bio-Labs de Nutrientes</h4>
+              <h4 className="font-display text-lg font-medium text-zinc-100 tracking-widest">Bio-Labs de Nutrientes</h4>
               <p className="text-[10px] text-zinc-500 font-sans uppercase tracking-wider">Soluciones hidropónicas de precisión</p>
             </div>
             <span className="material-symbols-outlined ml-auto text-primary group-hover:translate-x-1 transition-transform">arrow_forward_ios</span>

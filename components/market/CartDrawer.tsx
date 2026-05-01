@@ -2,7 +2,7 @@
 
 import { ShoppingCart, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import type { Product } from './ProductCard';
+import { Product } from '@/types/market';
 
 export interface CartItem {
   product: Product;
@@ -50,16 +50,21 @@ export default function CartDrawer({
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.08]">
-          <div>
-            <h2 className="font-bold text-zinc-100 text-lg">Carrito</h2>
-            {tokenBalance != null && (
-              <p className="text-xs text-zinc-500 mt-0.5">
-                Saldo:{' '}
-                <span className="font-semibold text-amber-400">
-                  {tokenBalance.toLocaleString('es-AR')} tokens
-                </span>
-              </p>
-            )}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#A3E635] flex items-center justify-center shadow-[0_0_15px_rgba(163,230,53,0.2)]">
+              <ShoppingCart className="w-5 h-5 text-[#07120b] stroke-[1.5]" />
+            </div>
+            <div>
+              <h2 className="font-bold text-zinc-100 text-lg">Carrito</h2>
+              {tokenBalance != null && (
+                <p className="text-xs text-zinc-500 mt-0.5">
+                  Saldo:{' '}
+                  <span className="font-semibold text-[#A3E635]">
+                    {tokenBalance.toLocaleString('es-AR')} tokens
+                  </span>
+                </p>
+              )}
+            </div>
           </div>
           <button
             onClick={onClose}
@@ -74,9 +79,23 @@ export default function CartDrawer({
         {/* Items */}
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
           {items.length === 0 ? (
-            <div className="text-center py-16 text-zinc-500">
-              <ShoppingCart className="w-12 h-12 mx-auto mb-3 opacity-40" />
-              <p className="text-sm">El carrito está vacío</p>
+            <div className="text-center py-24 px-8 space-y-4">
+              <div className="w-20 h-20 mx-auto rounded-full bg-zinc-900/50 flex items-center justify-center border border-white/5">
+                <ShoppingCart className="w-10 h-10 text-zinc-700 stroke-[1]" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-white font-bold tracking-tight">Tu carrito está vacío</p>
+                <p className="text-xs text-zinc-500 leading-relaxed">
+                  Parece que aún no has agregado nada. ¡Explorá el market y encontrá lo que buscás!
+                </p>
+              </div>
+              <Button 
+                onClick={onClose}
+                variant="outline" 
+                className="h-9 border-white/10 text-xs font-bold text-[#A3E635] hover:bg-[#A3E635]/5 rounded-xl"
+              >
+                VOLVER AL MARKET
+              </Button>
             </div>
           ) : (
             items.map((item) => (
@@ -84,13 +103,12 @@ export default function CartDrawer({
                 key={item.product.id}
                 className="glass-surface rounded-xl flex items-center gap-3 p-3"
               >
-                {/* Thumbnail */}
-                <div className="w-12 h-12 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
-                  {item.product.imageUrl ? (
+                <div className="w-12 h-12 rounded-lg bg-zinc-900 border border-white/[0.08] flex items-center justify-center flex-shrink-0 overflow-hidden relative">
+                  {item.product.image ? (
                     <img
-                      src={item.product.imageUrl}
+                      src={item.product.image}
                       alt={item.product.name}
-                      className="w-full h-full object-cover rounded-lg"
+                      className="w-full h-full object-cover relative z-10"
                     />
                   ) : (
                     <Package className="w-6 h-6 text-zinc-500" />
@@ -102,7 +120,7 @@ export default function CartDrawer({
                   <p className="text-sm font-semibold text-zinc-100 truncate">
                     {item.product.name}
                   </p>
-                  <p className="text-xs text-amber-400">
+                  <p className="text-xs text-[#A3E635] font-bold">
                     {(item.product.price * item.quantity).toLocaleString('es-AR')} tokens
                   </p>
                 </div>
@@ -144,18 +162,18 @@ export default function CartDrawer({
         {/* Footer */}
         {items.length > 0 && (
           <div className="px-5 py-4 border-t border-white/[0.08] space-y-3">
-            <div className="glass-surface-2 rounded-xl px-4 py-3 flex items-center justify-between">
-              <span className="text-sm text-zinc-400 font-medium">Total</span>
-              <span className="text-xl font-bold text-amber-400">
+            <div className="glass-surface-2 rounded-xl px-4 py-3 flex items-center justify-between border border-white/5">
+              <span className="text-sm text-zinc-400 font-medium">Total del canje</span>
+              <span className="text-xl font-bold text-[#A3E635]">
                 {total.toLocaleString('es-AR')} tokens
               </span>
             </div>
             <Button
-              className="w-full bg-lime-400 text-[#07120b] hover:bg-lime-300 font-semibold"
+              className="w-full h-12 bg-[#A3E635] text-[#07120b] hover:bg-[#b4f346] font-black text-sm rounded-xl transition-all shadow-[0_0_20px_rgba(163,230,53,0.1)]"
               onClick={onConfirm}
               disabled={confirming}
             >
-              {confirming ? 'Procesando...' : 'Confirmar Cange'}
+              {confirming ? 'PROCESANDO...' : 'CONFIRMAR CANJE'}
             </Button>
           </div>
         )}
