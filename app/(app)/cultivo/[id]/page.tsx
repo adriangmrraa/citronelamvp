@@ -527,7 +527,7 @@ export default function CropDetailPage() {
 
       {showLogForm && (
         <LogForm
-          cropId={cropId}
+          cropId={Number(cropId)}
           onSuccess={(log) => {
             setLogs((prev) => [log, ...prev]);
             setShowLogForm(false);
@@ -538,7 +538,7 @@ export default function CropDetailPage() {
 
       {showLabForm && (
         <LabReportForm
-          cropId={cropId}
+          cropId={Number(cropId)}
           onSuccess={(report) => {
             setLabReports((prev) => [report, ...prev]);
             setShowLabForm(false);
