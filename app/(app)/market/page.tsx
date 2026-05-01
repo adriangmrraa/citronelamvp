@@ -1,276 +1,137 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
-import { Search, ShoppingCart, Plus } from 'lucide-react';
-import ProductCard, { type Product } from '@/components/market/ProductCard';
-import FilterBar from '@/components/market/FilterBar';
-import CartDrawer, { type CartItem } from '@/components/market/CartDrawer';
+import React, { useState } from 'react';
+import { useMarket } from '@/hooks/useMarket';
+import { useCart } from '@/hooks/useCart';
+import { MarketHeader } from '@/components/features/market/MarketHeader';
+import { CategoriesRibbon } from '@/components/features/market/CategoriesRibbon';
+import { FiltersRibbon } from '@/components/features/market/FiltersRibbon';
+import { MarketCarousel } from '@/components/features/market/MarketCarousel';
+import { MarketGrid } from '@/components/features/market/MarketGrid';
 import ProductForm from '@/components/market/ProductForm';
 import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
 
 export default function MarketPage() {
-  const router = useRouter();
+  const { 
+    products, 
+    isLoading, 
+    error, 
+    search, 
+    setSearch, 
+    category, 
+    setCategory,
+    refreshProducts,
+    activeTab,
+    setActiveTab
+  } = useMarket();
 
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    cart,
+    isOpen: isCartOpen,
+    setIsOpen: setIsCartOpen,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    totalItems,
+    totalPrice
+  } = useCart();
 
-  // Filters
-  const [category, setCategory] = useState('Todas');
-  const [sort, setSort] = useState('newest');
-  const [search, setSearch] = useState('');
-
-  // Cart (client-side only)
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [cartOpen, setCartOpen] = useState(false);
-  const [confirming, setConfirming] = useState(false);
-
-  // Modals
   const [showProductForm, setShowProductForm] = useState(false);
-
-  // Notification
   const [notification, setNotification] = useState<string | null>(null);
 
-  function notify(msg: string) {
+  const notify = (msg: string) => {
     setNotification(msg);
     setTimeout(() => setNotification(null), 3000);
-  }
+  };
 
-  const fetchProducts = useCallback(async () => {
-    try {
-      setLoading(true);
-      const res = await fetch('/api/products');
-      if (!res.ok) throw new Error('Error al cargar productos');
-      const data = await res.json();
-      setProducts(data.products ?? data ?? []);
-    } catch {
-      setError('No se pudieron cargar los productos');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
-
-  // Filtered + sorted products
-  const filtered = useMemo(() => {
-    let result = [...products];
-
-    if (category !== 'Todas') {
-      result = result.filter((p) => p.category === category);
-    }
-
-    if (search.trim()) {
-      const q = search.toLowerCase();
-      result = result.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          p.description?.toLowerCase().includes(q) ||
-          p.sellerUsername?.toLowerCase().includes(q)
-      );
-    }
-
-    if (sort === 'price_asc') result.sort((a, b) => a.price - b.price);
-    else if (sort === 'price_desc') result.sort((a, b) => b.price - a.price);
-    // newest: keep API order (default)
-
-    return result;
-  }, [products, category, sort, search]);
-
-  // Cart operations
-  function addToCart(product: Product) {
-    setCart((prev) => {
-      const existing = prev.find((i) => i.product.id === product.id);
-      if (existing) {
-        if (existing.quantity >= product.stock) {
-          notify('Stock máximo alcanzado');
-          return prev;
-        }
-        return prev.map((i) =>
-          i.product.id === product.id ? { ...i, quantity: i.quantity + 1 } : i
-        );
-      }
-      return [...prev, { product, quantity: 1 }];
-    });
+  const handleAddToCart = (product: any) => {
+    addToCart(product);
     notify(`${product.name} agregado al carrito`);
-  }
+  };
 
-  function removeFromCart(productId: number) {
-    setCart((prev) => prev.filter((i) => i.product.id !== productId));
-  }
-
-  function updateQty(productId: number, qty: number) {
-    if (qty <= 0) {
-      removeFromCart(productId);
-      return;
-    }
-    setCart((prev) =>
-      prev.map((i) => {
-        if (i.product.id !== productId) return i;
-        if (qty > i.product.stock) {
-          notify('Stock máximo alcanzado');
-          return i;
-        }
-        return { ...i, quantity: qty };
-      })
-    );
-  }
-
-  async function handleConfirmCange() {
-    if (cart.length === 0 || confirming) return;
-    setConfirming(true);
-    const errors: string[] = [];
-    for (const item of cart) {
-      try {
-        const res = await fetch(`/api/products/${item.product.id}/purchase`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ quantity: item.quantity }),
-        });
-        if (!res.ok) {
-          const data = await res.json().catch(() => ({}));
-          errors.push(`${item.product.name}: ${data.error ?? 'Error'}`);
-        }
-      } catch {
-        errors.push(`${item.product.name}: error de conexión`);
-      }
-    }
-
-    if (errors.length === 0) {
-      setCart([]);
-      setCartOpen(false);
-      notify('Canges confirmados!');
-      fetchProducts(); // refresh stock
-    } else {
-      notify(`Errores: ${errors.join(', ')}`);
-    }
-    setConfirming(false);
-  }
-
-  const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
+  const handleConfirmPurchase = async () => {
+    notify("Procesando compra...");
+    // Simular proceso
+    await new Promise(r => setTimeout(r, 1000));
+    notify("¡Compra realizada con éxito!");
+    setIsCartOpen(false);
+  };
 
   return (
-    <div className="relative p-6 max-w-6xl mx-auto space-y-6">
-      {/* Background image */}
-      <div
-        className="fixed inset-0 -z-10 opacity-[0.04] animate-bg-drift bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/bg/market.jpg')" }}
-      />
-
-      {/* Notification */}
+    <div className="min-h-screen text-zinc-200 pb-24 font-sans">
+      {/* Notification Toast */}
       {notification && (
-        <div className="fixed top-4 right-4 glass-surface border border-lime-400/25 text-lime-400 px-5 py-3 rounded-xl shadow-lg z-50 text-sm font-medium">
-          {notification}
+        <div className="fixed top-6 right-6 z-[100] animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="glass-surface border-primary/30 px-6 py-3 rounded-2xl shadow-glow-lime/20 flex items-center gap-3">
+            <span className="material-symbols-outlined text-primary">check_circle</span>
+            <span className="text-sm font-medium text-white">{notification}</span>
+          </div>
         </div>
       )}
 
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-black text-white">Mercado GTL</h1>
-          <p className="text-sm text-zinc-400 mt-0.5">
-            {products.length} productos disponibles
-          </p>
+      <div className="relative z-20">
+        {/* Solid Green Header Area */}
+        <div className="bg-[#A3E635] pt-3 pb-1 px-6 md:px-12 border-b border-[#07120b]/5">
+          <div className="max-w-[2000px] mx-auto">
+            <MarketHeader 
+              searchTerm={search} 
+              onSearchChange={setSearch} 
+              cartCount={totalItems}
+              onOpenCart={() => setIsCartOpen(true)}
+            />
+            <div className="mt-1">
+              <CategoriesRibbon 
+                selectedCategory={category} 
+                onCategoryChange={setCategory} 
+              />
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            onClick={() => setShowProductForm(true)}
-            size="sm"
-            className="bg-white/[0.04] border border-white/[0.08] text-zinc-300 hover:bg-white/[0.08]"
-          >
-            <Plus className="w-4 h-4" />
-            Publicar producto
-          </Button>
-          {/* Cart button */}
-          <button
-            onClick={() => setCartOpen(true)}
-            className="relative flex items-center gap-2 bg-lime-400 text-[#07120b] px-4 py-2 rounded-xl hover:bg-lime-300 transition-colors shadow-sm font-medium text-sm"
-          >
-            <ShoppingCart className="w-5 h-5" />
-            <span>Carrito</span>
-            {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-[#07120b] text-lime-400 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                {cartCount}
-              </span>
-            )}
-          </button>
+
+        {/* Gradient Transition Area (Behind Carousel) */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-[#A3E635] via-[#A3E635] via-40% to-transparent pointer-events-none -z-10" />
+          <div className="w-full py-1">
+            <MarketCarousel />
+          </div>
         </div>
       </div>
 
-      {/* Filters */}
-      <FilterBar
-        category={category}
-        sort={sort}
-        search={search}
-        onCategoryChange={setCategory}
-        onSortChange={setSort}
-        onSearchChange={setSearch}
-      />
-
-      {/* Error */}
-      {error && (
-        <div className="bg-red-900/20 text-red-400 px-4 py-3 rounded-xl text-sm">
-          {error}
+      <main className="px-6 md:px-12 space-y-2 relative z-10 max-w-[2000px] mx-auto">
+        <div className="flex flex-col gap-2">
+          <FiltersRibbon 
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+          />
         </div>
-      )}
 
-      {/* Loading */}
-      {loading && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-64 bg-white/[0.04] rounded-2xl animate-pulse" />
-          ))}
-        </div>
-      )}
+        <section className="space-y-4">
+          <div className="flex items-end justify-between">
+            <h2 
+              style={{ fontFamily: 'var(--font-avigea)' }}
+              className="text-2xl text-white tracking-wide"
+            >
+              {category === "Todos" ? "Todos los productos" : category}
+            </h2>
+          </div>
 
-      {/* Products grid */}
-      {!loading && filtered.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filtered.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={addToCart}
-            />
-          ))}
-        </div>
-      )}
+          <MarketGrid 
+            products={products}
+            isLoading={isLoading}
+            error={error}
+            onAddToCart={handleAddToCart}
+          />
+        </section>
+      </main>
 
-      {/* Empty state */}
-      {!loading && filtered.length === 0 && !error && (
-        <div className="text-center py-20 glass-surface rounded-2xl border border-white/[0.08]">
-          <Search className="w-12 h-12 text-zinc-600 mx-auto mb-4" />
-          <h2 className="text-lg font-bold text-white mb-2">
-            Sin productos
-          </h2>
-          <p className="text-sm text-zinc-400">
-            No se encontraron productos con esos filtros
-          </p>
-        </div>
-      )}
-
-      {/* Cart drawer */}
-      <CartDrawer
-        open={cartOpen}
-        onClose={() => setCartOpen(false)}
-        items={cart}
-        onRemove={removeFromCart}
-        onQtyChange={updateQty}
-        onConfirm={handleConfirmCange}
-        confirming={confirming}
-      />
-
-      {/* Product form modal */}
+      {/* Overlays */}
       {showProductForm && (
         <ProductForm
-          onSuccess={(newProduct) => {
-            setProducts((prev) => [newProduct, ...prev]);
+          onSuccess={() => {
             setShowProductForm(false);
-            notify('Producto publicado!');
+            notify('¡Producto publicado con éxito!');
+            refreshProducts();
           }}
           onCancel={() => setShowProductForm(false)}
         />

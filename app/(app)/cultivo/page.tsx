@@ -1,121 +1,138 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { Plus, Sprout } from 'lucide-react';
-import CropCard from '@/components/crops/CropCard';
-import CropForm from '@/components/crops/CropForm';
-import { Button } from '@/components/ui/button';
-import type { Crop } from '@/db/schema';
+import React, { useState } from 'react';
+import { DashboardHeader } from '@/components/features/dashboard/DashboardHeader';
+import { CropCard } from '@/components/features/dashboard/CropCard';
+import { GrowthChart } from '@/components/features/dashboard/GrowthChart';
+import { MarketTeaser } from '@/components/features/dashboard/MarketTeaser';
+import { SystemLog } from '@/components/features/dashboard/SystemLog';
+import { ExpandCropCard } from '@/components/features/dashboard/ExpandCropCard';
+import { CultivoCarousel } from '@/components/features/cultivo/CultivoCarousel';
+import { CultivoHeader } from '@/components/features/cultivo/CultivoHeader';
+
+const activeCrops = [
+  // ... (keeping the same data)
+  {
+    batch: '042',
+    name: 'Amnesia Haze',
+    ph: 6.2,
+    ec: 1.8,
+    currentDay: 45,
+    totalDays: 70,
+    icon: 'potted_plant',
+    camUrl: '/images/dashboard/2.png',
+  },
+  {
+    batch: '039',
+    name: 'Blue Dream',
+    ph: 5.8,
+    ec: 2.1,
+    currentDay: 12,
+    totalDays: 65,
+    icon: 'opacity',
+    isAlternate: true,
+    camUrl: '/images/dashboard/3.png',
+  },
+  {
+    batch: '041',
+    name: 'OG Kush',
+    ph: 6.0,
+    ec: 1.9,
+    currentDay: 31,
+    totalDays: 75,
+    icon: 'energy_savings_leaf',
+    camUrl: '/images/dashboard/4.png',
+  },
+  {
+    batch: '048',
+    name: 'AK 47',
+    ph: 6.1,
+    ec: 2.0,
+    currentDay: 5,
+    totalDays: 70,
+    icon: 'potted_plant',
+    isAlternate: true,
+    camUrl: '/images/dashboard/5.png',
+  },
+  {
+    batch: '051',
+    name: 'Sour Diesel',
+    ph: 5.9,
+    ec: 1.7,
+    currentDay: 18,
+    totalDays: 80,
+    icon: 'opacity',
+    camUrl: '/images/dashboard/6.png',
+  },
+  {
+    batch: '060',
+    name: 'Blue Dream (Lote B)',
+    ph: 5.8,
+    ec: 2.1,
+    currentDay: 12,
+    totalDays: 65,
+    icon: 'opacity',
+    isAlternate: true,
+    camUrl: '/images/dashboard/3.png',
+  },
+  {
+    batch: '061',
+    name: 'OG Kush (Lote B)',
+    ph: 6.0,
+    ec: 1.9,
+    currentDay: 31,
+    totalDays: 75,
+    icon: 'energy_savings_leaf',
+    camUrl: '/images/dashboard/4.png',
+  },
+];
 
 export default function CultivoPage() {
-  const [crops, setCrops] = useState<Crop[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchCrops = useCallback(async () => {
-    try {
-      const res = await fetch('/api/crops');
-      if (!res.ok) throw new Error('Error al cargar cultivos');
-      const data = await res.json();
-      setCrops(data.crops ?? []);
-    } catch {
-      setError('No se pudieron cargar los cultivos');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchCrops();
-  }, [fetchCrops]);
-
-  function handleCropCreated(crop: Crop) {
-    setCrops((prev) => [crop, ...prev]);
-    setShowForm(false);
-  }
-
-  if (loading) {
-    return (
-      <div className="p-6 max-w-5xl mx-auto">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-white/[0.04] rounded w-48"></div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-48 bg-white/[0.04] rounded-2xl"></div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const [search, setSearch] = useState("");
 
   return (
-    <div className="relative p-6 max-w-5xl mx-auto space-y-6">
-      {/* Background image */}
-      <div
-        className="fixed inset-0 -z-10 opacity-[0.04] animate-bg-drift bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/bg/cultivo.jpg')" }}
-      />
-
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-black text-white">Mi Cultivo</h1>
-          <p className="text-sm text-zinc-400 mt-0.5">
-            {crops.length} {crops.length === 1 ? 'parcela registrada' : 'parcelas registradas'}
-          </p>
+    <div className="min-h-screen text-zinc-200 pb-24 font-sans">
+      <div className="relative z-20">
+        {/* Solid Green Header Area */}
+        <div className="bg-[#A3E635] pt-3 pb-1 px-6 md:px-12 border-b border-[#07120b]/5">
+          <div className="max-w-[2000px] mx-auto">
+            <CultivoHeader 
+              searchTerm={search} 
+              onSearchChange={setSearch} 
+            />
+          </div>
         </div>
-        <Button
-          onClick={() => setShowForm(true)}
-          className="bg-lime-400 hover:bg-lime-300 text-[#07120b] font-semibold w-fit"
-        >
-          <Plus className="w-4 h-4" />
-          Nueva Parcela
-        </Button>
+
+        {/* Gradient Transition Area (Behind Carousel) */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-[#A3E635] via-[#A3E635] via-40% to-transparent pointer-events-none -z-10" />
+          <div className="w-full py-1">
+            <CultivoCarousel />
+          </div>
+        </div>
       </div>
 
-      {error && (
-        <div className="bg-red-900/20 text-red-400 px-4 py-3 rounded-xl text-sm">
-          {error}
-        </div>
-      )}
+      <main className="pb-20 px-6 md:px-12 max-w-[2000px] mx-auto space-y-12 mt-12">
+        <DashboardHeader />
 
-      {/* Empty state */}
-      {crops.length === 0 && !error && (
-        <div className="text-center py-20 glass-surface rounded-2xl border border-white/[0.08]">
-          <div className="w-20 h-20 mx-auto mb-4 bg-white/[0.04] rounded-2xl flex items-center justify-center">
-            <Sprout className="w-12 h-12 text-zinc-600" />
-          </div>
-          <h2 className="text-xl font-bold text-white mb-2">Sin parcelas todavía</h2>
-          <p className="text-zinc-400 text-sm max-w-sm mx-auto mb-6">
-            Creá tu primera parcela para empezar a registrar el progreso de tus plantas
-          </p>
-          <Button
-            onClick={() => setShowForm(true)}
-            className="bg-lime-400 hover:bg-lime-300 text-[#07120b] font-semibold"
-          >
-            Crear primera parcela
-          </Button>
-        </div>
-      )}
-
-      {/* Crops grid */}
-      {crops.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {crops.map((crop) => (
-            <CropCard key={crop.id} crop={crop} />
+        {/* Crops Grid */}
+        <section className="grid grid-cols-1 md:grid-cols-4 gap-8 stagger-children">
+          {activeCrops
+            .filter(crop => crop.name.toLowerCase().includes(search.toLowerCase()))
+            .map((crop) => (
+              <CropCard key={crop.batch} {...crop} />
           ))}
-        </div>
-      )}
+          <ExpandCropCard />
+        </section>
 
-      {/* Form modal */}
-      {showForm && (
-        <CropForm
-          onSuccess={handleCropCreated}
-          onCancel={() => setShowForm(false)}
-        />
-      )}
+        {/* Visuals Section */}
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <GrowthChart />
+          <MarketTeaser />
+        </section>
+
+        <SystemLog />
+      </main>
     </div>
   );
 }

@@ -63,13 +63,6 @@ const activeCrops = [
 export default function DashboardPage() {
   return (
     <div className="relative min-h-screen">
-      {/* Cinematic Background Elements */}
-      <div
-        className="fixed inset-0 -z-10 opacity-[0.05] animate-bg-drift bg-cover bg-center grayscale contrast-125"
-        style={{ backgroundImage: "url('/images/bg/hero.jpg')" }}
-      />
-      <div className="fixed inset-0 -z-10 bg-grid-weed opacity-[0.05]" />
-      
       <main className="pt-24 pb-20 px-6 md:px-12 max-w-7xl mx-auto space-y-12">
         <DashboardHeader />
 

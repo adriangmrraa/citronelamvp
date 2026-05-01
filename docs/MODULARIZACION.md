@@ -75,6 +75,22 @@ Se ha mantenido la lógica de **GSAP**, **ScrollTrigger** y **Lenis** en el comp
 - **Performance**: Mejor manejo de `lazy imports` y modularidad de componentes.
 - **Escalabilidad**: Es fácil agregar nuevos paneles al showcase horizontal simplemente agregando un objeto en `data.ts` y un nuevo componente en `screens/`.
 
+## 🎫 Módulo de Eventos (Domain: Events)
+
+Se ha implementado una arquitectura asíncrona para el manejo de eventos, preparada para la integración con base de datos real.
+
+### 1. `hooks/useEvents.ts`
+- **Asincronía Simulada**: Usa `useState`, `useEffect` y `setTimeout` para emular una API real.
+- **Filtrado Dinámico**: Soporta búsqueda por texto (`searchTerm`) que filtra títulos y locaciones.
+- **Estados**: Retorna `{ data, isLoading, error }`.
+
+### 2. `components/features/events/`
+- `EventCardSkeleton.tsx`: Esqueleto de alta fidelidad para estados de carga.
+- `TrendingEvents.tsx` & `UpcomingEvents.tsx`: Consumidores de los hooks asíncronos con manejo de estados.
+
+### 3. `tests/useEvents.test.ts`
+- Suite de pruebas con Vitest para validar la lógica de filtrado y el comportamiento asíncrono.
+
 ---
 
 _Documentación generada por Jesus Fleitas_

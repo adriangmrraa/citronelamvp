@@ -8,7 +8,7 @@ export function GrowthChart() {
     <div className="lg:col-span-2 glass-surface p-8 rounded-2xl">
       <div className="flex justify-between items-center mb-12">
         <div>
-          <h2 className="font-display text-2xl font-bold text-white italic">Métricas de Crecimiento</h2>
+          <h2 className="font-display text-2xl font-medium text-white tracking-widest">Métricas de Crecimiento</h2>
           <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-zinc-500">
             Análisis de Datos Agregados (Últimos 14 días)
           </p>
