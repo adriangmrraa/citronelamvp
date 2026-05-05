@@ -53,10 +53,10 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
       </div>
 
       {/* Content */}
-      <div className="p-4 space-y-3">
+      <div className="p-3 sm:p-4 space-y-2 sm:space-y-3">
         <h3 
           style={{ fontFamily: 'var(--font-inter)' }}
-          className="text-sm font-medium leading-tight text-white tracking-wide line-clamp-2 min-h-[2.5rem]"
+          className="text-[13px] sm:text-sm font-bold leading-tight text-white tracking-wide min-h-[2.5rem]"
         >
           {product.name}
         </h3>
@@ -64,38 +64,37 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
         {/* Pricing & Discounts */}
         <div className="space-y-1">
           {product.discountPercentage ? (
-            <div className="flex items-center gap-2">
-              <span className="text-[#A3E635] text-base font-bold tracking-tight">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[#A3E635] text-sm sm:text-base font-black tracking-tight">
                 {product.discountPercentage}% OFF
               </span>
-              <span className="text-zinc-500 text-sm line-through">
+              <span className="text-zinc-500 text-xs sm:text-sm line-through opacity-50">
                 {product.originalPrice?.toLocaleString()}
               </span>
             </div>
           ) : (
-            <div className="h-6" /> // Spacer for alignment
+            <div className="h-4 sm:h-6" /> // Spacer for alignment
           )}
           
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
             <div className="flex items-baseline gap-1">
-              <span className="text-3xl font-black text-white tracking-tighter">
+              <span className="text-xl sm:text-3xl font-black text-white tracking-tighter">
                 {product.price.toLocaleString()}
               </span>
               <span 
-                style={{ fontFamily: 'var(--font-avigea)' }}
-                className="text-xs font-normal text-[#A3E635] tracking-[0.1em]"
+                className="text-[9px] sm:text-xs font-black text-[#A3E635] uppercase tracking-tight"
               >
                 TOKENS
               </span>
             </div>
-            <div className="flex flex-col items-end">
+            <div className="flex flex-row sm:flex-col items-center sm:items-end gap-2 sm:gap-0">
               {product.hasFreeShipping && (
-                <div className="flex items-center gap-1 text-[11px] text-[#A3E635]/90 font-light tracking-wide mb-0.5">
-                  <span className="material-symbols-outlined text-sm">local_shipping</span>
-                  <span>Envío gratis</span>
+                <div className="flex items-center gap-1 text-[9px] sm:text-[11px] text-[#A3E635]/90 font-bold tracking-wide">
+                  <span className="material-symbols-outlined text-[12px] sm:text-sm">local_shipping</span>
+                  <span className="hidden sm:inline">Envío gratis</span>
                 </div>
               )}
-              <span className="text-[10px] text-zinc-500 font-medium whitespace-nowrap">
+              <span className="text-[9px] sm:text-[10px] text-zinc-500 font-bold whitespace-nowrap">
                 +{product.soldCount} vendidos
               </span>
             </div>

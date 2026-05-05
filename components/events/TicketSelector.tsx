@@ -1,8 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Ticket, Coins, CheckCircle2 } from 'lucide-react';
+
+import { useUser } from '@/hooks/useUser';
 
 interface TicketCategory {
   id: number;
@@ -15,12 +18,15 @@ interface TicketCategory {
 
 interface TicketSelectorProps {
   eventId: number;
+  eventTitle: string;
   categories: TicketCategory[];
-  userTokens: number;
   onSuccess: () => void;
 }
 
-export default function TicketSelector({ eventId, categories, userTokens, onSuccess }: TicketSelectorProps) {
+export default function TicketSelector({ eventId, eventTitle, categories, onSuccess }: TicketSelectorProps) {
+  const router = useRouter();
+  const { user, spendTokens, addReservation } = useUser();
+  const userTokens = user.tokens;
   const [selected, setSelected] = useState<number | null>(categories[0]?.id ?? null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -30,26 +36,11 @@ export default function TicketSelector({ eventId, categories, userTokens, onSucc
   const isFull = (cat: TicketCategory) =>
     cat.capacity !== null && cat.reserved >= cat.capacity;
 
-  const handleReserve = async () => {
-    if (!selected) return;
-    setError('');
-    setLoading(true);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-    try {
-      const res = await fetch(`/api/events/${eventId}/reservations`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ categoryId: selected }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Error al reservar');
-      onSuccess();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error desconocido');
-    } finally {
-      setLoading(false);
-    }
+  const handleConfirmRedirect = () => {
+    if (!selectedCat) return;
+    router.push(`/events/checkout/${eventId}?cat=${selectedCat.id}`);
   };
 
   if (categories.length === 0) {
@@ -61,15 +52,18 @@ export default function TicketSelector({ eventId, categories, userTokens, onSucc
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-zinc-100 flex items-center gap-2">
+        <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] flex items-center gap-2">
           <Ticket className="w-4 h-4 text-lime-400" />
           Seleccioná tu entrada
         </h3>
-        <div className="flex items-center gap-1.5 text-sm text-zinc-400">
-          <Coins className="w-4 h-4" />
-          <span>Tu balance: <strong className="text-lime-400">{userTokens} tokens</strong></span>
+        <div className="flex items-center gap-1.5 text-sm text-zinc-400 pr-2">
+          <div className="flex items-baseline gap-1">
+            <span className="text-zinc-500 text-[10px] uppercase font-black mr-1 italic">Saldo:</span>
+            <span className="text-xl font-black text-white tracking-tighter">{userTokens.toLocaleString()}</span>
+            <span className="text-[10px] font-black text-[#A3E635] uppercase tracking-tight">TOKENS</span>
+          </div>
         </div>
       </div>
 
@@ -88,12 +82,12 @@ export default function TicketSelector({ eventId, categories, userTokens, onSucc
           return (
             <label
               key={cat.id}
-              className={`flex items-start gap-3 p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
+              className={`flex items-start gap-3 p-4 border-b cursor-pointer transition-all ${
                 full
-                  ? 'opacity-50 cursor-not-allowed border-white/[0.06]'
+                  ? 'opacity-50 cursor-not-allowed border-white/5'
                   : isSelected
-                  ? 'border-lime-400/50 bg-lime-400/5'
-                  : 'border-white/[0.08] hover:border-lime-400/30'
+                  ? 'border-[#A3E635]/30 bg-[#A3E635]/5'
+                  : 'border-white/5 hover:border-[#A3E635]/20 hover:bg-white/[0.02]'
               }`}
             >
               <input
@@ -108,9 +102,14 @@ export default function TicketSelector({ eventId, categories, userTokens, onSucc
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-2">
                   <span className="font-medium text-zinc-100">{cat.name}</span>
-                  <span className={`font-bold text-sm ${affordable ? 'text-lime-400' : 'text-red-400'}`}>
-                    {cat.price === 0 ? 'Gratis' : `${cat.price} tokens`}
-                  </span>
+                  <div className="flex items-baseline gap-1">
+                    <span className={`text-lg font-black tracking-tighter ${affordable ? 'text-white' : 'text-red-500'}`}>
+                      {cat.price === 0 ? 'Gratis' : cat.price.toLocaleString()}
+                    </span>
+                    {cat.price > 0 && (
+                      <span className={`text-[10px] font-black uppercase tracking-tight ${affordable ? 'text-[#A3E635]' : 'text-red-500/80'}`}>TOKENS</span>
+                    )}
+                  </div>
                 </div>
                 {cat.benefits && (
                   <p className="text-xs text-zinc-500 mt-0.5">{cat.benefits}</p>
@@ -136,12 +135,47 @@ export default function TicketSelector({ eventId, categories, userTokens, onSucc
       </div>
 
       <Button
-        className="w-full"
-        onClick={handleReserve}
+        className="w-full bg-[#A3E635] text-[#07120b] hover:bg-[#b4f346] font-black uppercase tracking-widest py-6 rounded-none mt-4"
+        onClick={() => setShowConfirm(true)}
         disabled={loading || !selected || !canAfford || (selectedCat ? isFull(selectedCat) : false)}
       >
-        {loading ? 'Reservando...' : canAfford ? 'Confirmar reserva' : 'Tokens insuficientes'}
+        {canAfford ? 'Confirmar reserva' : 'Tokens insuficientes'}
       </Button>
+
+      {/* Confirmation Modal */}
+      {showConfirm && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 animate-in fade-in duration-300">
+          <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={() => setShowConfirm(false)} />
+          <div className="relative w-full max-w-sm bg-[#07120b] border border-white/10 p-8 space-y-6 shadow-2xl animate-in zoom-in-95 duration-300">
+            <div className="space-y-4 text-center">
+              <div className="w-16 h-16 bg-[#A3E635]/10 rounded-full flex items-center justify-center mx-auto">
+                <Ticket className="w-8 h-8 text-[#A3E635]" />
+              </div>
+              <div className="space-y-2">
+                <h4 className="text-xl font-black text-white uppercase tracking-tighter italic">¿Estás seguro?</h4>
+                <p className="text-zinc-400 text-sm leading-relaxed">
+                  Vas a adquirir <span className="text-white font-bold">1 entrada</span> para <span className="text-[#A3E635] font-bold">{eventTitle}</span> por <span className="text-white font-bold">{selectedCat?.price} tokens</span>.
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-3">
+              <Button 
+                onClick={handleConfirmRedirect}
+                className="w-full bg-[#A3E635] text-[#07120b] hover:bg-lime-300 font-black uppercase tracking-widest py-6 rounded-none"
+              >
+                SÍ, CONFIRMAR
+              </Button>
+              <Button 
+                variant="ghost"
+                onClick={() => setShowConfirm(false)}
+                className="w-full text-zinc-500 hover:text-white font-black uppercase tracking-widest py-6"
+              >
+                CANCELAR
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

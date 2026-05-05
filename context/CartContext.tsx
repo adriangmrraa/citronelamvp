@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
 import { Product, CartItem } from '@/types/market';
 
 interface CartContextType {
@@ -20,6 +20,27 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Cargar carrito al iniciar
+  useEffect(() => {
+    const savedCart = localStorage.getItem('citro_cart_v1');
+    if (savedCart) {
+      try {
+        setCart(JSON.parse(savedCart));
+      } catch (e) {
+        console.error("Error loading cart", e);
+      }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Guardar carrito ante cambios
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem('citro_cart_v1', JSON.stringify(cart));
+    }
+  }, [cart, isLoaded]);
 
   const addToCart = useCallback((product: Product) => {
     setCart((prev) => {

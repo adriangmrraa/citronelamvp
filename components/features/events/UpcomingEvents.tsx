@@ -5,8 +5,8 @@ import { EventCard } from './EventCard';
 import { EventCardSkeleton } from './EventCardSkeleton';
 import { useUpcomingEvents } from '@/hooks/useEvents';
 
-export function UpcomingEvents({ searchTerm = "" }: { searchTerm?: string }) {
-  const { data, isLoading, error } = useUpcomingEvents(searchTerm);
+export function UpcomingEvents({ searchTerm = "", category = "Todos" }: { searchTerm?: string; category?: string }) {
+  const { data, isLoading, error } = useUpcomingEvents(searchTerm, category);
 
   if (isLoading) {
     return (

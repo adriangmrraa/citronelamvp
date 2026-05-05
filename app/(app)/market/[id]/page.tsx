@@ -135,14 +135,14 @@ export default function ProductDetailPage() {
           {product.discountPercentage && (
             <div className="inline-flex items-center gap-1.5 bg-[#A3E635]/10 border border-[#A3E635]/20 px-2 py-1 rounded-sm">
               <span className="material-symbols-outlined text-sm text-[#A3E635]">sell</span>
-              <span className="text-[10px] font-black text-[#A3E635] uppercase tracking-widest">Oferta Imperdible</span>
+              <span className="text-[10px] font-black text-[#A3E635] uppercase tracking-widest">Oferta</span>
             </div>
           )}
 
           {/* Pricing Section */}
           <div className="space-y-1 pt-2">
             {product.originalPrice && (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center justify-end gap-3">
                 {product.discountPercentage && (
                   <span className="text-lg font-bold text-[#A3E635]">
                     {product.discountPercentage}% OFF
@@ -153,13 +153,13 @@ export default function ProductDetailPage() {
                 </p>
               </div>
             )}
-            <div className="flex items-start gap-3">
-              <div className="flex flex-col">
+            <div className="flex items-start justify-end gap-3 w-full">
+              <div className="flex flex-col items-end">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-light text-white tracking-tighter leading-none">
+                  <span className="text-5xl font-black text-white tracking-tighter leading-none">
                     {product.price.toLocaleString()}
                   </span>
-                  <span className="text-xl font-bold text-[#A3E635] tracking-widest">TOKENS</span>
+                  <span className="text-xl font-black text-[#A3E635] uppercase tracking-tight">TOKENS</span>
                 </div>
               </div>
             </div>
@@ -181,6 +181,7 @@ export default function ProductDetailPage() {
             )}
 
             <Button 
+              onClick={() => router.push(`/market/checkout/${product.id}`)}
               className="w-full h-12 bg-[#A3E635] text-[#07120b] hover:bg-[#b4f346] font-black text-sm rounded-lg transition-all active:scale-[0.98]"
             >
               CANJEAR AHORA
@@ -203,8 +204,6 @@ export default function ProductDetailPage() {
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>Compra Protegida</span>
             </div>
-            <span>•</span>
-            <span>Garantía Citronela 6 meses</span>
           </div>
         </div>
 
@@ -223,7 +222,7 @@ export default function ProductDetailPage() {
             <p className="text-zinc-400 leading-relaxed text-lg whitespace-pre-wrap font-light">
               {product.description}
               {"\n\n"}
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo. La calidad de Citronela garantizada en cada entrega.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo. Compromiso total de Citronela en cada entrega.
             </p>
           </div>
         </div>

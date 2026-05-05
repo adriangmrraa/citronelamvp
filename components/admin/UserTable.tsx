@@ -149,8 +149,13 @@ export default function UserTable({ users, onRefresh }: UserTableProps) {
                       <Badge variant="default" className="ml-1 text-xs">Cultivador</Badge>
                     )}
                   </td>
-                  <td className="px-4 py-3 font-semibold text-lime-400">
-                    {user.tokens}
+                  <td className="px-4 py-3">
+                    <div className="flex items-baseline gap-1">
+                      <span className="font-black text-white tracking-tighter">
+                        {user.tokens.toLocaleString()}
+                      </span>
+                      <span className="text-[10px] font-black text-[#A3E635] uppercase tracking-tight">TOKENS</span>
+                    </div>
                   </td>
                   <td className="px-4 py-3 text-zinc-300">
                     {user.planType ? planLabel[user.planType] ?? user.planType : '—'}

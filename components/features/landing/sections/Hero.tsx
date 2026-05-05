@@ -114,7 +114,7 @@ export const Hero = React.forwardRef<HTMLElement, HeroProps>(({ textRef, phoneRe
         className="fixed inset-0 z-20 flex items-center justify-center will-change-transform pointer-events-none opacity-0"
         style={{ perspective: '1200px' }}
       >
-        <div className="animate-float-phone pointer-events-auto">
+        <div className="animate-float-phone">
           <PhoneMockup glowColor="rgba(163,230,53,0.18)">
             <DashboardScreen />
           </PhoneMockup>

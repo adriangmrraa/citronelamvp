@@ -17,7 +17,7 @@ export const CTA = React.forwardRef<HTMLElement, {}>((props, ref) => {
           ¿Listo para subir el nivel de tu <span className="text-lime-400">cultivo</span>?
         </h2>
         <p data-cta className="text-zinc-400 text-xl sm:text-2xl mb-12 max-w-2xl mx-auto leading-relaxed">
-          Unite a la comunidad de cultivadores más avanzada. Registrate hoy y obtené acceso exclusivo al Marketplace.
+          Unite a la comunidad de cultivadores más avanzada. Registrate hoy y obtené acceso exclusivo al Market.
         </p>
         <div data-cta className="flex flex-col sm:flex-row items-center justify-center gap-6">
           <Link

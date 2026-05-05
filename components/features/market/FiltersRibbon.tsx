@@ -3,7 +3,7 @@
 import React from 'react';
 import { FilterTab } from '@/hooks/useMarket';
 
-const tabs: FilterTab[] = ['Todos', 'Más vendidos', 'Ofertas', 'Envío gratis'];
+const tabs: FilterTab[] = ['Todos', 'Más vendidos', 'Ofertas', 'Envío gratis', 'Historial'];
 
 interface FiltersRibbonProps {
   activeTab: FilterTab;

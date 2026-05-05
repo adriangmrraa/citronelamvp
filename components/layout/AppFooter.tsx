@@ -30,10 +30,6 @@ export default function AppFooter() {
                 <span className="text-[10px] ml-1 text-white/30 align-top">2026</span>
               </div>
             </Link>
-            <p className="text-sm text-zinc-500 leading-relaxed max-w-xs">
-              La primera red de cultivo inteligente y mercado descentralizado del cono sur. 
-              Cosechando el futuro hoy.
-            </p>
             <div className="flex items-center gap-4 pt-2">
               <Link href="#" className="text-zinc-500 hover:text-[#A3E635] transition-colors"><Instagram className="w-5 h-5" /></Link>
               <Link href="#" className="text-zinc-500 hover:text-[#A3E635] transition-colors"><Twitter className="w-5 h-5" /></Link>
@@ -48,7 +44,7 @@ export default function AppFooter() {
               <ul className="space-y-2">
                 <li><Link href="/market" className="text-sm text-zinc-400 hover:text-white transition-colors">CitroMarket</Link></li>
                 <li><Link href="/cultivo" className="text-sm text-zinc-400 hover:text-white transition-colors">Mis Cultivos</Link></li>
-                <li><Link href="/community" className="text-sm text-zinc-400 hover:text-white transition-colors">Comunidad</Link></li>
+                <li><Link href="/foro" className="text-sm text-zinc-400 hover:text-white transition-colors">Comunidad</Link></li>
                 <li><Link href="/events" className="text-sm text-zinc-400 hover:text-white transition-colors">Eventos</Link></li>
               </ul>
             </div>

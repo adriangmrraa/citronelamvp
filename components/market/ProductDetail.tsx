@@ -142,11 +142,14 @@ export default function ProductDetail({
 
           {/* Price + actions */}
           <div className="flex items-center justify-between pt-2 border-t border-white/[0.08]">
-            <div>
-              <p className="text-xs text-zinc-500">Precio por unidad</p>
-              <span className="text-2xl font-black text-lime-400">
-                {product.price.toLocaleString('es-AR')} tokens
-              </span>
+            <div className="flex flex-col">
+              <p className="text-[10px] text-zinc-500 uppercase font-black tracking-widest">Precio por unidad</p>
+              <div className="flex items-baseline gap-2">
+                <span className="text-4xl font-black text-white tracking-tighter">
+                  {product.price.toLocaleString()}
+                </span>
+                <span className="text-sm font-black text-[#A3E635] uppercase tracking-tight">TOKENS</span>
+              </div>
             </div>
             <div className="flex gap-2">
               <Button

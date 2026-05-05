@@ -26,12 +26,12 @@ interface ProfileFormProps {
   profile: ProfileData;
 }
 
-export default function ProfileForm({ profile }: ProfileFormProps) {
-  const [phone, setPhone] = useState(profile.phone ?? '');
-  const [address, setAddress] = useState(profile.address ?? '');
-  const [bio, setBio] = useState(profile.bio ?? '');
-  const [preferredGenetics, setPreferredGenetics] = useState(profile.preferredGenetics ?? '');
-  const [avatarUrl, setAvatarUrl] = useState(profile.avatarUrl ?? '');
+export default function ProfileForm({ profile }: { profile?: ProfileData }) {
+  const [phone, setPhone] = useState(profile?.phone ?? '');
+  const [address, setAddress] = useState(profile?.address ?? '');
+  const [bio, setBio] = useState(profile?.bio ?? '');
+  const [preferredGenetics, setPreferredGenetics] = useState(profile?.preferredGenetics ?? '');
+  const [avatarUrl, setAvatarUrl] = useState(profile?.avatarUrl ?? '');
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -88,32 +88,37 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
             <div>
               <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Usuario</p>
-              <p className="font-medium text-zinc-100">{profile.username}</p>
+              <p className="font-medium text-zinc-100">{profile?.username || '—'}</p>
             </div>
             <div>
               <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Email</p>
-              <p className="font-medium text-zinc-100">{profile.email ?? '—'}</p>
+              <p className="font-medium text-zinc-100">{profile?.email ?? '—'}</p>
             </div>
             <div>
               <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Rol</p>
               <Badge variant="secondary">
-                {roleLabel[profile.role] ?? profile.role}
+                {profile?.role ? (roleLabel[profile.role] ?? profile.role) : '—'}
               </Badge>
             </div>
             <div>
               <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Tokens</p>
-              <p className="font-bold text-lime-400">{profile.tokens}</p>
+              <div className="flex items-baseline gap-1">
+                <span className="text-lg font-black text-white tracking-tighter">
+                  {profile?.tokens.toLocaleString() ?? 0}
+                </span>
+                <span className="text-[10px] font-black text-[#A3E635] uppercase tracking-tight">TOKENS</span>
+              </div>
             </div>
             <div>
               <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Plan</p>
               <p className="font-medium text-zinc-100">
-                {profile.planType ? planLabel[profile.planType] ?? profile.planType : '—'}
+                {profile?.planType ? (planLabel[profile.planType] ?? profile.planType) : '—'}
               </p>
             </div>
             <div>
               <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Estado</p>
-              <Badge variant={profile.isVerified ? 'default' : 'secondary'}>
-                {profile.isVerified ? 'Verificado' : 'Pendiente'}
+              <Badge variant={profile?.isVerified ? 'default' : 'secondary'}>
+                {profile?.isVerified ? 'Verificado' : 'Pendiente'}
               </Badge>
             </div>
           </div>

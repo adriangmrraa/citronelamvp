@@ -10,9 +10,11 @@ import { MarketCarousel } from '@/components/features/market/MarketCarousel';
 import { MarketGrid } from '@/components/features/market/MarketGrid';
 import ProductForm from '@/components/market/ProductForm';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
+import { Plus, User, ShoppingCart, Package, Calendar, Tag } from 'lucide-react';
+import { useUserContext } from '@/context/UserContext';
 
 export default function MarketPage() {
+  const { username, addTransaction, transactions } = useUserContext();
   const { 
     products, 
     isLoading, 
@@ -33,6 +35,7 @@ export default function MarketPage() {
     addToCart,
     removeFromCart,
     updateQuantity,
+    clearCart,
     totalItems,
     totalPrice
   } = useCart();
@@ -51,9 +54,24 @@ export default function MarketPage() {
   };
 
   const handleConfirmPurchase = async () => {
+    if (cart.length === 0) return;
+    
     notify("Procesando compra...");
     // Simular proceso
     await new Promise(r => setTimeout(r, 1000));
+    
+    // Registrar transacciones reales en el contexto
+    cart.forEach(item => {
+      addTransaction({
+        type: 'purchase',
+        title: item.product.name,
+        amount: `-${item.product.price * item.quantity} TOKENS`,
+        tokensValue: -(item.product.price * item.quantity),
+        description: `Compra de ${item.quantity}x en Market`
+      });
+    });
+    
+    clearCart();
     notify("¡Compra realizada con éxito!");
     setIsCartOpen(false);
   };
@@ -75,8 +93,6 @@ export default function MarketPage() {
         <div className="bg-[#A3E635] pt-3 pb-1 px-6 md:px-12 border-b border-[#07120b]/5">
           <div className="max-w-[2000px] mx-auto">
             <MarketHeader 
-              searchTerm={search} 
-              onSearchChange={setSearch} 
               cartCount={totalItems}
               onOpenCart={() => setIsCartOpen(true)}
             />
@@ -106,22 +122,70 @@ export default function MarketPage() {
           />
         </div>
 
-        <section className="space-y-4">
+        <section className="space-y-4 pt-4">
           <div className="flex items-end justify-between">
             <h2 
               style={{ fontFamily: 'var(--font-avigea)' }}
               className="text-2xl text-white tracking-wide"
             >
-              {category === "Todos" ? "Todos los productos" : category}
+              {activeTab === 'Historial' ? "Tu Historial de Compras" : (category === "Todos" ? "Todos los productos" : category)}
             </h2>
           </div>
 
-          <MarketGrid 
-            products={products}
-            isLoading={isLoading}
-            error={error}
-            onAddToCart={handleAddToCart}
-          />
+          {activeTab === 'Historial' ? (
+            <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              {transactions.filter(tx => tx.type === 'purchase').length === 0 ? (
+                <div className="p-20 text-center bg-zinc-900/10 border border-dashed border-white/10">
+                  <ShoppingCart className="w-12 h-12 text-zinc-800 mx-auto mb-4" />
+                  <p className="text-zinc-500 font-medium tracking-tight">Todavía no realizaste ninguna compra.</p>
+                  <Button 
+                    variant="link" 
+                    className="text-[#A3E635] mt-2"
+                    onClick={() => setActiveTab('Todos')}
+                  >
+                    Explorar productos
+                  </Button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-1 border-t border-white/5">
+                  {transactions.filter(tx => tx.type === 'purchase').map((tx) => (
+                    <div 
+                      key={tx.id} 
+                      className="p-6 bg-zinc-900/20 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-4 group hover:bg-zinc-900/40 transition-all"
+                    >
+                      <div className="flex gap-5 items-center">
+                        <div className="w-12 h-12 bg-zinc-800 flex items-center justify-center shrink-0 border border-white/5">
+                          <Package className="w-6 h-6 text-[#A3E635]" />
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-white uppercase tracking-tight text-lg">{tx.title}</h4>
+                          <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1">
+                            <span className="text-[10px] text-zinc-500 flex items-center gap-1 uppercase tracking-widest">
+                              <Calendar className="w-3 h-3" /> {tx.date}
+                            </span>
+                              <Tag className="w-3 h-3" /> Market
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between md:justify-end md:gap-12 w-full md:w-auto pt-4 md:pt-0 border-t md:border-none border-white/5">
+                        <div className="text-right">
+                          <p className="text-xl font-black text-white">{tx.amount}</p>
+                          <p className="text-[10px] text-[#A3E635] font-black uppercase tracking-widest mt-0.5">Transacción Completada</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <MarketGrid 
+              products={products}
+              isLoading={isLoading}
+              error={error}
+              onAddToCart={handleAddToCart}
+            />
+          )}
         </section>
       </main>
 

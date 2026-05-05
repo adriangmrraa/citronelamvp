@@ -72,9 +72,12 @@ export default function OrderCard({ order, onReviewSubmitted }: OrderCardProps) 
           </div>
           <div className="text-right">
             <p className="text-xs text-zinc-500 mb-0.5">Total</p>
-            <span className="text-base font-semibold text-lime-400">
-              {order.totalTokens.toLocaleString('es-AR')} tokens
-            </span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-xl font-black text-white tracking-tighter">
+                {order.totalTokens.toLocaleString()}
+              </span>
+              <span className="text-xs font-black text-[#A3E635] uppercase tracking-tight">TOKENS</span>
+            </div>
           </div>
         </div>
 
@@ -113,12 +116,16 @@ export default function OrderCard({ order, onReviewSubmitted }: OrderCardProps) 
                 <div>
                   <p className="text-sm font-medium text-zinc-200">{item.productName}</p>
                   <p className="text-xs text-zinc-500">
-                    {item.quantity} × {item.pricePerUnit.toLocaleString('es-AR')} tokens
+                    {item.quantity} × <span className="font-bold text-white/80 tracking-tighter">{item.pricePerUnit.toLocaleString()}</span>
+                    <span className="ml-1 text-[8px] font-black text-[#A3E635] uppercase">TOKENS</span>
                   </p>
                 </div>
-                <span className="text-sm font-semibold text-lime-400">
-                  {(item.quantity * item.pricePerUnit).toLocaleString('es-AR')} tokens
-                </span>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-base font-black text-white tracking-tighter">
+                    {(item.quantity * item.pricePerUnit).toLocaleString()}
+                  </span>
+                  <span className="text-[10px] font-black text-[#A3E635] uppercase tracking-tight">TOKENS</span>
+                </div>
               </div>
             ))}
           </div>

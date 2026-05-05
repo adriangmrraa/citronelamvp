@@ -23,7 +23,7 @@ export const Header = React.forwardRef<HTMLElement, {}>((props, ref) => {
         </Link>
         <nav className="flex items-center gap-2 sm:gap-3">
           <Link
-            href="/dashboard"
+            href="/login"
             className="magnetic-btn px-6 py-2.5 rounded-xl font-semibold text-sm text-[#07120b] bg-gradient-to-r from-lime-400 via-green-400 to-emerald-400 hover:shadow-[0_0_30px_rgba(163,230,53,0.5)] hover:scale-105 active:scale-95 transition-all duration-300"
           >
             Entrar

@@ -251,7 +251,9 @@ const ENHANCED_MOCK_PRODUCTS: Product[] = MOCK_PRODUCTS.map((p, idx) => {
   };
 });
 
-export type FilterTab = 'Todos' | 'Más vendidos' | 'Ofertas' | 'Envío gratis';
+export type FilterTab = 'Todos' | 'Más vendidos' | 'Ofertas' | 'Envío gratis' | 'Historial';
+
+import { useSearch } from '@/context/SearchContext';
 
 export function useMarket() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -259,7 +261,7 @@ export function useMarket() {
   const [error, setError] = useState<string | null>(null);
   
   // States for filters
-  const [search, setSearch] = useState('');
+  const { searchTerm } = useSearch();
   const [category, setCategory] = useState('Todos');
   const [activeTab, setActiveTab] = useState<FilterTab>('Todos');
   const [sort, setSort] = useState<SortOption>('newest');
@@ -300,8 +302,8 @@ export function useMarket() {
     }
 
     // Search Filter
-    if (search.trim()) {
-      const q = search.toLowerCase();
+    if (searchTerm.trim()) {
+      const q = searchTerm.toLowerCase();
       result = result.filter(p => 
         p.name.toLowerCase().includes(q) || 
         (p.description || '').toLowerCase().includes(q)
@@ -312,14 +314,12 @@ export function useMarket() {
     else if (sort === 'price_desc') result.sort((a, b) => b.price - a.price);
 
     return result;
-  }, [products, search, category, activeTab, sort]);
+  }, [products, searchTerm, category, activeTab, sort]);
 
   return { 
     products: filteredProducts, 
     isLoading, 
     error, 
-    search, 
-    setSearch, 
     category, 
     setCategory, 
     activeTab,
