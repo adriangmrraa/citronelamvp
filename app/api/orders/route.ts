@@ -71,3 +71,46 @@ export async function GET() {
     return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
   }
 }
+
+export async function POST(req: Request) {
+  try {
+    const session = await requireAuth();
+    const { productId, quantity = 1 } = await req.json();
+
+    if (!productId) {
+      return NextResponse.json({ error: 'Producto no especificado' }, { status: 400 });
+    }
+
+    // Get product price
+    const product = await db.query.products.findFirst({
+      where: eq(products.id, productId),
+    });
+
+    if (!product) {
+      return NextResponse.json({ error: 'Producto no encontrado' }, { status: 404 });
+    }
+
+    // Create order
+    const [newOrder] = await db.insert(orders).values({
+      buyerId: session.userId,
+      totalPrice: product.price * quantity,
+      status: 'Procesado', // Direct redeem
+    }).returning();
+
+    // Create order item
+    await db.insert(orderItems).values({
+      orderId: newOrder.id,
+      productId: product.id,
+      quantity,
+      price: product.price,
+    });
+
+    return NextResponse.json({ success: true, orderId: newOrder.id });
+  } catch (error) {
+    if (error instanceof Error && error.message === 'No autenticado') {
+      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+    }
+    console.error('POST /api/orders error:', error);
+    return NextResponse.json({ error: 'Error al procesar el canje' }, { status: 500 });
+  }
+}

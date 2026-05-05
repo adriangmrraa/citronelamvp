@@ -67,8 +67,13 @@ export function EventCard({ evt }: EventCardProps) {
               </div>
             </div>
 
-            <div className="bg-transparent text-[#a3e635] px-5 py-2.5 rounded-none text-xs font-bold tracking-widest transition-all border border-zinc-800 group-hover:border-[#a3e635] group-hover:bg-[#a3e635]/10 flex items-center gap-1 uppercase">
-              {evt.price}
+            <div className="flex items-baseline gap-1 pt-3">
+              <span className="text-2xl font-black text-white tracking-tighter">
+                {evt.price.includes('GRATIS') ? '0' : evt.price.split(' ')[0]}
+              </span>
+              <span className="text-[10px] font-black text-[#A3E635] uppercase tracking-tight">
+                TOKENS
+              </span>
             </div>
           </div>
         </div>

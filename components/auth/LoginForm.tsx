@@ -7,8 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
+import { useUserContext } from '@/context/UserContext';
+
 export default function LoginForm() {
   const router = useRouter();
+  const { login } = useUserContext();
   const searchParams = useSearchParams();
   const verified = searchParams.get('verified');
 
@@ -22,25 +25,12 @@ export default function LoginForm() {
     setError('');
     setLoading(true);
 
-    try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Error al iniciar sesión');
-      }
-
-      router.push('/dashboard');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error desconocido');
-    } finally {
+    // Simulación de login exitoso para el cliente
+    setTimeout(() => {
+      login(username);
       setLoading(false);
-    }
+      router.push('/dashboard');
+    }, 1500);
   };
 
   return (

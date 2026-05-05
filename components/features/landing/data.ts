@@ -20,7 +20,7 @@ export const panelConfig = [
     bgImage: '/images/bg/cultivo.jpg',
   },
   {
-    tag: 'Marketplace',
+    tag: 'Market',
     tagCls: 'bg-emerald-400/10 border-emerald-400/20 text-emerald-300',
     title: 'Tu ',
     hl: 'mercado',
@@ -79,7 +79,7 @@ export const features = [
   },
   {
     icon: '🛒',
-    title: 'Marketplace',
+    title: 'Market',
     desc: 'Comprá y vendé genéticas, nutrientes y equipos con reseñas reales.',
     gradient: 'from-amber-300 to-orange-600',
     glow: 'rgba(251,191,36,0.3)',
@@ -106,7 +106,7 @@ export const features = [
   },
 ];
 
-export const marketplaceItems = [
+export const marketItems = [
   { name: 'Blue Dream Seeds', price: '$25', r: 4.8, e: '🌱', s: '142' },
   { name: 'Flora Trio Pack', price: '$38', r: 4.6, e: '🧪', s: '89' },
   { name: 'LED Grow 600W', price: '$185', r: 4.9, e: '💡', s: '64' },

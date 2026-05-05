@@ -34,7 +34,7 @@ const statusLabel: Record<string, string> = {
   rejected: 'Rechazado',
 };
 
-export default function DocumentList({ documents }: DocumentListProps) {
+export default function DocumentList({ documents = [] }: DocumentListProps) {
   if (documents.length === 0) {
     return (
       <div className="text-center py-10">

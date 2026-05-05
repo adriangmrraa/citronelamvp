@@ -1,24 +1,29 @@
 "use client";
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/useCart';
+import { useUser } from '@/hooks/useUser';
 import CartDrawer from './CartDrawer';
 
 export const GlobalCart = () => {
+  const { user, spendTokens } = useUser();
   const {
     cart,
     isOpen,
     setIsOpen,
     removeFromCart,
     updateQuantity,
+    clearCart,
+    totalPrice
   } = useCart();
 
-  const handleConfirmPurchase = async () => {
-    // Simular proceso de compra
-    console.log("Confirmando canje...");
-    await new Promise(r => setTimeout(r, 1000));
+  const router = useRouter();
+
+  const handleConfirmPurchase = () => {
+    if (cart.length === 0) return;
     setIsOpen(false);
-    // Podrías agregar una notificación global aquí si quisieras
+    router.push('/market/checkout/cart');
   };
 
   return (
@@ -29,6 +34,7 @@ export const GlobalCart = () => {
       onRemove={removeFromCart}
       onQtyChange={updateQuantity}
       onConfirm={handleConfirmPurchase}
+      tokenBalance={user.tokens}
     />
   );
 };

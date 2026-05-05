@@ -43,15 +43,18 @@ interface UserData {
   tokens: number;
 }
 
+import { useUser } from '@/hooks/useUser';
+
 export default function EventDetailPage() {
   const params = useParams();
   const id = params?.id;
   const router = useRouter();
+  const { user, isLoaded: userLoaded } = useUser();
   
   const [event, setEvent] = useState<EventDetail | null>(null);
-  const [reservation, setReservation] = useState<Reservation | null>(null);
-  const [user, setUser] = useState<UserData | null>({ tokens: 500 }); // Simulamos sesión iniciada con 500 tokens
   const [loading, setLoading] = useState(true);
+
+  const reservation = user.reservations.find(r => r.eventId === Number(id));
 
   const mockEvent = ALL_EVENTS.find(e => e.id === Number(id));
 
@@ -171,7 +174,7 @@ export default function EventDetailPage() {
           {/* Status */}
           <div className="flex items-center justify-between">
             <p className="text-[11px] text-zinc-500 font-medium uppercase tracking-wider">
-              Evento Confirmado  |  {event.reservationsCount} inscritos
+              Evento Confirmado
             </p>
           </div>
 
@@ -225,15 +228,13 @@ export default function EventDetailPage() {
                   reservedAt={reservation.createdAt}
                 />
               </div>
-            ) : user ? (
-              <div className="bg-white/[0.02] border border-white/5 rounded-xl p-6">
+            ) : user.isLoggedIn ? (
                 <TicketSelector
                   eventId={event.id}
+                  eventTitle={event.title}
                   categories={event.ticketCategories}
-                  userTokens={user.tokens}
                   onSuccess={load}
                 />
-              </div>
             ) : (
               <div className="bg-white/[0.02] border border-white/5 rounded-xl p-8 text-center space-y-4">
                 <p className="text-zinc-400 text-sm">

@@ -115,18 +115,18 @@ export const CultivoCarousel = () => {
       ))}
 
       {/* Navigation Arrows */}
-      <div className="absolute inset-0 z-40 flex items-center justify-between px-6 transition-opacity duration-300 pointer-events-none">
+      <div className="absolute inset-0 z-40 flex items-center justify-between px-4 pointer-events-none">
         <button 
           onClick={prev}
-          className="w-10 h-10 rounded-full bg-[#A3E635]/20 backdrop-blur-sm border border-white/10 flex items-center justify-center text-[#A3E635] hover:bg-[#A3E635] hover:text-black transition-all duration-300 pointer-events-auto shadow-xl"
+          className="flex items-center justify-center text-[#A3E635] hover:scale-125 transition-all duration-300 pointer-events-auto"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft size={44} strokeWidth={2.5} />
         </button>
         <button 
           onClick={next}
-          className="w-10 h-10 rounded-full bg-[#A3E635]/20 backdrop-blur-sm border border-white/10 flex items-center justify-center text-[#A3E635] hover:bg-[#A3E635] hover:text-black transition-all duration-300 pointer-events-auto shadow-xl"
+          className="flex items-center justify-center text-[#A3E635] hover:scale-125 transition-all duration-300 pointer-events-auto"
         >
-          <ChevronRight className="w-5 h-5" />
+          <ChevronRight size={44} strokeWidth={2.5} />
         </button>
       </div>
 

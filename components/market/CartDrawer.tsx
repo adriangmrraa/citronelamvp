@@ -57,12 +57,12 @@ export default function CartDrawer({
             <div>
               <h2 className="font-bold text-zinc-100 text-lg">Carrito</h2>
               {tokenBalance != null && (
-                <p className="text-xs text-zinc-500 mt-0.5">
-                  Saldo:{' '}
-                  <span className="font-semibold text-[#A3E635]">
-                    {tokenBalance.toLocaleString('es-AR')} tokens
+                <div className="flex items-baseline gap-1 mt-0.5">
+                  <span className="text-sm font-black text-white tracking-tighter">
+                    {tokenBalance.toLocaleString()}
                   </span>
-                </p>
+                  <span className="text-[10px] font-black text-[#A3E635] uppercase tracking-tight">TOKENS</span>
+                </div>
               )}
             </div>
           </div>
@@ -120,9 +120,12 @@ export default function CartDrawer({
                   <p className="text-sm font-semibold text-zinc-100 truncate">
                     {item.product.name}
                   </p>
-                  <p className="text-xs text-[#A3E635] font-bold">
-                    {(item.product.price * item.quantity).toLocaleString('es-AR')} tokens
-                  </p>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-sm font-black text-white tracking-tighter">
+                      {(item.product.price * item.quantity).toLocaleString()}
+                    </span>
+                    <span className="text-[10px] font-black text-[#A3E635] uppercase tracking-tight">TOKENS</span>
+                  </div>
                 </div>
 
                 {/* Qty controls */}
@@ -164,9 +167,12 @@ export default function CartDrawer({
           <div className="px-5 py-4 border-t border-white/[0.08] space-y-3">
             <div className="glass-surface-2 rounded-xl px-4 py-3 flex items-center justify-between border border-white/5">
               <span className="text-sm text-zinc-400 font-medium">Total del canje</span>
-              <span className="text-xl font-bold text-[#A3E635]">
-                {total.toLocaleString('es-AR')} tokens
-              </span>
+              <div className="flex items-baseline gap-1">
+                <span className="text-2xl font-black text-white tracking-tighter">
+                  {total.toLocaleString()}
+                </span>
+                <span className="text-xs font-black text-[#A3E635] uppercase tracking-tight">TOKENS</span>
+              </div>
             </div>
             <Button
               className="w-full h-12 bg-[#A3E635] text-[#07120b] hover:bg-[#b4f346] font-black text-sm rounded-xl transition-all shadow-[0_0_20px_rgba(163,230,53,0.1)]"
@@ -174,6 +180,13 @@ export default function CartDrawer({
               disabled={confirming}
             >
               {confirming ? 'PROCESANDO...' : 'CONFIRMAR CANJE'}
+            </Button>
+            <Button
+              variant="ghost"
+              className="w-full h-10 text-zinc-500 hover:text-[#A3E635] hover:bg-[#A3E635]/5 font-bold text-xs uppercase tracking-widest transition-all"
+              onClick={onClose}
+            >
+              SEGUIR COMPRANDO
             </Button>
           </div>
         )}

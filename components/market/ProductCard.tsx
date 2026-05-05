@@ -92,11 +92,14 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
 
         {/* Price + action */}
         <div className="flex items-center justify-between pt-2 border-t border-white/[0.06]">
-          <div>
-            <p className="text-xs text-zinc-500">Precio</p>
-            <span className="text-lg font-bold text-lime-400">
-              ${product.price.toLocaleString('es-AR')}
-            </span>
+          <div className="flex flex-col">
+            <p className="text-[10px] text-zinc-500 uppercase font-black tracking-widest">Precio</p>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-xl font-black text-white tracking-tighter">
+                {product.price.toLocaleString()}
+              </span>
+              <span className="text-[10px] font-black text-[#A3E635] uppercase tracking-tight">TOKENS</span>
+            </div>
           </div>
           {inStock ? (
             <Button

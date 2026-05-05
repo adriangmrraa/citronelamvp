@@ -1,5 +1,5 @@
 import React from 'react';
-import { marketplaceItems } from '../data';
+import { marketItems } from '../data';
 
 export const MarketScreen = () => {
   return (
@@ -33,7 +33,7 @@ export const MarketScreen = () => {
         ))}
       </div>
       <div className="grid grid-cols-2 gap-2">
-        {marketplaceItems.map((p) => (
+        {marketItems.map((p) => (
           <div
             data-phone-item
             key={p.name}

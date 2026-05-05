@@ -5,8 +5,8 @@ import { EventCard } from './EventCard';
 import { EventCardSkeleton } from './EventCardSkeleton';
 import { useTrendingEvents } from '@/hooks/useEvents';
 
-export function TrendingEvents({ searchTerm = "" }: { searchTerm?: string }) {
-  const { data, isLoading, error } = useTrendingEvents(searchTerm);
+export function TrendingEvents({ searchTerm = "", category = "Todos" }: { searchTerm?: string; category?: string }) {
+  const { data, isLoading, error } = useTrendingEvents(searchTerm, category);
 
   if (isLoading) {
     return (

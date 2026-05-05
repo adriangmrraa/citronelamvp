@@ -1,0 +1,414 @@
+'use client';
+
+import { useState, useRef, useEffect } from 'react';
+import { useRouter, useParams } from 'next/navigation';
+import { useForum } from '@/hooks/useForum';
+import { 
+  X, 
+  ChevronDown, 
+  ImageIcon, 
+  Type, 
+  Bold, 
+  Italic, 
+  Strikethrough, 
+  List, 
+  ListOrdered,
+  MoreHorizontal,
+  ShieldAlert,
+  CornerDownRight,
+  Table,
+  Upload,
+  Image as LucideImage,
+  Trash2
+} from 'lucide-react';
+import { ForumCategory } from '@/types/forum';
+
+const categories: ForumCategory[] = ['Investigación', 'Papers', 'Debate', 'Anuncio'];
+
+export default function EditPostPage() {
+  const router = useRouter();
+  const params = useParams();
+  const postId = params.id as string;
+  const { allPosts, updatePost, isLoaded } = useForum();
+  
+  const [activeTab, setActiveTab] = useState<'texto' | 'multimedia'>('texto');
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [category, setCategory] = useState<ForumCategory>('Debate');
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const [isMarksModalOpen, setIsMarksModalOpen] = useState(false);
+  const [marks, setMarks] = useState({
+    isNSFW: false
+  });
+  const [images, setImages] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (isLoaded && postId) {
+      const post = allPosts.find(p => p.id === postId);
+      if (post) {
+        setTitle(post.title);
+        setContent(post.content);
+        setCategory(post.category);
+        setMarks({
+          isNSFW: post.isNSFW || false
+        });
+        setImages(post.images || []);
+      }
+    }
+  }, [isLoaded, postId, allPosts]);
+
+  const insertText = (before: string, after: string = '') => {
+    if (!textareaRef.current) return;
+    const start = textareaRef.current.selectionStart;
+    const end = textareaRef.current.selectionEnd;
+    const text = textareaRef.current.value;
+    const beforeText = text.substring(0, start);
+    const selectedText = text.substring(start, end);
+    const afterText = text.substring(end);
+
+    const newContent = beforeText + before + selectedText + after + afterText;
+    setContent(newContent);
+    setShowMoreMenu(false);
+    
+    setTimeout(() => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+        const newCursorPos = start + before.length;
+        textareaRef.current.setSelectionRange(newCursorPos, newCursorPos + selectedText.length);
+      }
+    }, 10);
+  };
+
+  const handleUpdate = () => {
+    updatePost(postId, {
+      content,
+      category,
+      isNSFW: marks.isNSFW,
+      images
+    });
+    
+    // Correct redirect path
+    router.push(`/foro/${postId}`);
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const newImages: string[] = [];
+      
+      for (const file of Array.from(files)) {
+        const base64 = await new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(file);
+        });
+        newImages.push(base64);
+      }
+      
+      setImages(prev => [...prev, ...newImages]);
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setImages(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const activeMarksCount = Object.values(marks).filter(Boolean).length;
+
+  if (!isLoaded) return <div className="min-h-screen bg-[#07120b] flex items-center justify-center text-lime-400 font-black uppercase tracking-tighter">Cargando...</div>;
+
+  return (
+    <div className="min-h-screen bg-black/40 backdrop-blur-sm text-zinc-200">
+      <div className="max-w-3xl mx-auto px-4 py-8">
+        
+        {/* Header Section */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-2xl font-bold text-white tracking-tight">Editar cuerpo</h1>
+            <p className="text-xs text-zinc-500 mt-1">Modificando el contenido de tu publicación</p>
+          </div>
+          <div className="flex items-center gap-6">
+            <button 
+              onClick={() => router.back()}
+              className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all"
+            >
+              <X size={20} />
+            </button>
+          </div>
+        </div>
+
+        {/* Community Selector (Disabled or Optional) */}
+        <div className="relative mb-6">
+          <button 
+            onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+            className="flex items-center gap-2 bg-[#1a1a1a] border border-white/10 rounded-full px-4 py-2 text-sm font-medium hover:border-white/20 transition-all"
+          >
+            <span className="text-white/60">Comunidad:</span>
+            <span className="text-[#A3E635]">{category}</span>
+            <ChevronDown size={16} className={`transition-transform duration-300 ${isCategoryOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          {isCategoryOpen && (
+            <div className="absolute top-full left-0 mt-2 w-64 bg-[#1a1a1a] border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setCategory(cat);
+                    setIsCategoryOpen(false);
+                  }}
+                  className="w-full text-left px-4 py-3 text-sm hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Form Area */}
+        <div className="space-y-4">
+          {/* Title - Plain Read Only */}
+          <div className="px-1 py-1">
+            <h2 className="text-2xl font-black text-white/40 tracking-tight leading-tight">{title}</h2>
+          </div>
+
+          {/* Tabs */}
+          <div className="flex border-b border-white/10 mb-2">
+            <button 
+              onClick={() => setActiveTab('texto')}
+              className={`px-6 py-3 text-xs font-bold uppercase tracking-widest transition-all relative ${
+                activeTab === 'texto' ? 'text-lime-400' : 'text-zinc-500 hover:text-zinc-300'
+              }`}
+            >
+              Texto
+              {activeTab === 'texto' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-lime-400" />}
+            </button>
+            <button 
+              onClick={() => setActiveTab('multimedia')}
+              className={`px-6 py-3 text-xs font-bold uppercase tracking-widest transition-all relative ${
+                activeTab === 'multimedia' ? 'text-lime-400' : 'text-zinc-500 hover:text-zinc-300'
+              }`}
+            >
+              Multimedia {images.length > 0 && `(${images.length})`}
+              {activeTab === 'multimedia' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-lime-400" />}
+            </button>
+          </div>
+
+          {/* Marks Button */}
+          <div className="relative">
+            <button 
+              onClick={() => setIsMarksModalOpen(true)}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all ${
+                activeMarksCount > 0 
+                  ? 'bg-[#A3E635] text-black shadow-[0_0_15px_rgba(163,230,53,0.3)]' 
+                  : 'bg-white/5 text-white/40 hover:bg-white/10'
+              }`}
+            >
+              <AlertCircle size={14} />
+              Ajustar marcas {activeMarksCount > 0 && `(${activeMarksCount})`}
+            </button>
+
+            {/* Marks Modal Overlay */}
+            {isMarksModalOpen && (
+              <div className="fixed inset-0 flex items-center justify-center z-[100] px-4">
+                <div 
+                  className="absolute inset-0 bg-black/80 backdrop-blur-sm" 
+                  onClick={() => setIsMarksModalOpen(false)}
+                />
+                <div className="relative w-full max-w-sm bg-[#1a1a1a] border border-white/10 rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 fade-in duration-200">
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-8">
+                      <h2 className="text-xl font-bold text-white">Marcas</h2>
+                      <button 
+                        onClick={() => setIsMarksModalOpen(false)}
+                        className="p-1.5 hover:bg-white/10 rounded-full transition-colors text-white/60"
+                      >
+                        <X size={20} />
+                      </button>
+                    </div>
+
+                    <div className="space-y-6">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/60">
+                            <ShieldAlert size={20} />
+                          </div>
+                          <div>
+                            <div className="text-sm font-bold text-white">Contenido adulto (18+)</div>
+                            <div className="text-xs text-zinc-500">Contiene contenido para adultos</div>
+                          </div>
+                        </div>
+                        <button 
+                          onClick={() => setMarks(prev => ({ ...prev, isNSFW: !prev.isNSFW }))}
+                          className={`w-12 h-6 rounded-full relative transition-colors duration-300 ${marks.isNSFW ? 'bg-[#A3E635]' : 'bg-white/10'}`}
+                        >
+                          <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 ${marks.isNSFW ? 'left-7' : 'left-1'}`} />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-end gap-3 mt-10">
+                      <button 
+                        onClick={() => setIsMarksModalOpen(false)}
+                        className="px-8 py-2.5 rounded-full text-sm font-bold bg-white text-black hover:bg-[#A3E635] transition-all"
+                      >
+                        Aplicar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>          {/* Content Area */}
+          <div className="bg-[#1a1a1a] border border-white/10 rounded-xl focus-within:border-[#A3E635]/50 transition-all relative">
+            {/* Conditional Multimedia Area (ONLY for multimedia tab) */}
+            {activeTab === 'multimedia' && (
+              <div className="p-4 border-b border-white/5 space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  onChange={handleFileChange} 
+                  multiple 
+                  accept="image/*" 
+                  className="hidden" 
+                />
+                
+                <div 
+                  onClick={() => fileInputRef.current?.click()}
+                  onDragOver={(e) => { e.preventDefault(); e.currentTarget.classList.add('border-[#A3E635]'); }}
+                  onDragLeave={(e) => { e.preventDefault(); e.currentTarget.classList.remove('border-[#A3E635]'); }}
+                  onDrop={async (e) => {
+                    e.preventDefault();
+                    e.currentTarget.classList.remove('border-[#A3E635]');
+                    const files = e.dataTransfer.files;
+                    if (files && files.length > 0) {
+                      const newImages: string[] = [];
+                      for (const file of Array.from(files)) {
+                        const base64 = await new Promise<string>((resolve) => {
+                          const reader = new FileReader();
+                          reader.onloadend = () => resolve(reader.result as string);
+                          reader.readAsDataURL(file);
+                        });
+                        newImages.push(base64);
+                      }
+                      setImages(prev => [...prev, ...newImages]);
+                    }
+                  }}
+                  className="w-full aspect-[2.5/1] bg-white/[0.02] border-2 border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center gap-3 hover:border-white/20 transition-all cursor-pointer group"
+                >
+                  <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white/20 group-hover:text-[#A3E635] group-hover:bg-white/10 transition-all">
+                    <Upload size={24} />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xs font-bold text-white">Añadir imágenes</p>
+                    <p className="text-[10px] text-zinc-500 mt-1">Arrastra o haz click</p>
+                  </div>
+                </div>
+
+                {/* Image Previews */}
+                {images.length > 0 && (
+                  <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                    {images.map((url, idx) => (
+                      <div key={idx} className="relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden group/img border border-white/10">
+                        <img src={url} alt="" className="w-full h-full object-cover" />
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); removeImage(idx); }}
+                          className="absolute top-1 right-1 p-1 bg-black/60 backdrop-blur-md rounded-full text-white/60 hover:text-rose-500 transition-colors opacity-0 group-hover/img:opacity-100"
+                        >
+                          <Trash2 size={10} />
+                        </button>
+                      </div>
+                    ))}
+                    <button 
+                      onClick={() => fileInputRef.current?.click()}
+                      className="w-20 h-20 flex-shrink-0 bg-white/5 border border-dashed border-white/10 rounded-lg flex flex-col items-center justify-center gap-1 text-white/20 hover:text-[#A3E635] hover:bg-white/10 transition-all"
+                    >
+                      <LucideImage size={16} />
+                      <span className="text-[8px] font-bold uppercase tracking-tighter">Más</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Always Visible Toolbar (common for both) */}
+            <div className="flex items-center gap-1 p-2 border-b border-white/5 bg-white/[0.02] rounded-t-xl">
+              <button onClick={() => insertText('**', '**')} className="p-2 hover:bg-white/5 rounded transition-colors text-white/60 hover:text-white"><Bold size={16} /></button>
+              <button onClick={() => insertText('*', '*')} className="p-2 hover:bg-white/5 rounded transition-colors text-white/60 hover:text-white"><Italic size={16} /></button>
+              <button onClick={() => insertText('~~', '~~')} className="p-2 hover:bg-white/5 rounded transition-colors text-white/60 hover:text-white"><Strikethrough size={16} /></button>
+              <div className="w-[1px] h-4 bg-white/10 mx-1" />
+              <button onClick={() => insertText('\n- ')} className="p-2 hover:bg-white/5 rounded transition-colors text-white/60 hover:text-white"><List size={16} /></button>
+              <button onClick={() => insertText('\n1. ')} className="p-2 hover:bg-white/5 rounded transition-colors text-white/60 hover:text-white"><ListOrdered size={16} /></button>
+              <div className="flex-1" />
+              <div className="relative">
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowMoreMenu(!showMoreMenu);
+                  }}
+                  className={`p-2 rounded transition-colors ${showMoreMenu ? 'bg-[#A3E635] text-black' : 'text-white/60 hover:text-white hover:bg-white/5'}`}
+                >
+                  <MoreHorizontal size={16} />
+                </button>
+                
+                {showMoreMenu && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-40" 
+                      onClick={() => setShowMoreMenu(false)}
+                    />
+                    <div className="absolute bottom-full right-0 mb-2 w-48 bg-[#1a1a1a] border border-white/10 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-50 overflow-hidden animate-in fade-in slide-in-from-bottom-2 backdrop-blur-md">
+                      <button type="button" onClick={() => insertText('> ')} className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-zinc-300 hover:bg-[#A3E635] hover:text-black transition-colors text-left border-b border-white/5 group">
+                        <CornerDownRight size={14} className="text-zinc-500 group-hover:text-black transition-colors" /> Bloque de cita
+                      </button>
+                      <button type="button" onClick={() => insertText('`', '`')} className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-zinc-300 hover:bg-[#A3E635] hover:text-black transition-colors text-left border-b border-white/5 group">
+                        <Type size={14} className="text-zinc-500 group-hover:text-black transition-colors" /> Código
+                      </button>
+                      <button type="button" onClick={() => insertText('```\n', '\n```')} className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-zinc-300 hover:bg-[#A3E635] hover:text-black transition-colors text-left border-b border-white/5 group">
+                        <ShieldAlert size={14} className="text-zinc-500 group-hover:text-black transition-colors" /> Bloque de código
+                      </button>
+                      <button type="button" onClick={() => insertText('\n| Columna 1 | Columna 2 |\n| :--- | :--- |\n| Celda 1 | Celda 2 |\n')} className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-zinc-300 hover:bg-[#A3E635] hover:text-black transition-colors text-left group">
+                        <Table size={14} className="text-zinc-500 group-hover:text-black transition-colors" /> Tabla
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+            
+            <textarea 
+              ref={textareaRef}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Cuerpo de texto..."
+              rows={12}
+              className="w-full bg-transparent p-4 text-white placeholder-white/20 focus:outline-none resize-none rounded-b-xl min-h-[200px]"
+            />
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex justify-end gap-3 pt-6 border-t border-white/5">
+            <button 
+              onClick={() => router.back()}
+              className="px-6 py-2 rounded-full border border-white/10 text-white/60 font-bold text-sm hover:bg-white/5 transition-all"
+            >
+              Descartar cambios
+            </button>
+            <button 
+              onClick={handleUpdate}
+              className="px-8 py-2 rounded-full font-bold text-sm bg-[#A3E635] text-black transform hover:scale-105 active:scale-95 transition-all shadow-xl shadow-lime-400/10"
+            >
+              Guardar cambios
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}

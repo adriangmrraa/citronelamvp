@@ -87,8 +87,10 @@ const activeCrops = [
   },
 ];
 
+import { useSearch } from '@/context/SearchContext';
+
 export default function CultivoPage() {
-  const [search, setSearch] = useState("");
+  const { searchTerm } = useSearch();
 
   return (
     <div className="min-h-screen text-zinc-200 pb-24 font-sans">
@@ -96,10 +98,7 @@ export default function CultivoPage() {
         {/* Solid Green Header Area */}
         <div className="bg-[#A3E635] pt-3 pb-1 px-6 md:px-12 border-b border-[#07120b]/5">
           <div className="max-w-[2000px] mx-auto">
-            <CultivoHeader 
-              searchTerm={search} 
-              onSearchChange={setSearch} 
-            />
+            <CultivoHeader />
           </div>
         </div>
 
@@ -118,7 +117,7 @@ export default function CultivoPage() {
         {/* Crops Grid */}
         <section className="grid grid-cols-1 md:grid-cols-4 gap-8 stagger-children">
           {activeCrops
-            .filter(crop => crop.name.toLowerCase().includes(search.toLowerCase()))
+            .filter(crop => crop.name.toLowerCase().includes(searchTerm.toLowerCase()))
             .map((crop) => (
               <CropCard key={crop.batch} {...crop} />
           ))}
